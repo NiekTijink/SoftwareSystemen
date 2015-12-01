@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import ss.week2.hotel.Password;
 import ss.week2.hotel.Safe;
+import ss.week3.pw.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,13 +12,15 @@ public class SafeTest {
 	private Safe safe;
 	private String correctPassword;
 	private String wrongPassword;
+	private Password pass;
 	
 	@Before
 	public void setUp() throws Exception {
 		safe = new Safe();
 		// initialisation of password-variable
-        correctPassword = Password.INITIAL;
-        wrongPassword = Password.INITIAL + "_invalid";
+		pass = new Password(new BasicChecker());
+        correctPassword = pass.checker().generatePassword();
+        wrongPassword = "invalid";
 	}
 
 	@Test

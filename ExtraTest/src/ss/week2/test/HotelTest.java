@@ -4,6 +4,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import ss.week2.hotel.*;
+import ss.week3.pw.*;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +13,7 @@ public class HotelTest {
     private Hotel hotel;
     private String correctPassword;
     private String wrongPassword;
+    private Password pass;
     public static final String GUEST_NAME_1 = "Major Gowen";
     public static final String GUEST_NAME_2 = "Miss Tibbs";
     public static final String GUEST_NAME_3 = "Miss Gatsby";
@@ -25,8 +27,9 @@ public class HotelTest {
         hotel = new Hotel("Fawlty Towers");
         //System.out.println(hotel);
         // initialisation of password-variable
-        correctPassword = Password.INITIAL;
-        wrongPassword = Password.INITIAL + "_invalid";
+        pass = new Password(new BasicChecker());
+        correctPassword = pass.checker().generatePassword();
+        wrongPassword = "invalid";
     }
 
     /**
@@ -63,7 +66,7 @@ public class HotelTest {
         Room room = hotel.checkIn(correctPassword, GUEST_NAME_1);
         Guest guest = room.getGuest();
         Safe safe = room.getSafe();
-        safe.activate(Password.INITIAL);
+        safe.activate(correctPassword);
 
         hotel.checkOut(GUEST_NAME_1);
         assertNull("Guest has no room", guest.getRoom());

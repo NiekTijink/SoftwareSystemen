@@ -3,7 +3,9 @@ package ss.week2.test;
 import org.junit.Before;
 import org.junit.Test;
 import ss.week2.hotel.Guest;
+import ss.week2.hotel.Password;
 import ss.week2.hotel.Room;
+import ss.week3.pw.*;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +14,7 @@ public class RoomTest {
     private Room room;
     private String correctpass;
     private String wrongpass;
+    private Password pass;
 
     @Before
     public void setUp() {
@@ -19,7 +22,8 @@ public class RoomTest {
         System.out.println(guest);
         room = new Room(101);
         wrongpass = "wrong";
-    	correctpass = room.getSafe().getPassword().INITIAL;
+        pass = new Password(new BasicChecker());
+    	correctpass = pass.checker().generatePassword();
     }
 
     @Test
