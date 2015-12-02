@@ -10,7 +10,7 @@ public class Sum implements Function {
 	}
 	
 	public double apply(double num) {
-		return a.apply(0) + b.apply(0);
+		return a.apply(num) + b.apply(num);
 	}
 	
 	public Function derivative() {

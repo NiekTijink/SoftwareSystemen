@@ -10,11 +10,11 @@ public class Product implements Function {
 	}
 	
 	public double apply(double num) {
-		return a.apply(0) * b.apply(0);
+		return a.apply(num) * b.apply(num);
 	}
 	
 	public Function derivative() {
-		return new Sum( new Product(a.derivative(), b), new Product(b.derivative(), a));
+		return new Sum(new Product(a.derivative(), b), new Product(b.derivative(), a));
 		
 	}
 }
