@@ -1,6 +1,6 @@
 package ss.week4.math;
 
-public interface Integrandable {
+public interface Integrandable extends Function {
 
 	public Function integrand();
 }

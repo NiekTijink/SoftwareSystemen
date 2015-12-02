@@ -28,7 +28,7 @@ public class Polynomial implements Function, Integrandable {
 	public Function integrand() {
 		Function sum = null;
 		for (int i = 0; i < linearProduct.length; i++) {
-			sum = new Sum(sum, linearProduct[i].integrand());
+			sum = new Sum(sum, ((Integrandable) linearProduct[i]).integrand());
 		}
 		return sum;
 	}

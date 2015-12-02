@@ -15,7 +15,11 @@ public class LinearProduct extends Product implements Integrandable {
 	}
 	
 	public Function integrand() {
-		return new LinearProduct(a.integrand(), b);
+		if (a instanceof Integrandable) {
+			return new LinearProduct(((Integrandable) a).integrand(), b);
+		} else {
+			return null;
+		}
 	}
 	//TODO make toString() ???
 }

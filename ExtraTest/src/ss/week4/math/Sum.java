@@ -18,6 +18,10 @@ public class Sum implements Function, Integrandable {
 	}
 	
 	public Function integrand() {
-		return new Sum(a.integrand(), b.integrand());
+		if (a instanceof Integrandable && b instanceof Integrandable) {
+			return new Sum(((Integrandable) a).integrand(), ((Integrandable) b).integrand());
+		} else {
+			return null;
+		}
 	}
 }
