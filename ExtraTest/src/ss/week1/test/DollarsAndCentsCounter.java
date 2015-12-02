@@ -34,7 +34,7 @@ public class DollarsAndCentsCounter {
 			this.dollars = this.dollars + dollars; 
 			this.cents = this.cents + cents; 
 		} else {
-			this.dollars = this.dollars + dollars + Math.floorDiv(this.cents + cents, 100);
+			this.dollars = this.dollars + dollars + ((this.cents + cents) / 100);
 			this.cents = (this.cents + cents) % 100;
 		}
 	}
