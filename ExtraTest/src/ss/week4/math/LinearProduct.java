@@ -1,6 +1,6 @@
 package ss.week4.math;
 
-public class LinearProduct extends Product {
+public class LinearProduct extends Product implements Integrandable {
 	private Function a;
 	private Constant b;
 	
@@ -14,5 +14,8 @@ public class LinearProduct extends Product {
 		return new LinearProduct(a.derivative(), b);
 	}
 	
+	public Function integrand() {
+		return new LinearProduct(a.integrand(), b);
+	}
 	//TODO make toString() ???
 }

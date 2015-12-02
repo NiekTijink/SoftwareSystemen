@@ -1,6 +1,6 @@
 package ss.week4.math;
 
-public class Polynomial implements Function {
+public class Polynomial implements Function, Integrandable {
 	private Function[] linearProduct;
 	
 	public Polynomial(double[] arr) {
@@ -25,6 +25,13 @@ public class Polynomial implements Function {
 		return sum;
 	}
 	
+	public Function integrand() {
+		Function sum = null;
+		for (int i = 0; i < linearProduct.length; i++) {
+			sum = new Sum(sum, linearProduct[i].integrand());
+		}
+		return sum;
+	}
 }
 	
 

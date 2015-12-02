@@ -1,6 +1,6 @@
 package ss.week4.math;
 
-public class Sum implements Function {
+public class Sum implements Function, Integrandable {
 	private Function a;
 	private Function b;
 	
@@ -15,5 +15,9 @@ public class Sum implements Function {
 	
 	public Function derivative() {
 		return new Sum(a.derivative(), b.derivative());
+	}
+	
+	public Function integrand() {
+		return new Sum(a.integrand(), b.integrand());
 	}
 }
