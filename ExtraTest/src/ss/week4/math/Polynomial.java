@@ -1,21 +1,30 @@
 package ss.week4.math;
 
-public class Polynomial implements Function{
-	private double[] arr;
-	private Function[][] linearProduct;
+public class Polynomial implements Function {
+	private Function[] linearProduct;
 	
 	public Polynomial(double[] arr) {
-		this.arr = arr;
 		for (int i = 0; i < arr.length; i++) {
-			linearProduct[new Constant(arr[i])][new Exponent(i)];
+			linearProduct[i] = new LinearProduct(new Exponent(i), new Constant(arr[i]));
 		}
 	}
 	
-	public double apply(num) {
-		for (int i = 0; i < arr.length; i++) {
-			
+	public double apply(double num) {
+		double sum = 0;
+		for (int i = 0; i < linearProduct.length; i++) {
+			sum = sum + linearProduct[i].apply(num);
 		}
+		return sum;
 	}
+	
+	public Function derivative() {
+		Function sum = null;
+		for (int i = 0; i < linearProduct.length; i++) {
+			sum = new Sum(sum, linearProduct[i].derivative());
+		}
+		return sum;
+	}
+	
 }
 	
 
