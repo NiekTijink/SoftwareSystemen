@@ -29,11 +29,7 @@ public class DoublyLinkedListTest {
     public void testAdd() {
         list.add(0, object1);
         list.add(0, object2);
-        //System.out.println(list.size());
-        assertEquals(list.size(), 2);
-        System.out.println(object2);
-        System.out.println(object1);
-        System.out.println(list.get(0));
+        assertEquals(list.size(), 2); 
         assertEquals(object1, list.get(1));
         assertEquals(object2, list.get(0));
     }

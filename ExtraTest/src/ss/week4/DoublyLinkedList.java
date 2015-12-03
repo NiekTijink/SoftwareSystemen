@@ -22,15 +22,20 @@ public class DoublyLinkedList<Element> {
     public void add(int index, Element element) {
         // TODO: implement, see exercise P-4.17
     	 Node newNode = new Node(element);
-         if (index == 0) {
-             newNode.next = head;
-             head = newNode;
+        /*for (int i = index; i < this.size; i++) {
+        	 
+        }*/
+         size = size + 1;
+
+    	 if (index == 0) {
+             newNode.next = head.next;
+             head.next = newNode;
+    
          } else {
              Node p = getNode(index-1);
              newNode.next = p.next;
              p.next = newNode;
          }
-         size = size + 1;
      }
     
 

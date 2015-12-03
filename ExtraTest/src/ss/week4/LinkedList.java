@@ -14,7 +14,7 @@ public class LinkedList<Element> {
     public void add(int index, Element element) {
         Node newNode = new Node(element);
         if (index == 0) {
-            newNode.next = first;
+            newNode.next = first; 
             first = newNode;
         } else {
             Node p = getNode(index-1);
