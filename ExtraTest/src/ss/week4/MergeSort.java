@@ -13,5 +13,6 @@ public class MergeSort {
     		arr1[i] = ((int) list.get(i));
     	}
     	// TODO: implement, see exercise P-4.16
+    	//Test
     }
 }
