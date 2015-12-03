@@ -1,8 +1,8 @@
 package ss.week4.math;
 
 public class Product implements Function {
-	private Function a;
-	private Function b;
+	protected Function a;
+	protected Function b;
 	
 	public Product(Function a, Function b) {
 		this.a = a;

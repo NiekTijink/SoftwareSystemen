@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Util {
-    public static <ELEMENT> List<ELEMENT> zip(
-    				List<ELEMENT> l1, List<ELEMENT> l2) {
-        ArrayList<ELEMENT> rESULT = new ArrayList<ELEMENT>();
+    public static <E> List<E> zip(
+    				List<E> l1, List<E> l2) {
+        ArrayList<E> rESULT = new ArrayList<E>();
         for (int i = 0; i < l1.size(); i++) {
             rESULT.add(l1.get(i));
             rESULT.add(l2.get(i));
