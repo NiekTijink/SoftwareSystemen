@@ -2,9 +2,10 @@ package ss.week4.math;
 
 public class Polynomial implements Function, Integrandable {
 	private Function[] linearProduct;
-
+	private double[] arr;
 	
 	public Polynomial(double[] arr) {
+		this.arr = arr;
 		linearProduct = new Function[arr.length];
 		for (int i = 0; i < arr.length; i++) {
 			linearProduct[i] = new LinearProduct(new Exponent(i), new Constant(arr[i]));
@@ -19,21 +20,23 @@ public class Polynomial implements Function, Integrandable {
 		return sum;
 	}
 	
-	public Function derivative() { //Dit is dus fout. Het is geen nieuwe som maar een polymial
-		Function sum = linearProduct[1];
-		for (int i = 2; i < linearProduct.length; i++) {
-			sum = new Sum(sum, linearProduct[i].derivative());
-			System.out.println(sum.apply(1));
+	public Function derivative() { 
+		double[] array;
+		array = new double[linearProduct.length - 1];
+		for (int i = 1; i < linearProduct.length; i++) {
+			array[i - 1] =  arr[i] * i;
 		}
-		return sum;
+		return new Polynomial(array);
 	}
 	
-	public Function integrand() { //Dit is dus fout. Het is geen nieuwe som maar een polymial
-		Function sum = null;
+	public Function integrand() { 
+		double[] array;
+		array = new double[linearProduct.length + 1];
+		array[0] = 0;
 		for (int i = 0; i < linearProduct.length; i++) {
-			sum = new Sum(sum, ((Integrandable) linearProduct[i]).integrand());
+			array[i + 1] = arr[i] / (i + 1);
 		}
-		return sum;
+		return new Polynomial(array);
 	}
 }
 	

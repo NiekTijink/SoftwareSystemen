@@ -27,8 +27,21 @@ public class PolynomialTest {
 	
 	@Test
 	public void testDerivative() {
-		assertTrue(polynomial.derivative() instanceof Sum);
-		System.out.println(polynomial.derivative());
-	    assertEquals(0.0, polynomial.derivative().apply(0), DELTA);
+		assertTrue(polynomial.derivative() instanceof Polynomial);
+	    assertEquals(6.0, polynomial.derivative().apply(0), DELTA);
+	    assertEquals(56.0, polynomial.derivative().apply(1), DELTA);
+	    assertEquals(226.0, polynomial.derivative().apply(2), DELTA);
+	    assertEquals(4.0, polynomial.derivative().apply(-1), DELTA);
 	}
+	
+	@Test
+	public void testIntegrand() {
+		assertTrue(polynomial.integrand() instanceof Polynomial);
+	    assertEquals(0.0, polynomial.integrand().apply(0), DELTA);
+	    assertEquals(164.0 / 15.0, polynomial.integrand().apply(1), DELTA);
+	    assertEquals(1318.0 / 15.0, polynomial.integrand().apply(2), 0.000001);
+	    assertEquals(-14.0 / 15.0, polynomial.integrand().apply(-1), DELTA);
+	}
+
 }
+
