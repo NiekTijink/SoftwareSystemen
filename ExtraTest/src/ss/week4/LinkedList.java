@@ -6,7 +6,7 @@ public class LinkedList<Element> {
     private Node first;
 
     //@ ensures \result.size == 0;
-    public LinkedList () {
+    public LinkedList() {
         size = 0;
         first = null;
     }
