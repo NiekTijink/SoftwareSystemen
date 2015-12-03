@@ -1,5 +1,7 @@
 package ss.week4;
 
+import ss.week4.LinkedList.Node;
+
 public class DoublyLinkedList<Element> {
 
     private /*@ spec_public @*/ int size;
@@ -19,11 +21,18 @@ public class DoublyLinkedList<Element> {
     //@ ensures this.getNode(index).equals(element);
     public void add(int index, Element element) {
         // TODO: implement, see exercise P-4.17
-    	if (element != null && 0 <= index && index <= this.size) {
-    		this.add(index, element);
-    		size = size + 1;
-    	}
-    }
+    	 Node newNode = new Node(element);
+         if (index == 0) {
+             newNode.next = head;
+             head = newNode;
+         } else {
+             Node p = getNode(index-1);
+             newNode.next = p.next;
+             p.next = newNode;
+         }
+         size = size + 1;
+     }
+    
 
     //@ requires 0 <= index && index < this.size;
     //@ ensures this.size == \old(size) - 1;
