@@ -24,4 +24,8 @@ public class Sum implements Function, Integrandable {
 			return null;
 		}
 	}
+	
+	public String toString() {
+		return  a + " + " + b;
+	}
 }

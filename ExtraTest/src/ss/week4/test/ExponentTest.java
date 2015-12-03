@@ -24,5 +24,7 @@ public class ExponentTest {
         Exponent exponent = new Exponent(3);
         assertTrue(exponent.derivative() instanceof LinearProduct);
         assertEquals(12, exponent.derivative().apply(2), DELTA);
+        System.out.println(exponent.toString());
+
     }
 }

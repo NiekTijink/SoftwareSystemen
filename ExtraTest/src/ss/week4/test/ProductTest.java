@@ -25,6 +25,7 @@ public class ProductTest {
         assertEquals(CONSTANT_VALUE * CONSTANT_VALUE, product.apply(0), DELTA);
         assertEquals(CONSTANT_VALUE * CONSTANT_VALUE, product.apply(-1), DELTA);
         assertEquals(CONSTANT_VALUE * CONSTANT_VALUE, product.apply(1), DELTA);
+        System.out.println(product.toString());
     }
 
     @Test

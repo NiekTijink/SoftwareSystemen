@@ -18,4 +18,8 @@ public class Constant implements Function, Integrandable {
 	public Function integrand() {
 		return new LinearProduct(new Exponent(1), new Constant(constant));
 	}
+	
+	public String toString() {
+		return "(" + constant + ")";
+	}
 }

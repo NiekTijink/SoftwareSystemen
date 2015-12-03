@@ -21,5 +21,6 @@ public class LinearProduct extends Product implements Integrandable {
 			return null;
 		}
 	}
+	
 	//TODO make toString() ???
 }

@@ -24,6 +24,7 @@ public class SumTest {
         assertEquals(CONSTANT_VALUE + CONSTANT_VALUE, sum.apply(0), DELTA);
         assertEquals(CONSTANT_VALUE + CONSTANT_VALUE, sum.apply(-1), DELTA);
         assertEquals(CONSTANT_VALUE + CONSTANT_VALUE, sum.apply(1), DELTA);
+        System.out.println(sum.toString());
     }
 
     @Test

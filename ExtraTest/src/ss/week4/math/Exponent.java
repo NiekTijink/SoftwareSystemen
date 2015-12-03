@@ -16,6 +16,11 @@ public class Exponent implements Function, Integrandable {
 	}
 	
 	public Function integrand() {
-		return new LinearProduct(new Exponent(n + 1), new Constant(1 / (n + 1)));
+		double m = n;
+		return new LinearProduct(new Exponent(n + 1), new Constant(1 / (m + 1)));
+	}
+	
+	public String toString() {
+		return "x^" + n;
 	}
 }

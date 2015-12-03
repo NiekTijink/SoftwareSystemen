@@ -20,8 +20,8 @@ public class PolynomialTest {
 	@Test
 	public void testApply() {
         assertEquals(3.0, polynomial.apply(0), DELTA);
-        assertEquals(27, polynomial.apply(1), DELTA);
-        assertEquals(155, polynomial.apply(2), DELTA);
+        assertEquals(27.00, polynomial.apply(1), DELTA);
+        assertEquals(155.0, polynomial.apply(2), DELTA);
         assertEquals(-1, polynomial.apply(-1), DELTA);        
     }
 	
@@ -41,6 +41,7 @@ public class PolynomialTest {
 	    assertEquals(164.0 / 15.0, polynomial.integrand().apply(1), DELTA);
 	    assertEquals(1318.0 / 15.0, polynomial.integrand().apply(2), 0.000001);
 	    assertEquals(-14.0 / 15.0, polynomial.integrand().apply(-1), DELTA);
+	    System.out.println(polynomial);
 	}
 
 }

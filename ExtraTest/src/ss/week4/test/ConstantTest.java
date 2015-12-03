@@ -23,6 +23,7 @@ public class ConstantTest {
         assertEquals(CONSTANT_VALUE, constant.apply(0), DELTA);
         assertEquals(CONSTANT_VALUE, constant.apply(-1), DELTA);
         assertEquals(CONSTANT_VALUE, constant.apply(1), DELTA);
+        System.out.println(constant.toString());
     }
 
     @Test
