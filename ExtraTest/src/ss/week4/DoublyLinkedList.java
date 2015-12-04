@@ -6,13 +6,14 @@ public class DoublyLinkedList<Element> {
 
     private /*@ spec_public @*/ int size;
     private Node head;
-
+ 
     //@ ensures this.size == 0;
     public DoublyLinkedList() {
         size = 0;
         head = new Node(null);
         head.next = head;
         head.previous = head;
+            
     }
 
     //@ requires element != null;
@@ -43,10 +44,15 @@ public class DoublyLinkedList<Element> {
     //@ ensures this.size == \old(size) - 1;
     public void remove(int index) {
         // TODO: implement, see exercise P-4.17
-    	if (0 <= index && index < this.size) {
-    		this.remove(index);
+    	if (index == 0) {
+    		head = head.next;
+    	} else {
+    		Node p = getNode(index -1);
+    		p.next = p.next.next;
     	}
+    	size = size - 1;
     }
+    
 
     //@ requires 0 <= index && index < this.size;
     /*@ pure */ public Element get(int index) {

@@ -26,8 +26,7 @@ public class LinkedList<Element> {
 
     //@ ensures this.size == \old(size) - 1;
     public void remove(Element element) {
-        // TODO: implement, see exercise P-4.18
-    	
+        
     }
 
     public Node findBefore(Element element) {
