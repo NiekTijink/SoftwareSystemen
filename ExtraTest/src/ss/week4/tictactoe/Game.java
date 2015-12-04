@@ -93,6 +93,7 @@ public class Game {
      */
     private boolean readBoolean(String prompt, String yes, String no) {
         String answer;
+        //Scanner in = new Scanner(System.in);
         do {
             System.out.print(prompt);
             try (Scanner in = new Scanner(System.in)) {
@@ -144,7 +145,7 @@ public class Game {
      * Prints the result of the last game. <br>
      */
     private void printResult() {
-        if (board.hasWinner()) {
+            if (board.hasWinner()) {
             Player winner = board.isWinner(players[0].getMark()) ? players[0]
                     : players[1];
             System.out.println("Speler " + winner.getName() + " ("

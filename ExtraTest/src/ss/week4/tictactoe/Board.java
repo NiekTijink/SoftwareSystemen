@@ -268,7 +268,6 @@ public class Board {
     /*@ pure */
     public boolean isWinner(Mark m) {
     	if (hasRow(m) || hasColumn(m) || hasDiagonal(m)) {
-    		reset();
     		return true;
     	} else {
     		return false;
