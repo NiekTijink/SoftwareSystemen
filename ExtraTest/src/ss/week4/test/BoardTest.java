@@ -222,7 +222,6 @@ public class BoardTest {
         board.setField(0, Mark.XX);
         board.setField(1, Mark.XX);
         assertFalse(board.hasWinner());
-
         board.setField(2, Mark.XX);
         assertTrue(board.hasWinner());
     }
