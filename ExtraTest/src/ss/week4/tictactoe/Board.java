@@ -338,7 +338,7 @@ public class Board {
     //@ requires this.isField(i);
     //@ ensures this.getField(i) == m;
     public void setField(int i, Mark m) {
-    	if (isField(i) && getField(i) == Mark.EMPTY) {
+    	if (isField(i)) {
     		fields[i] = m;	
     	}
     }
