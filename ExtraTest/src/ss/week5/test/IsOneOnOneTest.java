@@ -23,6 +23,7 @@ public class IsOneOnOneTest {
         Map<Integer, Character> f2 = new HashMap<Integer, Character>();
         f2.put(1, 'a');
         f2.put(2, 'b');
+        f2.put(3, 'c');
 
         assertTrue(MapUtil.isOneOnOne(f2));
     }
@@ -32,6 +33,9 @@ public class IsOneOnOneTest {
         Map<Integer, Character> f3 = new HashMap<Integer, Character>();
         f3.put(1, 'a');
         f3.put(2, 'a');
+        f3.put(3, 'b');
+
+
 
         assertFalse(MapUtil.isOneOnOne(f3));
     }
