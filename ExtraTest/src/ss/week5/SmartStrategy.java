@@ -29,7 +29,6 @@ public class SmartStrategy implements Strategy {
 				emptyfields.add(i);
 			}
 		}
-
 		if (board.getField(4) == Mark.EMPTY) { 
 			return 4;
 		} else if (directWin() < Board.DIM * Board.DIM){
