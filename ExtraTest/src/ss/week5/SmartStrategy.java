@@ -30,7 +30,7 @@ public class SmartStrategy implements Strategy {
 			}
 		}
 
-		if (board.getField(4) == Mark.EMPTY) { //Middelste vrij.
+		if (board.getField(4) == Mark.EMPTY) { 
 			return 4;
 		} else if (directWin() < Board.DIM * Board.DIM){
 			return directWin();
