@@ -9,7 +9,7 @@ import ss.week4.tictactoe.Mark;
 public class SmartStrategy implements Strategy {
 	public String name = "Smart";
 	private int randomNr;
-	private ArrayList<Integer> emptyfields = new ArrayList<Integer>();
+	private ArrayList<Integer> emptyfields ;
 	private Board board;
 	private Board deepcopy;
 
@@ -24,6 +24,7 @@ public class SmartStrategy implements Strategy {
 		board = b;
 		this.m = m;
 		for (int i = 0; i < Board.DIM * Board.DIM; i++) {
+			ArrayList<Integer> emptyfields = new ArrayList<Integer>();
 			if (b.getField(i) == Mark.EMPTY) {
 				emptyfields.add(i);
 			}
@@ -36,6 +37,8 @@ public class SmartStrategy implements Strategy {
 			return blockWin();
 		} else {
 			randomNr = (int)(Math.random() * (emptyfields.size()));
+			System.out.println(randomNr);
+			System.out.println(emptyfields.get(randomNr));
 			return emptyfields.get(randomNr);
 		}
 	}
@@ -48,9 +51,8 @@ public class SmartStrategy implements Strategy {
 			if (deepcopy.isWinner(m)) {
 				return emptyfields.get(i);
 			}
-			
 		}
-		return Board.DIM * Board.DIM;
+		return Board.DIM * Board.DIM + 1;
 	}
 
 	private int blockWin() {
@@ -61,7 +63,7 @@ public class SmartStrategy implements Strategy {
 				return emptyfields.get(i);
 			}
 		}
-		return Board.DIM * Board.DIM;
+		return Board.DIM * Board.DIM + 1;
 	}
 		
 }
