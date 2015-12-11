@@ -18,7 +18,7 @@ public class TicTacToe {
     			if (args[0].charAt(1) == 'N') {
     				p  = new ComputerPlayer(Mark.XX);
     			} else if (args[0].charAt(1) == 'S') {
-    				//p = new ComputerPlayer(Mark.XX, new SmartStrategy());
+    				p = new ComputerPlayer(Mark.XX, new SmartStrategy());
     			}
     		} else {
     			p = new HumanPlayer(args[0], Mark.XX);
@@ -28,7 +28,7 @@ public class TicTacToe {
     			if (args[1].charAt(1) == 'N') {
     				q  = new ComputerPlayer(Mark.OO);
     			} else if (args[1].charAt(1) == 'S') {
-    				//q = new ComputerPlayer(Mark.XX, new SmartStrategy());
+    				q = new ComputerPlayer(Mark.XX, new SmartStrategy());
     			}
     		} else {
     			q = new HumanPlayer(args[1], Mark.OO);
