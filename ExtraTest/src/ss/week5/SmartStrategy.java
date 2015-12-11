@@ -21,14 +21,16 @@ public class SmartStrategy implements Strategy {
 
 	
 	public int determineMove(Board b, Mark m) {
+		emptyfields.clear();
 		board = b;
 		this.m = m;
 		for (int i = 0; i < Board.DIM * Board.DIM; i++) {
-			if (b.getField(i) == Mark.EMPTY) {
+			if (board.getField(i) == Mark.EMPTY) {
 				emptyfields.add(i);
 			}
 		}
-		if (b.getField(4) == Mark.EMPTY) { //Middelste vrij.
+
+		if (board.getField(4) == Mark.EMPTY) { //Middelste vrij.
 			return 4;
 		} else if (directWin() < Board.DIM * Board.DIM){
 			return directWin();
@@ -45,6 +47,7 @@ public class SmartStrategy implements Strategy {
 		for (int i = 0; i <= emptyfields.size() - 1; i++) {
 			deepcopy = board.deepCopy();
 			deepcopy.setField(emptyfields.get(i), m);
+
 			if (deepcopy.isWinner(m)) {
 				return emptyfields.get(i);
 			}
