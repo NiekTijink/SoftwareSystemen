@@ -37,24 +37,32 @@ public class MapUtil {
     	}
         return true;
     }
-    public static <K, V> Map<V, Set<Integer>> inverse(Map<K, V> map) {
-    	Map<V, Set<Integer>> inv = new HashMap<V, Set<Integer>>();
-    	for (int i = 1; i < map.size() + 1; i++) {
-    		if (inv.containsKey(map.get(i))) {
-    			inv.get(map.get(i)).add(i);
+    public static <K, V> Map<V, Set<K>> inverse(Map<K, V> map) {
+    	Map<V, Set<K>> inv = new HashMap<V, Set<K>>();
+    	
+    	Set <K> keyset = map.keySet(); // set met alle K's uit map
+    	
+    	for (Iterator<K> it = keyset.iterator(); it.hasNext();) {
+			K k = it.next();
+			if (inv.containsKey(map.get(k))) {
+    			// in Set K in inv plaatsen
+    			inv.get(map.get(k)).add(k);
     		} else {
-    			inv.put(map.get(i), new HashSet<Integer>(Arrays.asList(i)));
+    			// nieuwe set aanmaken
+    			System.out.println(map.get(k));
+    			inv.put(map.get(k), new HashSet<K>(Arrays.asList(k)));
     		}
     	}
-        return inv;
+    	return inv;
 	}
+    
 	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
 		if (isOneOnOne(map) && isSurjectiveOnRange(map, new HashSet<V>())) {
 			Map<V, K> inv = new HashMap<V, K>();
-			Iterator<K> it = (Iterator<K>) map.entrySet().iterator();
-			while (it.hasNext()) {				
-				K f = it.next();
-				inv.put(map.get(f), f);
+			Set<K> keyset = map.keySet();
+			for (Iterator<K> it = keyset.iterator(); it.hasNext();) {				
+				K k = it.next();
+				inv.put(map.get(k), k);
 			}
 			return inv;
 		} else {
@@ -62,11 +70,27 @@ public class MapUtil {
 		}
 	}
 	public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
-        // TODO: implement, see exercise P-5.4
-        return false;
+		Set<K> keyset = f.keySet();
+		for (Iterator<K> it = keyset.iterator(); it.hasNext();) {
+			K k = it.next();
+			if (!(g.containsKey(f.get(k)))) {
+				return false;
+			}
+		}
+        return true;
 	}
+	
 	public static <K, V, W> Map<K, W> compose(Map<K, V> f, Map<V, W> g) {
-        // TODO: implement, see exercise P-5.5
-        return null;
-	}
+        if (compatible(f,g)) {
+        	Map<K, W> map = new HashMap <K, W>();
+        	Set<K> keyset = f.keySet();
+        	for (Iterator<K> it = keyset.iterator(); it.hasNext();) {
+        		K k = it.next();
+        		map.put(k, g.get(f.get(k)));
+        	}
+        return map;
+        } else {
+        	return null;
+        }
+	} 
 }
