@@ -23,7 +23,10 @@ public class NaiveStrategy implements Strategy {
 			}
 		}
 		int randomNr;
-		randomNr = (int)(Math.random() * ((emptyfields.size()) + 1));
+		randomNr = (int)(Math.random() * (emptyfields.size()));
+		System.out.println(randomNr);
+		System.out.println(emptyfields.get(randomNr));
+
 		return emptyfields.get(randomNr);
 	}
 	
