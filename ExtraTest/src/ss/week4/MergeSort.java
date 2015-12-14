@@ -3,75 +3,79 @@ package ss.week4;
 import java.util.*;
 
 public class MergeSort {
-    public static <Elem extends Comparable<Elem>>
-           void mergesort(List<Elem> list) {
-    	int halfsize = list.size() / 2;
-    	int otherhalf = list.size() - halfsize;
+	
+    public static <E extends Comparable<E>> void mergesort(List<E> list) {
+    	int size = list.size();
     	
-    	int[] arr1;
-    	for (int i = 0; i < halfsize; i++) {
-    		arr1[i] = ((int) list.get(i));
+    	//If the list does not consists of more than 1 item,
+    	//sorting is not necessary
+    	if (size <= 1) {
+    		return;
     	}
-    	// TODO: implement, see exercise P-4.16
-   
+
+    	//Divide list in two, where the first node is indexed 0
+    	//and the last node is indexed size -1.
+    	partiallist(list, 0, size - 1);
+    }
+    
+    public static <E extends Comparable<E>> void partiallist(List<E> list, int start, int end) {
+    	//make sure partiallist does not continue if the partial list is smaller than 1
+    	if ((end - start) + 1 <= 1) {
+    		return;
+    	}
+    	
+    	//determine the halfway point
+    	int half = ((end - start) / 2) + start;
+    	//divide first half
+    	partiallist(list, start, half);
+    	//divide second half
+    	partiallist(list, half + 1, end);
+    	
+    	//merge(sort) both halves
+    	merge(list, start, half, half + 1, end);    	
+    }
+    
+    public static <E extends Comparable<E>> void merge(List<E> list, int s1, int e1, int s2, int e2) {
+    	
+    	//System.out.println("Merging lists: (" + s1 + ":" + e1 + ") & (" + s2 + ":" + e2 + ")");
+    	
+    	//create temporary list
+    	List<E> temp = new ArrayList<E>(list);
+    	
+    	int p1 = s1; //point in old list
+    	int p2 = s2; //point in old list
+    	int np = s1; //point in new list
+    	while (p1 <= e1 && p2 <= e2) {
+    		//System.out.println("Comparing items (" + p1 + ":" + p2 + ").");
+    		//compare to points of the old lists, then put the lowest at point np
+    		if (temp.get(p1).compareTo(temp.get(p2)) < 0) {
+    			list.set(np, temp.get(p1));
+    			p1++;
+    			//go to the next point
+    			np++;
+    		} else {
+    			list.set(np, temp.get(p2));
+    			p2++;
+    			//go to the next point
+    			np++;
+    		}
+    	}
+    	
+    	while (p1 <= e1) {
+    		list.set(np, temp.get(p1));
+    		p1++;
+			//go to the next point
+    		np++;
+    	}
+    	
+    	while (p2 <= e1) {
+    		list.set(np, temp.get(p1));
+    		p1++;
+			//go to the next point
+    		np++;
+    	}
+    	
+    	return;
+    	
     }
 }
-
-/*public class MergeSort {
-	  private int[] numbers;
-	  private int[] helper;
-
-	  private int number;
-
-	  public void sort(int[] values) {
-	    this.numbers = values;
-	    number = values.length;
-	    this.helper = new int[number];
-	    mergesort(0, number - 1);
-	  }
-
-	  private void mergesort(int low, int high) {
-	    // check if low is smaller then high, if not then the array is sorted
-	    if (low < high) {
-	      // Get the index of the element which is in the middle
-	      int middle = low + (high - low) / 2;
-	      // Sort the left side of the array
-	      mergesort(low, middle);
-	      // Sort the right side of the array
-	      mergesort(middle + 1, high);
-	      // Combine them both
-	      merge(low, middle, high);
-	    }
-	  }
-
-	  private void merge(int low, int middle, int high) {
-
-	    // Copy both parts into the helper array
-	    for (int i = low; i <= high; i++) {
-	      helper[i] = numbers[i];
-	    }
-
-	    int i = low;
-	    int j = middle + 1;
-	    int k = low;
-	    // Copy the smallest values from either the left or the right side back
-	    // to the original array
-	    while (i <= middle && j <= high) {
-	      if (helper[i] <= helper[j]) {
-	        numbers[k] = helper[i];
-	        i++;
-	      } else {
-	        numbers[k] = helper[j];
-	        j++;
-	      }
-	      k++;
-	    }
-	    // Copy the rest of the left side of the array into the target array
-	    while (i <= middle) {
-	      numbers[k] = helper[i];
-	      k++;
-	      i++;
-	    }
-
-	  }
-	}*/
