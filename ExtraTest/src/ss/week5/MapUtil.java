@@ -51,7 +51,6 @@ public class MapUtil {
     			inv.get(map.get(k)).add(k);
     		} else {
     			// nieuwe set aanmaken
-    			System.out.println(map.get(k));
     			inv.put(map.get(k), new HashSet<K>(Arrays.asList(k)));
     		}
     	}
