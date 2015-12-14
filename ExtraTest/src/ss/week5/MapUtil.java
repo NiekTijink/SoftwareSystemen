@@ -9,7 +9,6 @@ import java.util.Set;
 
 public class MapUtil {
 	
-	//@ ensures (\forall V v; map.containsValue(v); 
     public static <K, V> boolean isOneOnOne(Map<K, V> map) { 
     	for (int j = 1; j < map.size(); j++) {
     		for (int i = j + 1; i < map.size() + 1; i++) {
