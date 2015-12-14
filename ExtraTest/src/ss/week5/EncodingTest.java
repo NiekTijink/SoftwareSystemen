@@ -11,7 +11,9 @@ import org.apache.commons.codec.binary.Hex;
 public class EncodingTest {
     public static void main(String[] args) throws DecoderException {
         String input = "Hello World";
-
+        String input2 = "Hello Big World";
+        
         System.out.println(Hex.encodeHexString(input.getBytes()));
+        System.out.println(Hex.encodeHexString(input2.getBytes()));
     }
 }
