@@ -8,7 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapUtil {
-    public static <K, V> boolean isOneOnOne(Map<K, V> map) {
+	
+	//@ ensures (\forall V v; map.containsValue(v); 
+    public static <K, V> boolean isOneOnOne(Map<K, V> map) { 
     	for (int j = 1; j < map.size(); j++) {
     		for (int i = j + 1; i < map.size() + 1; i++) {
     			if (map.get(j) == map.get(i)) {
@@ -19,6 +21,7 @@ public class MapUtil {
         return true;
     }
     
+    //@ ensures (/exists K k; map.containsValue(v); map.get(k) == v);
     public static <K, V> 
            boolean isSurjectiveOnRange(Map<K, V> map, Set<V> range) {
     	for (Iterator<V> it = range.iterator(); it.hasNext();) {
@@ -94,3 +97,4 @@ public class MapUtil {
         }
 	} 
 }
+
