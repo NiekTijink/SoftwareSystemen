@@ -23,13 +23,15 @@ public class EncodingTest {
        
        System.out.println(Base64.encode(Hex.decodeHex(hex.toCharArray())));
        System.out.println(Base64.decode("U29mdHdhcmUgU31zdGVtcw=="));
+       System.out.println(Base64.decode(Base64.encode(input.getBytes())));
+
        
-       System.out.println(Base64.encode("a".getBytes()));
+      /*System.out.println(Base64.encode("a".getBytes()));
        System.out.println(Base64.encode("aa".getBytes()));
        System.out.println(Base64.encode("aaa".getBytes()));
        System.out.println(Base64.encode("aaaa".getBytes()));
        System.out.println(Base64.encode("aaaaa".getBytes()));
        System.out.println(Base64.encode("aaaaaa".getBytes()));
-
+	*/
     }
 }
