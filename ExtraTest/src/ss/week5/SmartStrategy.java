@@ -12,9 +12,8 @@ public class SmartStrategy implements Strategy {
 	private ArrayList<Integer> emptyfields = new ArrayList<Integer>();
 	private Board board;
 	private Board deepcopy;
-
 	private Mark m;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -31,10 +30,10 @@ public class SmartStrategy implements Strategy {
 		}
 		if (board.getField(4) == Mark.EMPTY) { 
 			return 4;
-		} else if (directWin() < Board.DIM * Board.DIM){
-			return directWin();
-		} else if (blockWin() < Board.DIM * Board.DIM) {
-			return blockWin();
+		} else if (directWin(board, m) < Board.DIM * Board.DIM){
+			return directWin(board, m);
+		} else if (blockWin(board, m) < Board.DIM * Board.DIM) {
+			return blockWin(board, m);
 		} else {
 			randomNr = (int)(Math.random() * (emptyfields.size()));
 			return emptyfields.get(randomNr);
@@ -42,7 +41,7 @@ public class SmartStrategy implements Strategy {
 	}
 
 
-	private int directWin() { 
+	private int directWin(Board b, Mark m) { 
 		for (int i = 0; i <= emptyfields.size() - 1; i++) {
 			deepcopy = board.deepCopy();
 			deepcopy.setField(emptyfields.get(i), m);
@@ -55,7 +54,7 @@ public class SmartStrategy implements Strategy {
 		return Board.DIM * Board.DIM;
 	}
 
-	private int blockWin() {
+	private int blockWin(Board b, Mark m) {
 		for (int i = 0; i <= emptyfields.size() - 1; i++) {
 			deepcopy = board.deepCopy();
 			deepcopy.setField(emptyfields.get(i), m.other());

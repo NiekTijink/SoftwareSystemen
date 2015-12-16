@@ -20,6 +20,10 @@ public class ComputerPlayer extends Player{
     	return strategy.determineMove(board, super.getMark());
     }
     
+    public Strategy setStrategy() {
+    	return strategy;
+    }
+    
     public Strategy getStrategy() {
     	return strategy;
     }
