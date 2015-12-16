@@ -1,5 +1,9 @@
 package ss.week6.cards;
 
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Card
 {
 
@@ -33,7 +37,32 @@ public class Card
 	 * @return the String representation of rank
 	 * @param  rank the char encoding a rank
 	 * @return null if <code>isValidRank(rank)</code> returns <code>false</code>
+	 *
 	 */
+    public static void main(String[] args) {
+    	PrintWriter printwriter;
+    	String path = "C:\\SS home\\Workspace Eclipse\\SoftwareSystemen2\\bin\\ss\\week6\\cards\\";
+		try {
+			printwriter = new PrintWriter(new FileWriter(path + "cardfile.txt"));
+			Card c1 = new Card('C', 'J');
+			Card c2 = new Card('S', 'T');
+			Card c3 = new Card('D', '7');
+			c1.write(printwriter);
+			c2.write(printwriter);
+			c3.write(printwriter);
+	    	printwriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	
+    }	
+	public void write(PrintWriter pw) {
+		pw.println(this.toString() + "\n");
+	}
+	
 	private static String rankChar2String(char rank) {
 		int i;
 		for (i = 0; i < 13 && RANK_CHARACTERS[i] != rank; i++)
