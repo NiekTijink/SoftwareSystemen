@@ -2,7 +2,13 @@ package ss.week6.cards;
 
 import java.io.PrintWriter;
 import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.EOFException;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Card
 {
@@ -40,27 +46,65 @@ public class Card
 	 *
 	 */
     public static void main(String[] args) {
-    	PrintWriter printwriter;
-    	String path = "C:\\SS home\\Workspace Eclipse\\SoftwareSystemen2\\bin\\ss\\week6\\cards\\";
-		try {
-			printwriter = new PrintWriter(new FileWriter(path + "cardfile.txt"));
-			Card c1 = new Card('C', 'J');
-			Card c2 = new Card('S', 'T');
-			Card c3 = new Card('D', '7');
-			c1.write(printwriter);
-			c2.write(printwriter);
-			c3.write(printwriter);
-	    	printwriter.close();
+    	PrintWriter printwriter = null;
+    	BufferedReader br = null;
+    	String path = "C:\\SS home\\Workspace Eclipse\\SoftwareSystemen2\\bin\\ss\\";
+		if (args[0] != null) {
+			try {
+				printwriter = new PrintWriter(new FileWriter(path + args[0]));
+				br = new BufferedReader(new FileReader(path + args[0]));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			printwriter = new PrintWriter(System.out);
+			br = new BufferedReader(new InputStreamReader(System.in));	
+		}
+		
+		Card c1 = new Card('C', '9');
+		Card c2 = new Card('S', '6');
+		Card c3 = new Card('D', '7');
+		c1.write(printwriter);
+		c2.write(printwriter);
+		c3.write(printwriter);
+    	printwriter.close();   
+    	
+    	try {
+			Card r1 = read(br);
+			Card r2 = read(br);
+			Card r3 = read(br);
+			System.out.println(r1);
+			System.out.println(r2);
+			System.out.println(r3);
+	    	br.close();
+
+		} catch (EOFException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    	
-    	
     }	
+    
 	public void write(PrintWriter pw) {
-		pw.println(this.toString() + "\n");
+		pw.println(this.toString());
+	}
+	
+	public static Card read(BufferedReader in) throws EOFException {
+		try {
+			Scanner sc = new Scanner(in.readLine());
+			char s = suitString2Char(sc.next());
+			char r = rankString2Char(sc.next());
+			sc.close();
+			return new Card(s,r);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	private static String rankChar2String(char rank) {
