@@ -14,7 +14,7 @@ public class VoteTUIView  {
 		Scanner sc = new Scanner(System.in);
 
 		while (doorgaan) {
-			System.out.println("Choose: VOTE [party], ADDPARTY [party], VOTES, PARTIES, EXIT");
+			System.out.println("Choose: VOTE [party], ADDPARTY [party], VOTES, PARTIES, HELP, EXIT");
 			String firstWord = sc.next();
 			if (firstWord.equals("VOTE")) {
 				voteMachine.vote(sc.next());
@@ -26,13 +26,17 @@ public class VoteTUIView  {
 				showVotes(voteMachine.getVoteList());
 			} else if (firstWord.equals("PARTIES")) {
 				showParties(voteMachine.getPartyList());
+			} else if (firstWord.equals("HELP")) {
+				System.out.println("Type a command to vote, add a party, see the votelist, see the partylist, or exit the system");
 			} else { 
-				System.out.println("error");
-			}
-			 
+				showError("invalid command");
+			}	 
 		}
 		sc.close(); 
-
+	}
+	
+	public void showError(String s) {
+		System.out.println("error " + s);
 	}
 	
 	public void showVotes(Map<String,Integer> map) {
@@ -40,9 +44,7 @@ public class VoteTUIView  {
 		while (it.hasNext()) {
 			String s = it.next();
 			System.out.println(s + " " + map.get(s));
-		}
-		
-		
+		}		
 	}
 	
 	public void showParties(List<String> list) {
@@ -55,5 +57,4 @@ public class VoteTUIView  {
 		return voteMachine.getVoteList();
 	}
 
-	
 }
