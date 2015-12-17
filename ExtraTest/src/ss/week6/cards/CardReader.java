@@ -86,7 +86,7 @@ public class CardReader {
 				
 				dataIn = new DataInputStream(new FileInputStream(path + args[0]));
 			} else if (args[0].endsWith(".obj")) {
-				objectIn = new ObjectInputStream(new FileInputStream(args[0]));
+				objectIn = new ObjectInputStream(new FileInputStream(path + args[0]));
 			} else {
 				System.err.println("Format " + args[0] + " not recognised");
 				return;
@@ -104,7 +104,7 @@ public class CardReader {
 				dataOut = new DataOutputStream(new FileOutputStream(path + args[1]));
 		    } else if (args[1].endsWith(".obj")) {
 				objectOut = new ObjectOutputStream(
-						new FileOutputStream(args[1]));
+						new FileOutputStream(path + args[1]));
 		    } else {
 				System.err.println("Format " + args[0] + " not recognised");
 				return;

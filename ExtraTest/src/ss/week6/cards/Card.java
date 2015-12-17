@@ -65,6 +65,7 @@ public class Card
     	
     	try {
 			Card r1 = read(br);
+			System.out.println(r1);
 			Card r2 = read(br);
 			Card r3 = read(br);
 			System.out.println(r1);
@@ -80,6 +81,25 @@ public class Card
 			e.printStackTrace();
 		}
     }	
+    
+    public void write(ObjectOutput output) throws IOException {
+    	String s = suit + "" + rank;
+    	output.writeChars(s);
+    }
+    
+    public static Card read(ObjectInput input) {
+    	try {
+    		char s = input.readChar();
+    		char r = input.readChar();
+    		return new Card(s,r);
+    	} catch (EOFException e){
+		}
+    	catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+    }
     public void write(DataOutput write) throws IOException {
     	String s = suit + "" + rank;
     	write.writeChars(s);
@@ -101,28 +121,36 @@ public class Card
     	return null;
     }
     
-	public void write(PrintWriter pw) {
-		pw.println(this.toString());
+	public void write(PrintWriter pw) { // deze is kapot
+		String s = suitChar2String(suit) + " " + rankChar2String(rank) + " ";
+		//pw.write(s.toCharArray());
+		pw.println(s);
 	}
 	
 	public static Card read(BufferedReader in) throws EOFException {
-		try {
-			String nextLine = in.readLine(); // moet EOF exception geven als hij null is
 			
-			if (nextLine != null) {
-				Scanner sc = new Scanner(nextLine);
+			Scanner sc;
+			try {
+				sc = new Scanner(in.readLine());
 				char s = suitString2Char(sc.next());
 				char r = rankString2Char(sc.next());
 				sc.close();
 				return new Card(s,r);
-			} else { 
-				System.exit(0);// Eigenlijk EOF Exception
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			/*String value1 = sc.next();
+			System.out.println(value1);
+			char s = suitString2Char(value1);
+			String value2 = sc.next();
+			System.out.println(value2);
+			char r = rankString2Char(value2);
+			sc.close();
+			return new Card(s,r);*/
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+			
 		return null;
 	}
 	
