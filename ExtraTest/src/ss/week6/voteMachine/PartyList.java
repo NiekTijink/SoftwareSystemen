@@ -2,7 +2,7 @@ package ss.week6.voteMachine;
 
 import java.util.*;
 
-public class PartyList {
+public class PartyList extends Observable {
 	 List<String> partyList;
 
 
@@ -12,6 +12,8 @@ public class PartyList {
 	
 	public void addParty(String party) {
 		partyList.add(party);
+		setChanged();
+		notifyObservers("party");
 	}
 	
 	public boolean hasParty(String party) {

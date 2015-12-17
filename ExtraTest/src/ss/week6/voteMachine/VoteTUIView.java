@@ -2,11 +2,11 @@ package ss.week6.voteMachine;
 
 import java.util.*;
 
-public class VoteTUIView  {
+public class VoteTUIView  implements Observer {
 	private VoteMachine voteMachine;
 
-	public VoteTUIView() {
-		voteMachine = new VoteMachine();
+	public VoteTUIView(VoteMachine voteMachine) {
+		this.voteMachine = voteMachine;
 	}
 	
 	public void start() {
@@ -57,4 +57,11 @@ public class VoteTUIView  {
 		return voteMachine.getVoteList();
 	}
 
+	public void update(Observable o, Object arg) {
+		if (arg.equals("vote")) {
+			System.out.println("er is een stem uitgebracht"); // dit moet nog nuttig worden
+		} else if (arg.equals("party")) {
+			System.out.println("er is een partij toegevoegd");
+		}
+	}
 }

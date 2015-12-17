@@ -2,7 +2,7 @@ package ss.week6.voteMachine;
 
 import java.util.*;
 
-public class VoteList {
+public class VoteList extends Observable {
 	Map<String,Integer> voteList;
 	
 	public VoteList() {
@@ -16,6 +16,8 @@ public class VoteList {
 	public boolean addVote(String party) {
 		if (voteList.containsKey(party)) {
 			voteList.replace(party, voteList.get(party), (voteList.get(party)+1));
+			setChanged();
+			notifyObservers("vote");
 			return true;
 		} else {
 			return false;

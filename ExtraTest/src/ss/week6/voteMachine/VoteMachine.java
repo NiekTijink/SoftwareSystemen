@@ -20,9 +20,8 @@ public class VoteMachine {
 			addParty(party);
 			voteList.addVote(party);
 		}
-		System.out.println(voteList.getVotes().get(party));
-
 	}
+	
 	public List<String> getPartyList() {
 		return partyList.getParties();
 	}
@@ -32,7 +31,9 @@ public class VoteMachine {
 	}
 	
 	public void start() {
-		VoteTUIView test = new VoteTUIView();
+		VoteTUIView test = new VoteTUIView(this);
+		voteList.addObserver(test);
+		partyList.addObserver(test);
 		test.start();
 	}
 
