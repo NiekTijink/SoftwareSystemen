@@ -1,13 +1,6 @@
 package ss.week6.cards;
 
-import java.io.PrintWriter;
-import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Card
@@ -87,6 +80,26 @@ public class Card
 			e.printStackTrace();
 		}
     }	
+    public void write(DataOutput write) throws IOException {
+    	String s = suit + "" + rank;
+    	write.writeChars(s);
+    }
+    
+    public static Card read(DataInput in) throws EOFException {
+    	try {
+    		char s = in.readChar();
+	    	char r = in.readChar();
+	    	
+	    	return new Card(s,r);
+		} catch (EOFException e){
+		}
+    	catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+		}
+    	return null;
+    }
     
 	public void write(PrintWriter pw) {
 		pw.println(this.toString());
@@ -94,11 +107,17 @@ public class Card
 	
 	public static Card read(BufferedReader in) throws EOFException {
 		try {
-			Scanner sc = new Scanner(in.readLine());
-			char s = suitString2Char(sc.next());
-			char r = rankString2Char(sc.next());
-			sc.close();
-			return new Card(s,r);
+			String nextLine = in.readLine(); // moet EOF exception geven als hij null is
+			
+			if (nextLine != null) {
+				Scanner sc = new Scanner(nextLine);
+				char s = suitString2Char(sc.next());
+				char r = rankString2Char(sc.next());
+				sc.close();
+				return new Card(s,r);
+			} else { 
+				System.exit(0);// Eigenlijk EOF Exception
+			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

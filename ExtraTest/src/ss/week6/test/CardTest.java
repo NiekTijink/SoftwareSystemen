@@ -21,7 +21,7 @@ public class CardTest {
     private Card card;
 
     /** Path to where you will save the card files */
-    private static final String PATH = ""; //Your path to the test folder
+    private static final String PATH = "C:\\SS home\\Workspace Eclipse\\SoftwareSystemen2\\bin\\ss\\week6\\cards\\"; //Your path to the test folder
 
     @Before
     public void setUp() {
@@ -52,6 +52,8 @@ public class CardTest {
         try {
             DataOutputStream dataOut = new DataOutputStream(new FileOutputStream(PATH + "card.dat"));
             card.write(dataOut);
+            Card card3 = new Card('D','7');
+            card3.write(dataOut);
             dataOut.close();
 
             DataInputStream dataIn = new DataInputStream(new FileInputStream(PATH + "card.dat"));

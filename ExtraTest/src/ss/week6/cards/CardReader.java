@@ -69,6 +69,8 @@ public class CardReader {
 	}
 
 	public static void main(String[] args) {
+		String path = "C:\\SS home\\Workspace Eclipse\\SoftwareSystemen2\\bin\\ss\\week6\\cards\\"; //Your path to the test folder
+
 		if (args.length != 2) {
 			System.err.println("Usage: java CardReader "
 					+ "[<filename>|-] [<filename>|-]");
@@ -79,9 +81,10 @@ public class CardReader {
 			if (args[0].equals("-")) {
 				reader = new BufferedReader(new InputStreamReader(System.in));
 			} else if (args[0].endsWith(".txt")) {
-				reader = new BufferedReader(new FileReader(args[0]));
+				reader = new BufferedReader(new FileReader(path + args[0]));
 			} else if (args[0].endsWith(".dat")) {
-				dataIn = new DataInputStream(new FileInputStream(args[0]));
+				
+				dataIn = new DataInputStream(new FileInputStream(path + args[0]));
 			} else if (args[0].endsWith(".obj")) {
 				objectIn = new ObjectInputStream(new FileInputStream(args[0]));
 			} else {
@@ -96,9 +99,9 @@ public class CardReader {
 			if (args[1].equals("-")) {
 				writer = new PrintWriter(System.out);
 			} else if (args[1].endsWith(".txt")) {
-				writer = new PrintWriter(new FileWriter(args[1]));
+				writer = new PrintWriter(new FileWriter(path + args[1]));
 		    } else if (args[1].endsWith(".dat")) {
-				dataOut = new DataOutputStream(new FileOutputStream(args[1]));
+				dataOut = new DataOutputStream(new FileOutputStream(path + args[1]));
 		    } else if (args[1].endsWith(".obj")) {
 				objectOut = new ObjectOutputStream(
 						new FileOutputStream(args[1]));
@@ -115,7 +118,8 @@ public class CardReader {
 			try {
 				Card k = read();
 				if (k == null) {
-					System.err.println("Exception in input");
+					throw new EOFException();
+					//System.err.println("Exception in input");
 				} else {
 					write(k);
 				}
