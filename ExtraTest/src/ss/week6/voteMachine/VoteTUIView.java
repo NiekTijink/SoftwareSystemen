@@ -2,7 +2,7 @@ package ss.week6.voteMachine;
 
 import java.util.*;
 
-public class VoteTUIView  implements Observer {
+public class VoteTUIView  implements Observer, VoteView {
 	private VoteMachine voteMachine;
 
 	public VoteTUIView(VoteMachine voteMachine) {
@@ -14,11 +14,11 @@ public class VoteTUIView  implements Observer {
 		Scanner sc = new Scanner(System.in);
 
 		while (doorgaan) {
-			System.out.println("Choose: VOTE [party], ADDPARTY [party], VOTES, PARTIES, HELP, EXIT");
+			System.out.println("Choose: VOTE [party], ADD PARTY [party], VOTES, PARTIES, HELP, EXIT");
 			String firstWord = sc.next();
 			if (firstWord.equals("VOTE")) {
 				voteMachine.vote(sc.next());
-			} else if (firstWord.equals("ADDPARTY")) {
+			} else if (firstWord.equals("ADD") && sc.next().equals("PARTY")) {
 				voteMachine.addParty(sc.next());
 			} else if (firstWord.equals("EXIT")) {
 				doorgaan = false;

@@ -1,9 +1,11 @@
 package ss.week6.voteMachine;
 import java.util.*;
+import ss.week6.voteMachine.gui.*;
 
 public class VoteMachine {
 	private PartyList partyList;
 	private VoteList voteList;
+	private VoteView voteView;
 	
 	public VoteMachine() {
 		partyList = new PartyList();
@@ -31,10 +33,10 @@ public class VoteMachine {
 	}
 	
 	public void start() {
-		VoteTUIView test = new VoteTUIView(this);
-		voteList.addObserver(test);
-		partyList.addObserver(test);
-		test.start();
+		this.voteView = new VoteGUIView(this);
+		voteList.addObserver(voteView);
+		partyList.addObserver(voteView);
+		voteView.start();
 	}
 
 	public static void main(String[] args) {

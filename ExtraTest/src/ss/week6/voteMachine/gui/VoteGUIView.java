@@ -37,7 +37,7 @@ public class VoteGUIView implements VoteView {
 					&& words[1].equals("PARTY")) {
 				this.voteMachine.addParty(words[2]);
 			} else if (words.length == 1 && words[0].equals("PARTIES")) {
-				this.voteMachine.getParties();
+				this.voteMachine.getPartyList();
 			} else if (words.length == 1 && words[0].equals("EXIT")) {
 				running = false;
 			} else {
