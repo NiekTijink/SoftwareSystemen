@@ -42,7 +42,7 @@ public class VoteMachine {
 	public static void main(String[] args) {
 		VoteMachine voteMachine = new VoteMachine();
 		voteMachine.start();
-
+		
 	}
 
 }

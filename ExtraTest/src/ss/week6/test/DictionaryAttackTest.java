@@ -5,6 +5,7 @@ import org.junit.Test;
 import ss.week6.dictionaryattack.DictionaryAttack;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -35,7 +36,12 @@ public class DictionaryAttackTest {
      */
     @Test
     public void testGetPasswordHash() {
-        assertEquals("5f4dcc3b5aa765d61d8327deb882cf99", dictionaryAttack.getPasswordHash("password"));
+        try {
+			assertEquals("5f4dcc3b5aa765d61d8327deb882cf99", dictionaryAttack.getPasswordHash("password"));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -43,7 +49,12 @@ public class DictionaryAttackTest {
      */
     @Test
     public void testCheckPassword() {
-        assertTrue(dictionaryAttack.checkPassword("katrine", "spongebob"));
+        try {
+			assertTrue(dictionaryAttack.checkPassword("katrine", "spongebob"));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 }
