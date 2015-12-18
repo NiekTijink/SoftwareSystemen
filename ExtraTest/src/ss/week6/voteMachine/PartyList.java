@@ -17,12 +17,7 @@ public class PartyList extends Observable {
 	}
 	
 	public boolean hasParty(String party) {
-		for (int i = 0; i < partyList.size(); i++) {
-			if (partyList.get(i) == party) {
-				return true;
-			}
-		}
-		return false;
+		return partyList.contains(party);
 	}
 	
 	public List<String> getParties() {

@@ -1,14 +1,13 @@
 package ss.week6.dictionaryattack;
 
 import java.util.*;
-
+import java.io.*;
 
 
 public class DictionaryAttack {
 	private Map<String, String> passwordMap;
 	private Map<String, String> hashDictionary;
-	private static final String PATH = "C:\\SS home\\Workspace Eclipse\\SoftwareSystemen2\\bin\\ss\\week6\\test\\";
-			
+	private BufferedReader reader;	
 	/**
 	 * Reads a password file. Each line of the password file has the form:
 	 * username: encodedpassword
@@ -20,9 +19,19 @@ public class DictionaryAttack {
 	 */
 	public void readPasswords(String filename) {
 		passwordMap = new HashMap<String, String>();   
-		
-		String s = "hoi";
-		String[] words = s.split(": ");
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+			Scanner scanner = new Scanner(reader);
+			while (scanner.hasNext()) {
+				String[] line = scanner.nextLine().split(": ");
+				passwordMap.put(line[0], line[1]);
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(passwordMap.get("adam"));
 	}
 
 	/**

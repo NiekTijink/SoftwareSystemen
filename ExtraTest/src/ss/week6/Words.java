@@ -11,7 +11,8 @@ public class Words {
 			//System.out.println("Line (or end):");
 			Scanner line = new Scanner(in.nextLine());
 			int counter = 1;
-			String first = line.next();
+			if (line.hasNext()) {
+				String first = line.next();
 			
 			if (first.equals("end")) {
 				System.out.println("End of programme."); 
@@ -24,7 +25,7 @@ public class Words {
 				}
 			}
 			
-			
+			}
 			line.close();
 			if (doorgaan) {
 				System.out.println("Line (or end):");

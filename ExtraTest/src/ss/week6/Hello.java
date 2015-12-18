@@ -10,14 +10,14 @@ public class Hello {
 				String value = in.next();
 				if (value.equals("exit")) {
 					in.close();
-					System.exit(0);
+					break;
 				} else {
 				System.out.println("hello " + value);	
 				}
 			}
 		}finally {	
 		in.close();
-		System.exit(0);
+		
 		}
 	}
 	

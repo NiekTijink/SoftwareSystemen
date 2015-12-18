@@ -111,18 +111,13 @@ public class Card
 	}
 	
     public void write(ObjectOutput output) throws IOException {
-    	String s = suit + "" + rank;
-    	output.writeChars(s);
+    	output.writeObject(this);
     }
     
-    public static Card read(ObjectInput input) {
+    public static Card read(ObjectInput input) throws EOFException {
     	try {
-    		char s = input.readChar();
-    		char r = input.readChar();
-    		return new Card(s,r);
-    	} catch (EOFException e){
-		}
-    	catch (IOException e) {
+    		return (Card) input.readObject();
+    	} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -139,9 +134,7 @@ public class Card
 	    	char r = in.readChar();
 	    	
 	    	return new Card(s,r);
-		} catch (EOFException e){
-		}
-    	catch (IOException e) {
+    	} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		
