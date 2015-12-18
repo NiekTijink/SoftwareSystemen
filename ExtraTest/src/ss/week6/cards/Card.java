@@ -80,8 +80,36 @@ public class Card
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }	
+    }
     
+    public void write(PrintWriter pw) { // deze is kapot
+		String s = suitChar2String(suit) + " " + rankChar2String(rank) + " ";
+		pw.println(s);
+		pw.flush();
+	}
+	
+	public static Card read(BufferedReader in) throws EOFException {
+			
+			Scanner sc;
+			String st;
+			try {
+				st = in.readLine();
+				if (st != null) {
+					sc = new Scanner(st);
+					char s = suitString2Char(sc.next());
+					char r = rankString2Char(sc.next());
+					sc.close();
+					return new Card(s,r);
+				} else {
+					return null;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+		return null;
+	}
+	
     public void write(ObjectOutput output) throws IOException {
     	String s = suit + "" + rank;
     	output.writeChars(s);
@@ -121,38 +149,7 @@ public class Card
     	return null;
     }
     
-	public void write(PrintWriter pw) { // deze is kapot
-		String s = suitChar2String(suit) + " " + rankChar2String(rank) + " ";
-		//pw.write(s.toCharArray());
-		pw.println(s);
-	}
 	
-	public static Card read(BufferedReader in) throws EOFException {
-			
-			Scanner sc;
-			try {
-				sc = new Scanner(in.readLine());
-				char s = suitString2Char(sc.next());
-				char r = rankString2Char(sc.next());
-				sc.close();
-				return new Card(s,r);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			/*String value1 = sc.next();
-			System.out.println(value1);
-			char s = suitString2Char(value1);
-			String value2 = sc.next();
-			System.out.println(value2);
-			char r = rankString2Char(value2);
-			sc.close();
-			return new Card(s,r);*/
-			
-		
-			
-		return null;
-	}
 	
 	private static String rankChar2String(char rank) {
 		int i;
