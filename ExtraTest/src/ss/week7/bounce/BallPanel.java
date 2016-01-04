@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.*;
 
 import javax.swing.JPanel;
 
@@ -15,9 +16,19 @@ import javax.swing.JPanel;
  */
 public class BallPanel extends JPanel implements ActionListener {
 	private List<Ball> balls; // @invariant balls != null
+	Timer t = new Timer();
 
+		
+		class AnimateThread extends Thread {
+			public void run() {
+				animate();
+			}
+		}
+	
 	public BallPanel() {
 		balls = new java.util.ArrayList<Ball>();
+		Thread t = new AnimateThread();
+		t.start();
 	}
 
 	/**
