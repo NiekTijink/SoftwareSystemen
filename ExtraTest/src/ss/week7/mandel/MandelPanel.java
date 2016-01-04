@@ -11,13 +11,17 @@ import javax.swing.JPanel;
  * @author Martin Kalin, aangepast door Arend Rensink
  * @version 15-01-2002
  */
-class MandelPanel extends JPanel
+class MandelPanel extends JPanel implements Runnable
 {
-	public void draw() {
-		(new MandelThread(this)).start();
+	public void draw(MandelPanel mp) {
+		Thread tt = new Thread(mp);
+		tt.start();
 	}
-
-
+	
+	public void run() {
+		drawMandel();
+	}
+	
 	// draw the fractal 
 	void drawMandel() {
 		Graphics g = getGraphics();
@@ -111,4 +115,9 @@ class MandelPanel extends JPanel
 		}
 		COLORS[MAX_COLORS] = Color.white;
 	}
+
+	
+	
+
+	
 }
