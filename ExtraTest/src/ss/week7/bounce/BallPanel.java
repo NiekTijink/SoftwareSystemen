@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ListIterator;
+import javax.swing.Timer;
 
 import javax.swing.JPanel;
 
@@ -15,21 +16,36 @@ import javax.swing.JPanel;
  */
 public class BallPanel extends JPanel implements ActionListener {
 	private List<Ball> balls; // @invariant balls != null
+	Timer t;
 
+	/*class AnimateThread extends Thread {
+		public void run() {
+		animate();
+		}
+	}*/
+	
 	public BallPanel() {
 		balls = new java.util.ArrayList<Ball>();
-	}
-
+		ActionListener actListner = new ActionListener() {
+		/*Thread tt = new AnimateThread();
+		tt.start();*/
+	
 	/**
 	 * Implements the method from the interface ActionListener
 	 * Move and repaint the balls
 	 */
-	public void actionPerformed(ActionEvent evt) {
-		moveBalls();
-		repaint();
+			public void actionPerformed(ActionEvent evt) {
+				moveBalls();
+				repaint();
+			}
+		};
+		Timer timer = new Timer(5, actListner);
+		timer.start();
 	}
 
-	public void animate() {
+	
+	
+	/*public void animate() {
 		try {
 			while (true) {
 				Thread.sleep(5);
@@ -39,7 +55,7 @@ public class BallPanel extends JPanel implements ActionListener {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	/** Add a new ball to the ball list and start the timer if not yet running. */
 	public synchronized void addNewBall() {
@@ -77,5 +93,13 @@ public class BallPanel extends JPanel implements ActionListener {
 		for (Ball b : balls) {
 			b.draw(g);
 		}
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
