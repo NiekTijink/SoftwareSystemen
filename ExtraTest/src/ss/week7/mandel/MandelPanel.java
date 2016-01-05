@@ -13,8 +13,8 @@ import javax.swing.JPanel;
  */
 class MandelPanel extends JPanel implements Runnable
 {
-	public void draw(MandelPanel mp) {
-		Thread tt = new Thread(mp);
+	public void draw() {
+		Thread tt = new Thread(this);
 		tt.start();
 	}
 	

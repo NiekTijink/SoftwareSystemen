@@ -28,7 +28,7 @@ public class MandelSet {
 		JMenuItem draw = new JMenuItem("Draw", 'D');
 		draw.addActionListener(new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				canvas.draw(canvas);
+				canvas.draw();
 			}
 		});
 		JMenuItem exit = new JMenuItem("Exit", 'E');

@@ -26,7 +26,9 @@ public class BallPanel extends JPanel implements ActionListener {
 	
 	public BallPanel() {
 		balls = new java.util.ArrayList<Ball>();
-		ActionListener actListner = new ActionListener() {
+		new Timer(5, this).start();
+	}
+		//ActionListener actListner = new ActionListener() {
 		/*Thread tt = new AnimateThread();
 		tt.start();*/
 	
@@ -34,16 +36,14 @@ public class BallPanel extends JPanel implements ActionListener {
 	 * Implements the method from the interface ActionListener
 	 * Move and repaint the balls
 	 */
-			public void actionPerformed(ActionEvent evt) {
-				moveBalls();
-				repaint();
-			}
-		};
-		Timer timer = new Timer(5, actListner);
-		timer.start();
-	}
-
 	
+		
+	
+
+	public void actionPerformed(ActionEvent evt) {
+		moveBalls();
+		repaint();
+	}
 	
 	/*public void animate() {
 		try {
@@ -97,9 +97,5 @@ public class BallPanel extends JPanel implements ActionListener {
 
 
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
