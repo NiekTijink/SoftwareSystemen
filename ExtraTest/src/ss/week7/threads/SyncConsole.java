@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class SyncConsole {
 	   static public final char FOUT = '\u0004';
@@ -15,7 +17,7 @@ public class SyncConsole {
 	    private SyncConsole() {
 
 	    }
-
+	   
 	    /**
 	     * write a text on the default output
 	     * @param text text to be written

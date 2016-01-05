@@ -1,22 +1,26 @@
 package ss.week7.threads;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class TestSyncConsole extends Thread {
+	static Lock l = new ReentrantLock();
+
 	public TestSyncConsole(String name) {
 		super(name);
 	}
 
 	public void run() {
+		l.lock();
 		sum();
+		l.unlock();
 	}
 	
-	private  void  sum() {
-		synchronized(System.in) { 
+	private void  sum() {
 		int nr1 = SyncConsole.readInt(getName() + ": get number 1? ");
 		int nr2 = SyncConsole.readInt(getName() + ": get number 2? ");
 		int sum = nr1 + nr2;
-		String sum2 = sum + "";
-		SyncConsole.println(getName() + ": " + sum2);
-		}
+		SyncConsole.println(getName() + ": " + sum);
 	}
 	
 	public static void main(String[] args) {
