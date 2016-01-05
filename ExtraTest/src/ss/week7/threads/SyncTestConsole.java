@@ -1,13 +1,17 @@
 package ss.week7.threads;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class SyncTestConsole extends Thread {
-	
-	public class SyncTestConsole(String name) {
+	static ReentrantLock l = new ReentrantLock();
+	public SyncTestConsole(String name) {
 		super(name);
 	}
 
 	public void run() {
+		l.lock();
 		sum();
+		l.unlock();
 	}
 
 	private void sum() {
@@ -17,16 +21,12 @@ public class SyncTestConsole extends Thread {
 		String sum = String.valueOf(nr1 + nr2);
 		SyncConsole.println(getName() + ": " + nr1 + " + " + nr2 + " = " + sum);
 		
-		
 	}
 	
 	public static void main(String[] args) {
-		String A = "Thread A";
-		Thread a = new Thread(,A);
-		//a.setName(A);
+		Thread a = new Thread(new SyncTestConsole("Thread A"));
 		a.start();
-		//System.out.println(a.getName());
-		Thread b = new Thread(new SyncTestConsole(), "Thread B");
+		Thread b = new Thread(new SyncTestConsole("Thread B"));
 		b.start();
 		
 	}
