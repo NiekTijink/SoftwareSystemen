@@ -35,6 +35,5 @@ public class Tile {
     
     public Color getColor() {
     	return color;
-    }
-    
+    }  
   }

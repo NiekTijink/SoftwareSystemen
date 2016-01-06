@@ -12,35 +12,37 @@ public class Deck {
 	    
 	    //Create deck, elke tile 3 keer
 	    public Deck() {
-	        this.tiles = new ArrayList<>(SIZE);
+	        tiles = new ArrayList<>(SIZE);
 
 	        for (Tile.Shape s : Tile.Shape.values()) {
 	            for (Tile.Color c : Tile.Color.values()) {
 	                for (int i = 0; i < 3; i++) {
-	                    this.tiles.add(new Tile(s, c));
+	                    tiles.add(new Tile(s, c));
 	                }
 	            }
 	        }
 	    }
+	    
+	  //Aantal Tiles over in deck
+	    public int Tilesremaining() {
+	        return tiles.size();
+	    }
+	    
 	    //Schud Deck
 	    public void Shuffle() {
-	    	Collections.shuffle(this.tiles);
+	    	Collections.shuffle(tiles);
 	    }
 	    
-	    //Krijg de bovenste Tile
+	    //Krijg de bovenste Tile en verwijder deze
 	    public Tile drawTile() {
-	    	return this.tiles.remove(0);
+	    	Shuffle();
+	    	return tiles.remove(0);
 	    }
 	    
-	    
-	    /*public static void main(String[] args) {
-	    Deck d = new Deck();
-	    System.out.println(d.tiles.get(107));
-	    d.Shuffle();
-	    d.drawTile();
-	    d.drawTile();
-	    System.out.println(d.tiles.size());
-	    System.out.println(d.tiles.get(105));
-	    
-	    }*/
+	    //Wissel Tile
+	    public Tile changeTile(Tile tile) {
+	    	Shuffle();
+	    	tiles.add(tiles.size(), tile);
+	    	return tiles.remove(0);    	
+	    }
 }
