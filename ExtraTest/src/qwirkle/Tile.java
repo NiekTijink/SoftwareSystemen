@@ -10,7 +10,7 @@ public class Tile {
 			this.shape = s;
 		}
 	}
-	
+	// ik heb nog geen idee wat die getallen / letters erachter doen
 	public enum Color {
 		RED(1), GREEN(2), YELLOW(3), BLUE(4), MAGNETA(5), CYAN(6);
 		//RED, GREEN, YELLOW, BLUE, MAGNETA, CYAN;

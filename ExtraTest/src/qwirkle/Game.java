@@ -6,6 +6,8 @@ public class Game {
 	private Board board;
 	private Player[] players;
 	
+	// maakt een game aan met twee spelers.
+	// moet later worden overgenomen door de server
 	public Game(Player player1, Player player2) {
 		board = new Board();
 		players = new Player[2];
@@ -13,6 +15,7 @@ public class Game {
 		players[1] = player2;
 	}
 	
+	// geen idee of dit goed is
 	public void start() {
 		boolean doorgaan = true;
 		while (doorgaan) {
@@ -21,6 +24,7 @@ public class Game {
 		}
 	}
 	
+	// geen idee of dit goed is
 	private void play() {
 		int moveNr = 0;
 		while(!(board.gameOver())) {
