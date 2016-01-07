@@ -26,6 +26,8 @@ public class QuickSortTest {
                 574, 571, 922, 471, 99, 550, 97, 388, 893, 289, 849, 618, 88, 514, 721, 837, 860, 222, 514, 126, 892};
 
         // Change below three lines to test your own multi threaded version
+       //Thread a = new QuickSort(a1);
+        //a.start();
         QuickSort.qsort(a1);
         QuickSort.qsort(a2);
         QuickSort.qsort(a3);

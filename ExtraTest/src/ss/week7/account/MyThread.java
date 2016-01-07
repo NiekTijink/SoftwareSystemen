@@ -1,6 +1,6 @@
 package ss.week7.account;
 
-public class MyThread extends Thread {
+public class MyThread implements Runnable {
 	private double theAmount;
 	private int theFrequency;
 	private Account theAccount;
@@ -16,20 +16,10 @@ public class MyThread extends Thread {
 		transaction();
 	}
 	
-	public synchronized void transaction() {
-		for (int i = 1; i <= theFrequency; i++) {	
-			while (theAccount.getBalance() + theAmount > -1000) {
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			theAccount.transaction(theAmount);
-			notifyAll();
-			
-			if (i == theFrequency) {
+	public void transaction() {
+		for (int i = 1; i <= theFrequency; i++) {		
+			theAccount.transaction(theAmount);			
+			if (i == 1000) {
 				System.out.println(theAccount.getBalance());
 			}
 		}

@@ -48,6 +48,7 @@ public class Client {
         // try to open a Socket to the server
         try {
             sock = new Socket(addr, port);
+            System.out.println("GELUK");
         } catch (IOException e) {
             System.out.println("ERROR: could not create a socket on " + addr
                     + " and port " + port);
