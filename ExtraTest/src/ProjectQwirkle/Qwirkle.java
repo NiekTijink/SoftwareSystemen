@@ -1,5 +1,5 @@
 package ProjectQwirkle;
 
-public abstract class Qwirkle {
+public class Qwirkle {
 
 }

@@ -29,7 +29,7 @@ public class Deck {
 	    }
 	    
 	    //Schud Deck
-	    public void Shuffle() {
+	    private void Shuffle() {
 	    	Collections.shuffle(tiles);
 	    }
 	    
