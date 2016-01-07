@@ -13,10 +13,25 @@ public class MyThread extends Thread {
 	
 	public void run() {
 
-		for (int i = 1; i <= theFrequency; i++) {
+		transaction();
+	}
+	
+	public synchronized void transaction() {
+		for (int i = 1; i <= theFrequency; i++) {	
+			while (theAccount.getBalance() + theAmount > -1000) {
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			theAccount.transaction(theAmount);
+			notifyAll();
 			
+			if (i == theFrequency) {
+				System.out.println(theAccount.getBalance());
+			}
 		}
-		System.out.println(theAccount.getBalance());
 	}
 }
