@@ -38,9 +38,6 @@ public class Game {
 	}
 	
 	// Na elke hand moet de speler nieuwe stenen krijgen
-	// Je moet ervoor zorgen dat altijd de laatste X plekken in de hand leeg zijn
-	// Dus stel je wilt 2 nieuwe stenen, dan moeten die op plek 4 en 5 komen 
-	// Dus bij plaatsten van stenen (determinemove oid) moeten de stenen al in deze volgorde gelegd worden
 	private void updateHand(Player player) { // WERKEND
 		Tile[] hand = player.getHand();
 		int nrOfNewTile = 0;
@@ -50,10 +47,15 @@ public class Game {
 			}
 		}
 		for (int i = 0; i < nrOfNewTile; i++) { // geeft de speler nieuwe stenen
-			hand[player.NROFTILESINHAND - 1 - i] = deck.drawTile(); 
-			System.out.println("Nieuwe Steen voor: " + player.getName() + 
-					": " + hand[player.NROFTILESINHAND - 1 - i].getColor() + 
-					hand[player.NROFTILESINHAND - 1 - i].getShape());
+			for (int j = 0; j < player.NROFTILESINHAND; i++) { 
+				if (hand[j] == null) {
+					hand[j] = deck.drawTile();
+					System.out.println("Nieuwe Steen voor: " + player.getName() + 
+							": " + hand[j].getColor() + 
+							hand[j].getShape());
+				}
+			}
+			
 		}
 		for (int i = 0; i < player.NROFTILESINHAND; i++) { // slaat nieuwe hand op
 			player.getHand()[i] = hand[i];

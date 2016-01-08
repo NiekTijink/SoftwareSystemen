@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Board {
 	private Tile[][] fields = new Tile[100][100];
-	
 
 	// maakt een bord aan
 	// misschien kunnen we dit variabel maken, denk dat dat wel kan
