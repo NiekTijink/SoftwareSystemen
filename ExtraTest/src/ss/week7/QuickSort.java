@@ -1,8 +1,9 @@
 package ss.week7;
 
 
-public class QuickSort {
-    public static void qsort(int[] a) {
+public class QuickSort extends Thread {
+    
+	public static void qsort(int[] a) {
         qsort(a, 0, a.length - 1);
     }
     public static void qsort(int[] a, int first, int last) {
@@ -35,4 +36,8 @@ public class QuickSort {
         a[j] = tmp;
     }
 
+
+    public void run() {
+    	qsort(a, first, last);
+    }
 }
