@@ -29,9 +29,10 @@ public class Game {
 	// geen idee of dit goed is
 	private void play() {
 		int moveNr = 0;
+		// hier moet iets staan voor de eerste beurt (nu begint speler 1 gewoon)
 		while(!(board.gameOver())) {
 			updateHand(players[moveNr % 2]);
-    		players[moveNr % 2].makeMove(board, players[moveNr % 2].getHand());
+    		players[moveNr % 2].makeMove(board, players[moveNr % 2].getHand(), deck);
     		moveNr++;
 		}
 	}
@@ -40,7 +41,7 @@ public class Game {
 	// Je moet ervoor zorgen dat altijd de laatste X plekken in de hand leeg zijn
 	// Dus stel je wilt 2 nieuwe stenen, dan moeten die op plek 4 en 5 komen 
 	// Dus bij plaatsten van stenen (determinemove oid) moeten de stenen al in deze volgorde gelegd worden
-	private void updateHand(Player player) {
+	private void updateHand(Player player) { // WERKEND
 		Tile[] hand = player.getHand();
 		int nrOfNewTile = 0;
 		for (int i = 0; i < player.NROFTILESINHAND; i++) { // telt het aantal lege stenen in hand
@@ -49,14 +50,15 @@ public class Game {
 			}
 		}
 		for (int i = 0; i < nrOfNewTile; i++) { // geeft de speler nieuwe stenen
-			deck.Shuffle();
-			deck.Shuffle();
 			hand[player.NROFTILESINHAND - 1 - i] = deck.drawTile(); 
+			System.out.println("Nieuwe Steen voor: " + player.getName() + 
+					": " + hand[player.NROFTILESINHAND - 1 - i].getColor() + 
+					hand[player.NROFTILESINHAND - 1 - i].getShape());
 		}
-		for (int i = 0; i < player.NROFTILESINHAND; i++) {
+		for (int i = 0; i < player.NROFTILESINHAND; i++) { // slaat nieuwe hand op
 			player.getHand()[i] = hand[i];
 		}
-		
+
 	}
 	
 	private boolean readBoolean(String prompt, String yes, String no) {
@@ -70,4 +72,12 @@ public class Game {
 	        } while (answer == null || (!answer.equals(yes) && !answer.equals(no)));
 	        return answer.equals(yes);
 	    }
+	
+	public static void main(String[] args) {
+		Player niek = new Player("Niek");
+		Player thomas = new Player("Thomas");
+			
+		Game game = new Game(niek, thomas);
+		game.start();
+	}
 }

@@ -36,14 +36,22 @@ public class Deck {
 	    //Krijg de bovenste Tile en verwijder deze
 	    public Tile drawTile() {
 	    	Shuffle();
+	    	Shuffle();
 	    	return tiles.remove(0);
 	    }
 	    
-	    //Wissel Tile
-	    public Tile changeTile(Tile tile) {
-	    	Shuffle();
-	    	tiles.add(tiles.size(), tile);
-	    	return tiles.remove(0);    	
+	    //Wissel Tile.
+	    public Tile[] changeTile(Tile[] change) {
+	    	Tile[] temp = new Tile[change.length];
+	    	for (int i = 0; i < temp.length; i++) {
+	    		Shuffle();
+	    		Shuffle();
+	    		temp[i] = tiles.remove(0);
+	    	}
+	    	for (int i = 0; i < temp.length; i++) {
+		    	tiles.add(tiles.size(), change[i]);   	
+	    	}
+	    	return temp;
 	    }
 	    
 	    public static void main(String[] args) {

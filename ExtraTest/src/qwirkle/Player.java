@@ -20,15 +20,35 @@ public class Player {
     }
     
     
-    // makemove geeft de beslissingen die je maakt door aan het bord (dmv setfield of swap)
+    // makemove geeft de beslissingen die je maakt door aan het bord (dmv setfield of changetiles)
     // later zal makemove deze beslissingen door moeten geven aan de server dmv protocol
-    public void makeMove(Board board, Tile[] hand) {
+    public void makeMove(Board board, Tile[] hand, Deck deck) {
         int[] keuze = determineMove(board, hand);
         if (keuze[0] == 0) { // 0 houdt in dat je stenen gaat plaatsen
-        	board.setField(keuze[1], keuze[2], hand[keuze[3]]);
-        }/* else if (keuze[1] == 1) { // 1 houdt in dat je gaat swappen
-        	board.swap(keuze) // swap moet nog gebouwd worden
-        } else { // altijd 0 of 1, anders opnieuw aanroepen (of foutmeldingen oid)
+        	for (int i = 0; i < ((keuze.length - 1) / 3); i++) {
+        		// ALLE STENEN PLAATSEN
+            	if (!(board.setField(keuze[1 + 3 * i], keuze[2 + 3 * i], hand[keuze[3 + 3 * i]]))) { // voor meerdere zetten
+            		// error message (veld is niet leeg of veld bestaat niet)
+            		// hoeft nu nog niet (omdat we eigen algoritme hebben), maar later moet de server dit wel checken
+            	}
+        	}
+        	for (int i = 0; i < ((keuze.length - 1) / 3); i++) {
+        		// CONTROLEREN OF HET EIGENLIJK WEL MAG
+        		if (!(board.isLegalTile(keuze[1+3*i], keuze[2+3*i]))) {
+        			// FOUTMELDING: MOVE MAG NIET. STENEN TERUGDRAAIEN EN ERROR GEVEN
+        			for (int j = 0; j < ((keuze.length - 1) / 3); j++) {
+        				board.setField(keuze[1 + 3 * j], keuze[2 + 3 * j], null);
+        			}
+        		}
+        	}
+ 
+        } else if (keuze[0] == 1) { // 1 houdt in dat je gaat swappen
+        	Tile[] tiles = new Tile[keuze.length - 1];
+        	for (int i = 1; i < keuze.length; i++) {
+        		tiles[i-1] = hand[keuze[i]];
+        	}
+    		deck.changeTile(tiles);
+        } /*else { // altijd 0 of 1, anders opnieuw aanroepen (of foutmeldingen oid)
         	determineMove(board,hand);
         }*/
     }
@@ -42,7 +62,7 @@ public class Player {
 				board.getBoard()[i][j] = null;
 			}
 		}
-    	int[] data = {0, 1,1,3};
+    	int[] data = {1, 1,2,3};
     	// eerste getal: commando, tweede getal: xwaarde, derde getal: ywaarde, 
     	//vierde getal: nr van steen in je hand. (ligt altijd tussen 0 en 5)
     	//Dus 2 betekent hier dat je de (2+1 =) 3e steen uit je hand neerlegt
