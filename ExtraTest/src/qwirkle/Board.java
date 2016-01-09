@@ -46,7 +46,40 @@ public class Board {
 		}
 	}
 	
-	public boolean isLegalTile(int xValue, int yValue) {
+	public void deleteField(int xValue, int yValue) {
+		if (isField(xValue, yValue)) {
+			fields[xValue][yValue] = null;
+		}
+	}
+	
+	public int calculateScore(int[] moves) {
+		int score = 0;
+		if (moves.length > 2 && moves[0] == moves[2]) { //zelfde xwaarde --> dus in een rij
+			calcRowScore(moves);
+		} else if (moves.length>2 && moves[1] == moves[3]) { // zelfde ywaarde, dus kolom 
+			
+		} else if (moves.length == 2) { // maar een steen
+			
+		} else {
+			// foutmelding
+		}
+	}
+
+	private void calcRowScore(int[] moves) {
+		int c = 1;
+		while (fields[moves[0]+c][moves[1]] != null) {
+			c++;
+		}
+		int northRow = c-1;
+		c = 1;
+		while (fields[moves[0]-c][moves[1]] != null) {
+			c++;
+		}
+		int rowLength = northRow + c;
+		
+	}
+	
+ 	public boolean isLegalTile(int xValue, int yValue) { // Nog niet genoeg, mag maar in 1 rij/kolom plaatsen
 		Tile.Color color = fields[xValue][yValue].getColor();
 		Tile.Shape shape = fields[xValue][yValue].getShape();
 		return (testVertical(xValue, yValue, color, shape) && testHorizontal(xValue, yValue, color, shape));
@@ -153,7 +186,7 @@ public class Board {
 		return true;
 	}
 	
-	public boolean gameOver() {
+	public boolean gameOver() { // moet nog geïmplementeerd worden
 		return false;
 	}
 }

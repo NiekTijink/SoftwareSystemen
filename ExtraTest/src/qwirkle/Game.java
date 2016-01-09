@@ -2,7 +2,7 @@ package qwirkle;
 
 import java.util.Scanner;
 
-public class Game {
+public class Game { // KOMT LATER OP SERVER
 	private Board board;
 	private Player[] players;
 	private Deck deck;
@@ -18,6 +18,7 @@ public class Game {
 	}
 	
 	// geen idee of dit goed is
+	// Zal later moeten worden aangepast op Server
 	public void start() {
 		boolean doorgaan = true;
 		while (doorgaan) {
@@ -40,27 +41,18 @@ public class Game {
 	// Na elke hand moet de speler nieuwe stenen krijgen
 	private void updateHand(Player player) { // WERKEND
 		Tile[] hand = player.getHand();
-		int nrOfNewTile = 0;
 		for (int i = 0; i < player.NROFTILESINHAND; i++) { // telt het aantal lege stenen in hand
 			if (hand[i] == null) {
-				nrOfNewTile++;
+				hand[i] = deck.drawTile();
+				System.out.println("Nieuwe Steen voor: " + player.getName() + 
+						": " + hand[i].getColor() + " " + 
+						hand[i].getShape());
 			}
 		}
-		for (int i = 0; i < nrOfNewTile; i++) { // geeft de speler nieuwe stenen
-			for (int j = 0; j < player.NROFTILESINHAND; i++) { 
-				if (hand[j] == null) {
-					hand[j] = deck.drawTile();
-					System.out.println("Nieuwe Steen voor: " + player.getName() + 
-							": " + hand[j].getColor() + 
-							hand[j].getShape());
-				}
-			}
-			
-		}
+		
 		for (int i = 0; i < player.NROFTILESINHAND; i++) { // slaat nieuwe hand op
 			player.getHand()[i] = hand[i];
 		}
-
 	}
 	
 	private boolean readBoolean(String prompt, String yes, String no) {

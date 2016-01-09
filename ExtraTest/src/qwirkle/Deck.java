@@ -49,7 +49,7 @@ public class Deck {
 	    		temp[i] = tiles.remove(0);
 	    	}
 	    	for (int i = 0; i < temp.length; i++) {
-		    	tiles.add(tiles.size(), change[i]);   	
+		    	tiles.add(tiles.size(), temp[i]);   	
 	    	}
 	    	return temp;
 	    }
