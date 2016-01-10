@@ -2,14 +2,10 @@ package ProjectQwirkle;
 
 public class Qwirkle {
 	public static void main(String[] args) {
-    	Player p = null;
-    	Player q = null;
-    	if (args.length == 2) {
-    			p = new Player(args[0]);		
-    			q = new Player(args[1]);
-    		}
-    				
-    	Game game = new Game();
+    	Player player1;
+    	Player player2 = null;
+    	  				
+    	Game game = new Game(player1, player2);
         game.start();
     }
 }

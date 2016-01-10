@@ -9,10 +9,13 @@ public class Game {
 	
 	// maakt een game aan met twee spelers, een bord en een deck.
 	// moet later worden overgenomen door de server
-	public Game() {
+	public Game(String name1, String name2) {
 		board = new Board();
 		deck = new Deck();
-		
+		Player player1 = new Player(name1);
+		Player player2 = new Player(name2);
+		players[0] = player1;
+		players[1] = player2;
 	}
 	
 	// geen idee of dit goed is
@@ -28,6 +31,7 @@ public class Game {
 	private void play() {
 		int moveNr = 0;
 		while(!(board.gameOver())) {
+			players[moveNr % 2].updateHand();
     		players[moveNr % 2].makeMove(board, players[moveNr % 2].getHand());
     		moveNr++;
 		}
@@ -44,5 +48,10 @@ public class Game {
 	        } while (answer == null || (!answer.equals(yes) && !answer.equals(no)));
 	        return answer.equals(yes);
 	    }
+	 
+	public static void main(String[] args) {
+		Game game = new Game("Thomas","Niek");
+		game.start();
+	 }
 }
 

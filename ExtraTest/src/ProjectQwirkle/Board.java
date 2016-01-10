@@ -44,4 +44,14 @@ public class Board {
 	public boolean gameOver() {
 		return false;
 	}
+	
+	public Board deepcopy() {
+		Board deepcopy = new Board();
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j < 100; j++) {
+				deepcopy.fields[i][j] = this.fields[i][j];
+			}
+		}
+		return deepcopy;
+	}
 }
