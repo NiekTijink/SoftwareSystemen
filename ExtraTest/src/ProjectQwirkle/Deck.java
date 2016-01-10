@@ -33,6 +33,16 @@ public class Deck {
 	    	Collections.shuffle(tiles);
 	    }
 	    
+	    //Krijg Hand
+	    public Tile[] drawHand() {
+	    	Shuffle();
+	        Tile[] hand = new Tile[6];
+	        for (int i = 0; i < 6; i++) {
+	            hand[i] = this.drawTile();
+	        }
+	        return hand;
+	    }
+	    
 	    //Krijg de bovenste Tile en verwijder deze
 	    public Tile drawTile() {
 	    	Shuffle();
@@ -45,4 +55,6 @@ public class Deck {
 	    	tiles.add(tiles.size(), tile);
 	    	return tiles.remove(0);    	
 	    }
+
+		
 }

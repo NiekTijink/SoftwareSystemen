@@ -2,17 +2,21 @@ package ProjectQwirkle;
 
 public class Player {
     private String name;
+    private Deck deck;
     private Tile[] hand;
-    public final static int NROFTILESINHAND = 6;
-    
+       
     public Player(String name) {
     	this.name = name;
-    	hand = new Tile[NROFTILESINHAND];
+    	this.hand = deck.drawHand();
     }
 
     public String getName() {
     	return name;
     }
+    
+    /*public Tile[] drawHand() {
+    	return deck.drawHand();
+    }*/
     
     public Tile[] getHand() {
     	return hand;
@@ -48,6 +52,11 @@ public class Player {
     	// misschien mogelijk om meteen meerdere stenen mee te geven tegelijk(234 = 1 steen)(567 volgende)
     	
     	return data;
+    }
+    
+    public static void main(String[] args) {
+    	Player x = new Player("Thomas");
+    	System.out.println(x.getHand());
     }
 }
 

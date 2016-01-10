@@ -9,12 +9,10 @@ public class Game {
 	
 	// maakt een game aan met twee spelers, een bord en een deck.
 	// moet later worden overgenomen door de server
-	public Game(Player player1, Player player2) {
+	public Game() {
 		board = new Board();
 		deck = new Deck();
-		players = new Player[2];
-		players[0] = player1;
-		players[1] = player2;
+		
 	}
 	
 	// geen idee of dit goed is
