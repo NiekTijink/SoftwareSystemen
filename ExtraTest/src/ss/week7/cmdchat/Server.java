@@ -3,6 +3,7 @@ package ss.week7.cmdchat;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -33,6 +34,7 @@ public class Server {
     private ServerSocket serversock;
     /** Constructs a new Server object */
     public Server(int portArg) {
+    	threads = new ArrayList<ClientHandler>();
     	port = portArg;
     	try {
 			serversock = new ServerSocket(port);
@@ -54,6 +56,7 @@ public class Server {
     		try {
 				ClientHandler c = new ClientHandler(this, serversock.accept());
 				c.start();
+				c.announce();
 				addHandler(c);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
