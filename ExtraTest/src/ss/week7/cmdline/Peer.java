@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Peer for a simple client-server application
@@ -19,7 +20,6 @@ public class Peer implements Runnable {
     protected Socket sock;
     protected BufferedReader in;
     protected BufferedWriter out;
-    protected String s;
 
 
     /*@
@@ -31,8 +31,8 @@ public class Peer implements Runnable {
      * @param   sockArg Socket of the Peer-proces
      */
     public Peer(String nameArg, Socket sockArg) throws IOException {
-    	this.name = nameArg;
-    	this.sock = sockArg;
+    	sock = sockArg;
+    	name = nameArg;
     	in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
     }
@@ -42,13 +42,22 @@ public class Peer implements Runnable {
      * writes the characters to the default output.
      */
     public void run() {
-    	try {
-			s = readString(in.readLine());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+       
+			try {
+		        String msg = (in.readLine()) ;
+				while (msg != null) {
+					System.out.println(msg);
+					msg = in.readLine();
+				}
+				shutDown();
+			} catch (IOException e) {
+					// TODO Auto-generated catch block
+				shutDown();
+			}
     }
+        
+		
+    
 
 
     /**
@@ -57,23 +66,34 @@ public class Peer implements Runnable {
      * On Peer.EXIT the method ends
      */
     public void handleTerminalInput() {
-    	if(s.equals(EXIT)) {
-    		return;
-    	} else {
-    		try {
-				out.write(s);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+		try {
+			String msg = readString(">  ");
+			while (msg != null && !msg.equals(EXIT)) {
+				out.write(getName() + ": " + msg);
+				out.newLine();
+				out.flush();
+				msg = readString(">  ");
 			}
-    	}
-    	
+			
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			shutDown();
+		}
+ 	
     }
 
     /**
      * Closes the connection, the sockets will be terminated
      */
     public void shutDown() {
+    	try {
+	    	sock.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**  returns name of the peer object*/
