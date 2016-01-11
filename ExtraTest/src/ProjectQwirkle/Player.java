@@ -8,12 +8,13 @@ public class Player {
     private static int handsize = 6;
     private int turnNr = 0;
        
-    public Player(String name) {
+    public Player(String name, Deck deck) {
     	this.name = name;
+    	this.deck = deck;
     	this.hand = deck.drawHand();
     }
 
-    public String getName() {
+	public String getName() {
     	return name;
     }
     
@@ -65,11 +66,5 @@ public class Player {
     
     
     
-    public static void main(String[] args) {
-    	Player x = new Player("Thomas");
-    	System.out.println(x.getHand());
-    }
-
-	
 }
 

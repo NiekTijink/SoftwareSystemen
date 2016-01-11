@@ -5,7 +5,7 @@ public class Qwirkle {
     	Player player1;
     	Player player2 = null;
     	  				
-    	Game game = new Game(player1, player2);
-        game.start();
+    	//Game game = new Game(player1, player2);
+        //game.start();
     }
 }
