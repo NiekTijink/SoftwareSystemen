@@ -30,8 +30,16 @@ public class Server {
 
     private int port;
     private List<ClientHandler> threads;
+    private ServerSocket serversock;
     /** Constructs a new Server object */
     public Server(int portArg) {
+    	port = portArg;
+    	try {
+			serversock = new ServerSocket(port);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         // TODO insert body
     }
     
@@ -42,6 +50,16 @@ public class Server {
      * communication with the Client.
      */
     public void run() {
+    	while (!serversock.isClosed()){
+    		try {
+				ClientHandler c = new ClientHandler(this, serversock.accept());
+				c.start();
+				addHandler(c);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
         // TODO insert body
     }
     
@@ -55,6 +73,9 @@ public class Server {
      * @param msg message that is send
      */
     public void broadcast(String msg) {
+    	for (int i = 0; i < threads.size();i++) {
+    		threads.get(i).sendMessage(msg);
+    	}
         // TODO insert body
     }
     
@@ -63,7 +84,7 @@ public class Server {
      * @param handler ClientHandler that will be added
      */
     public void addHandler(ClientHandler handler) {
-        // TODO insert body
+    	threads.add(handler);
     }
     
     /**
@@ -71,6 +92,6 @@ public class Server {
      * @param handler ClientHandler that will be removed
      */
     public void removeHandler(ClientHandler handler) {
-        // TODO insert body
+    	threads.remove(handler);
     }
 }
