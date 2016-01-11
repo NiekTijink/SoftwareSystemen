@@ -51,10 +51,10 @@ public class ClientHandler extends Thread {
      */
     public void run() {
     	try {
-	        String msg = (in.readLine()) ;
+	        String msg = " ";
 			while (msg != null) {
 				msg = in.readLine();
-				server.broadcast(clientName + msg);
+				server.broadcast(clientName + ": " + msg);
 			}
 			shutdown();
 		} catch (IOException e) {
@@ -77,7 +77,7 @@ public class ClientHandler extends Thread {
 			out.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			shutdown();
 		}
         // TODO insert body
     }

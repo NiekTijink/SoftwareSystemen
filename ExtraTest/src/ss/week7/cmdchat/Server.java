@@ -55,9 +55,9 @@ public class Server {
     	while (!serversock.isClosed()){
     		try {
 				ClientHandler c = new ClientHandler(this, serversock.accept());
-				c.start();
 				c.announce();
 				addHandler(c);
+				c.start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
