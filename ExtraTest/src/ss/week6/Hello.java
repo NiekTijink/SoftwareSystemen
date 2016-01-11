@@ -1,22 +1,26 @@
 package ss.week6;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Hello {
 	
 	public void Scanner() {
-		Scanner in = new Scanner(System.in);
+    	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+		Scanner input = new Scanner(in);
 		try {
-			while (in.hasNext()) {
-				String value = in.next();
+			while (input.hasNext()) {
+				String value = input.next();
 				if (value.equals("exit")) {
-					in.close();
+					input.close();
 					break;
 				} else {
 				System.out.println("hello " + value);	
 				}
 			}
 		}finally {	
-		in.close();
+		input.close();
 		
 		}
 	}

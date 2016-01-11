@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Peer for a simple client-server application
@@ -19,7 +20,6 @@ public class Peer implements Runnable {
     protected Socket sock;
     protected BufferedReader in;
     protected BufferedWriter out;
-    protected String s;
 
 
     /*@
@@ -42,13 +42,22 @@ public class Peer implements Runnable {
      * writes the characters to the default output.
      */
     public void run() {
-        try {
-			s = readString(in.readLine());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+       
+			try {
+		        String msg = (in.readLine()) ;
+				while (msg != null) {
+					System.out.println(msg);
+					msg = in.readLine();
+				}
+				shutDown();
+			} catch (IOException e) {
+					// TODO Auto-generated catch block
+				shutDown();
+			}
     }
+        
+		
+    
 
 
     /**
@@ -57,15 +66,20 @@ public class Peer implements Runnable {
      * On Peer.EXIT the method ends
      */
     public void handleTerminalInput() {
-    	if (s != null && s.equals(EXIT)) {
-    		return;
-    	}
+
 		try {
-			out.write(s);
-			out.flush();
+			String msg = readString(">  ");
+			while (msg != null && !msg.equals(EXIT)) {
+				out.write(getName() + ": " + msg);
+				out.newLine();
+				out.flush();
+				msg = readString(">  ");
+			}
+			
+		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			shutDown();
 		}
  	
     }
@@ -75,8 +89,6 @@ public class Peer implements Runnable {
      */
     public void shutDown() {
     	try {
-			in.close();
-	    	out.close();
 	    	sock.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
