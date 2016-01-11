@@ -55,7 +55,9 @@ public class Server {
      * @param msg message that is send
      */
     public void broadcast(String msg) {
-        // TODO insert body
+        for(ClientHandler temp : threads) {
+        	// TODO insert body
+        }
     }
     
     /**
