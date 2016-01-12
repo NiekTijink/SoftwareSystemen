@@ -42,9 +42,13 @@ public class Board {
 		}
 	}
 	
-	public boolean isLegalMove(int[][] move) {
-		TestMove test = new TestMove(fields);
-		return test.isLegalMove(move);
+	public int testMove(int[][] move) {
+		TestMove test = new TestMove(fields, move);
+		if (test.isLegalMove()) {
+			test.calcScore();
+			return test.getScore();
+		}
+		return -1;
 	}
 	
 	

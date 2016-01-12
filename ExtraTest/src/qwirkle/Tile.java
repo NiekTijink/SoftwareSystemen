@@ -39,14 +39,18 @@ public class Tile {
     public Shape getShape() {
     	return shape;
     }
+   
     
     public Color getColor() {
     	return color;
     }  
     
+    
+    
     public static void main(String[] args) {
-    	Tile a = new Tile(Shape.CIRCLE , Color.CYAN);
-    	a.getShape();
+    	String test = "CIRCLE";
+    	//Tile a = new Tile(Shape.test , Color.CYAN);
+    //	a.getShape();
     	
     }
 

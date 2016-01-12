@@ -4,21 +4,56 @@ import java.util.ArrayList;
 
 public class TestMove {
 	private Tile[][] fields;
+	private int[][] move;
+	private int score;
+	private char typeRow;
+	private int horizontalRow;
+	private int verticalRow;
 	
-	public TestMove(Tile[][] tiles) {
+	public TestMove(Tile[][] tiles, int[][] move) {
 		fields = tiles;
+		this.move = move;
+		if (move[0][0] == move[1][0]) { // moves met zelfde x-waarde
+			typeRow = 'x';
+		} else if (move[0][1] == move[1][1]) { // moves met zelfde y-waarde
+			typeRow = 'y';
+		} else if (move[1][0] == -1) { // maar 1 zet
+			typeRow = 'z';
+		}
 	}
 	
-	public boolean isLegalMove(int[][] move) { // mag maar in rij/kolom & moet andere stenen raken
+	public boolean isLegalMove() { // mag maar in rij/kolom & moet andere stenen raken
 		int i = 0;
 		while (move[i][0] != -1) {
 			if (!isLegalTile(move[i][0],move[i][1])) {
 				return false;
 			}
+			i++;
 		}
 		return true;
 	}
 	
+	public void calcScore() {
+		if (typeRow == 'x') {
+			if (horizontalRow < 6) {
+				score += horizontalRow;
+			} else {
+				score += 12;
+			}
+		} else if (typeRow == 'y') {
+			if (verticalRow < 6) {
+				score += verticalRow;
+			} else {
+				score += 12;
+			}
+		} else if (typeRow == 'z') {
+			score += verticalRow + horizontalRow;
+		}
+	}
+	
+	public int getScore() {
+		return score;
+	}
 	public boolean isLegalTile(int xValue, int yValue) { // Nog niet genoeg, mag maar in 1 rij/kolom plaatsen
 		Tile.Color color = fields[xValue][yValue].getColor();
 		Tile.Shape shape = fields[xValue][yValue].getShape();
@@ -51,8 +86,9 @@ public class TestMove {
 				} else {
 					return false;
 				}
-			doorgaan = false;
 			}
+			doorgaan = false;
+
 		}
 		easternTiles = c - 1;
 		c = 0; //counter reset
@@ -70,7 +106,18 @@ public class TestMove {
 				} else {
 					return false;
 				}
-			} return (c + easternTiles > 1);
+			} 
+			horizontalRow = c + easternTiles;
+			
+			if (typeRow == 'y' && horizontalRow > 1) {
+				if (horizontalRow < 6) {
+					score += horizontalRow;
+				} else if (horizontalRow == 6) {
+					score += 12;
+				}
+			}
+			
+			return (horizontalRow >= 1);
 		}
 		return true;
 	}
@@ -121,7 +168,16 @@ public class TestMove {
 				} else {
 					return false;
 				}
-			} return (c + northernTiles > 1);
+			} 
+			verticalRow = c + northernTiles;
+			if (typeRow == 'x' && verticalRow > 1) {
+				if (verticalRow < 6) {
+					score += verticalRow;
+				} else if (verticalRow == 6) {
+					score += 12;
+				}
+			}
+			return (verticalRow >= 1);
 		}
 		return true;
 	}

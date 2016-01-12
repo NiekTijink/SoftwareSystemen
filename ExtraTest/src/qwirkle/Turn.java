@@ -1,5 +1,9 @@
 package qwirkle;
 
+import java.util.Scanner;
+
+import qwirkle.Tile.Color;
+import qwirkle.Tile.Shape;
 
 public class Turn {
 	
@@ -25,16 +29,17 @@ public class Turn {
 	
 	public void makeTurn() {
 		Board deepcopy = board.deepcopy();
-		if(turnNr == 0) {
+		/*if(turnNr == 0) {
 			determinefirstmove(deepcopy, hand);
-		} else {
+		} else {*/
 			determinemove(deepcopy, hand);
-		}
+		//}
 	}
 	
-	public int testMove() {
-		board.isLegalMove(move);
-		
+	public int testMove(int[][] move, Board b) {
+		int score = b.testMove(move);
+		System.out.println("score: " + score);
+		return score; //geeft de score van de geteste move terug
 	}
 
 	//Bepaal eerste move
@@ -43,8 +48,37 @@ public class Turn {
 		
 	}
 
+	public int getPlaceInHand(Tile tile) {
+		for (int i = 0; i < NROFTILESINHAND; i++) {
+			if (hand[i].getShape() == tile.getShape() && hand[i].getColor() == tile.getColor()) {
+				return i;
+			}
+		}
+		return -1;
+	}
 	
 	private void determinemove(Board deepcopy, Tile[] hand) {
+		for (int i = 0; i < NROFTILESINHAND; i++) {
+			System.out.println(hand[i].getColor() + " " + hand[i].getShape());
+		}
+		String[] splitInput = new String[10];
+		String input = " ";
+		Scanner stdin = new Scanner(System.in);
+		System.out.println("AAN DE BEURT");
+		while (!input.equals("") && stdin.hasNextLine()) {
+			input = stdin.nextLine();
+			splitInput = input.split("-");
+			input = "";
+		}
+		Tile tile = new Tile(getShape(splitInput[0].charAt(0)),getColor(splitInput[1].charAt(0)));
+		move[0][2] = getPlaceInHand(tile);
+		move[0][0] = Integer.parseInt(splitInput[2]);
+		move[0][1] = Integer.parseInt(splitInput[3]);
+		deepcopy.setField(move[0][0], move[0][1], hand[move[0][2]]);
+		
+		testMove(move, deepcopy);
+		stdin.close();
+		
 		// algoritme die berekend wat de beste optie is
 	    // misschien iets van een deepcopy maken
 	   	// hier moet dus ergens een algoritme komen
@@ -67,7 +101,41 @@ public class Turn {
 		return choice;
 	}
 	
-	
+	   public Tile.Shape getShape(char i) {
+	    	if (i == 'A') {
+	    		return Tile.Shape.SQUARE;
+	    	} else if (i == 'B') {
+	    		return Tile.Shape.CIRCLE;
+	    	} else if (i == 'C') {
+	    		return Tile.Shape.DIAMOND;
+	    	} else if (i == 'D') {
+	    		return Tile.Shape.CLUB;
+	    	} else if (i == 'E') {
+	    		return Tile.Shape.CROSS;
+	    	} else if (i == 'F') {
+	    		return Tile.Shape.STARBURST;
+	    	} else {
+	    		return null;
+	    	}
+	    }
+	   
+	   public Tile.Color getColor(char i) {
+	    	if (i == '1') {
+	    		return Tile.Color.RED;
+	    	} else if (i == '2') {
+	    		return Tile.Color.GREEN;
+	    	} else if (i == '3') {
+	    		return Tile.Color.YELLOW;
+	    	} else if (i == '4') {
+	    		return Tile.Color.BLUE;
+	    	} else if (i == '5') {
+	    		return Tile.Color.MAGNETA;
+	    	} else if (i == '6') {
+	    		return Tile.Color.CYAN;
+	    	} else {
+	    		return null;
+	    	}
+	    }
 
 	
 }
