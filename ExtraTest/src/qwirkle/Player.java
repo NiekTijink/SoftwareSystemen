@@ -52,6 +52,7 @@ public class Player {
         	int i = 0;
         	while (move[i][0] != -1) {
         		board.setField(move[i][0], move[i][1], hand[move[i][2]]);
+        		hand[move[i][2]] = null;
         		i++;
         	}
       		

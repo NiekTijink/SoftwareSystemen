@@ -64,6 +64,7 @@ public class Turn {
 		for (int i = 0; i < NROFTILESINHAND; i++) {
 			System.out.println(hand[i].getColor() + " " + hand[i].getShape());
 		}
+		System.out.println(name + ": Aan de beurt");
 		String[] splitInput = readChoice();
 		/*String[] splitInput = new String[10];
 		int j = 0;
@@ -111,7 +112,7 @@ public class Turn {
 				temp[i] = sct.next();
 				i++;
 			}*/
-			sc.close();
+			//sc.close();
 			return temp;
 		}
 		return null;
