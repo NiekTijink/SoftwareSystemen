@@ -55,8 +55,8 @@ public class Server {
     	while (!serversock.isClosed()){
     		try {
 				ClientHandler c = new ClientHandler(this, serversock.accept());
-				c.announce();
 				addHandler(c);
+				c.announce();
 				c.start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
