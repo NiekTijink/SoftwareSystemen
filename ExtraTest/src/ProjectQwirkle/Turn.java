@@ -29,6 +29,7 @@ public class Turn {
 		Board deepcopy = board.deepcopy();
 		iniMove();
 		if(turnNr == 0) {
+			choice = 0;
 			determinefirstmove(hand);
 		} else {
 			determinemove(deepcopy, hand);
