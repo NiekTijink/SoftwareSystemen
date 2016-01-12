@@ -12,7 +12,7 @@ public class Tile {
 		// Internal state
 	    private char s;
 	 
-	    public int getShape() {
+	    public char getChar() {
 	        return s;
 	    }
 	}
@@ -45,7 +45,7 @@ public class Tile {
     
     public static void main(String[] args) {
     	Tile a = new Tile(Shape.CIRCLE , Color.CYAN);
-    	a.getShape();
+    	Shape.SQUARE.getChar();
     	
     }
 
