@@ -6,7 +6,7 @@ public class Tile {
 		//SQUARE, CIRCLE, DIAMOND, CLUB, STARBURST, CROSS;
 		
 		//constructor
-		private Shape(final char s) {
+		private Shape(char s) {
 			this.s = s;
 		}
 		// Internal state
@@ -20,11 +20,16 @@ public class Tile {
 	public enum Color {
 		RED('1'), GREEN('2'), YELLOW('3'), BLUE('4'), MAGNETA('5'), CYAN('6');
 		//RED, GREEN, YELLOW, BLUE, MAGNETA, CYAN;
-		public final int c;
-		
-		Color(char c){
+				
+		private Color(char c){
 			this.c = c;
 		}
+		// Internal state
+	    private char c;
+	 
+	    public char getChar() {
+	        return c;
+	    }
 	}
 	
 	private final Shape shape;

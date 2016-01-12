@@ -12,13 +12,17 @@ public class Turn {
 		this.turnNr = turnNr;
 		this.board = board;
 		this.hand = hand;
+		
+		move = new int[6][3];
+		
+		
 	}
 	
-	public void start() {
+	public void makeTurn() {
 		Board deepcopy = board.deepcopy();
 		iniMove();
 		if(turnNr == 0) {
-			determinefirstmove(deepcopy, hand);
+			determinefirstmove(hand);
 		} else {
 			determinemove(deepcopy, hand);
 		}
@@ -26,9 +30,16 @@ public class Turn {
 	
 
 	//Bepaal eerste move
-	private void determinefirstmove(Board deepcopy, Tile[] hand) {
-		// TODO Auto-generated method stub
-		
+	private void determinefirstmove(Tile[] hand) {
+		//Kleur combinatie
+		int i = 1;
+		while(i < 6) {
+			if(hand[0].getColor() == hand[i].getColor() && hand[0].getShape() != hand[i].getShape()) {
+				
+			}
+			
+		}
+		//Shape combinatie
 	}
 
 	

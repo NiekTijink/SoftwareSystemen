@@ -5,7 +5,7 @@ public class Player {
     private Deck deck;
     private Tile[] hand;
     private int move[][];
-    private static int handsize = 6;
+    private static int HANDSIZE = 6;
     private int turnNr = 0;
        
     public Player(String name, Deck deck) {
@@ -19,7 +19,7 @@ public class Player {
     }
     
     public void updateHand() {
-		for (int i = 0; i < handsize; i++) {
+		for (int i = 0; i < HANDSIZE; i++) {
 			if (hand[i] == null) {
 				hand[i] = deck.drawTile();
 			}
@@ -40,20 +40,20 @@ public class Player {
     // later zal makemove deze beslissingen door moeten geven aan de server dmv protocol
     public void makeMove(Board board, Tile[] hand) {
        	Turn turn = new Turn(turnNr, board, hand);
-    	turn.start();
+    	turn.makeTurn();
     	int choice = turn.getChoice();
     	move = new int[6][3];
     	move = turn.getMove(); 
     	
     	
         if (choice == 0) { // 0 houdt in dat je stenen gaat plaatsen
-        	for (int i = 0; i < handsize; i++) {
+        	for (int i = 0; i < HANDSIZE; i++) {
         		if (move[i][0] != 0) {
         			board.setField(move[i][0], move[i][1], hand[move[i][2]]);
         		}
         	}		
         } else if (choice == 1) { // 1 houdt in dat je gaat swappen
-        	for (int i = 0; i < handsize; i++) {
+        	for (int i = 0; i < HANDSIZE; i++) {
         		if (move[i][3] != 0) {
         			deck.changeTile(hand[move[i][3]]);
         		}
