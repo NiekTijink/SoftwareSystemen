@@ -29,36 +29,32 @@ public class Deck {
 	    }
 	    
 	    //Schud Deck
-	    public void Shuffle() {
+	    private void Shuffle() {
 	    	Collections.shuffle(tiles);
+	    }
+	    
+	    //Krijg Hand
+	    public Tile[] drawHand() {
+	    	Shuffle();
+	        Tile[] hand = new Tile[6];
+	        for (int i = 0; i < 6; i++) {
+	            hand[i] = this.drawTile();
+	        }
+	        return hand;
 	    }
 	    
 	    //Krijg de bovenste Tile en verwijder deze
 	    public Tile drawTile() {
 	    	Shuffle();
-	    	Shuffle();
 	    	return tiles.remove(0);
 	    }
 	    
-	    //Wissel Tile.
-	    public Tile[] changeTile(Tile[] change) {
-	    	Tile[] temp = new Tile[change.length];
-	    	for (int i = 0; i < temp.length; i++) {
-	    		Shuffle();
-	    		Shuffle();
-	    		temp[i] = tiles.remove(0);
-	    	}
-	    	for (int i = 0; i < temp.length; i++) {
-		    	tiles.add(tiles.size(), temp[i]);   	
-	    	}
-	    	return temp;
-	    }
-	    
-	    public static void main(String[] args) {
-	    	Deck d = new Deck();
-	    	d.Shuffle();
-	    	Tile tile = new Tile(Tile.Shape.CIRCLE, Tile.Color.BLUE);
-	    	System.out.println(tile.getColor());
+	    //Wissel Tile
+	    public Tile changeTile(Tile tile) {
+	    	Shuffle();
+	    	tiles.add(tiles.size(), tile);
+	    	return tiles.remove(0);    	
 	    }
 
+		
 }

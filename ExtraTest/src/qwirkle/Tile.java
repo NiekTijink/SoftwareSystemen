@@ -1,23 +1,30 @@
+
 package qwirkle;
 
 public class Tile {
 	public enum Shape {
 		SQUARE('A'), CIRCLE('B'), DIAMOND('C'), CLUB('D'), STARBURST('E'), CROSS('F');
-		//, CIRCLE, DIAMOND, CLUB, STARBURST, CROSS;
-		public final char shape;
+		//SQUARE, CIRCLE, DIAMOND, CLUB, STARBURST, CROSS;
 		
-		Shape(char s) {
-			this.shape = s;
+		//constructor
+		private Shape(final char s) {
+			this.s = s;
 		}
+		// Internal state
+	    private char s;
+	 
+	    public int getShape() {
+	        return s;
+	    }
 	}
-	// ik heb nog geen idee wat die getallen / letters erachter doen
+	
 	public enum Color {
-		RED(1), GREEN(2), YELLOW(3), BLUE(4), MAGNETA(5), CYAN(6);
+		RED('1'), GREEN('2'), YELLOW('3'), BLUE('4'), MAGNETA('5'), CYAN('6');
 		//RED, GREEN, YELLOW, BLUE, MAGNETA, CYAN;
-		public final int color;
+		public final int c;
 		
-		Color(int c){
-			this.color = c;
+		Color(char c){
+			this.c = c;
 		}
 	}
 	
@@ -29,7 +36,6 @@ public class Tile {
         this.color = color;
     }
     
-   
     public Shape getShape() {
     	return shape;
     }
@@ -39,6 +45,9 @@ public class Tile {
     }  
     
     public static void main(String[] args) {
+    	Tile a = new Tile(Shape.CIRCLE , Color.CYAN);
+    	a.getShape();
+    	
     }
 
 }

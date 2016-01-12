@@ -2,23 +2,23 @@ package qwirkle;
 
 import java.util.Scanner;
 
-public class Game { // KOMT LATER OP SERVER
+public class Game {
 	private Board board;
-	private Player[] players;
 	private Deck deck;
+	private Player[] players = new Player[2];
 	
-	// maakt een game aan met twee spelers.
+	// maakt een game aan met twee spelers, een bord en een deck.
 	// moet later worden overgenomen door de server
-	public Game(Player player1, Player player2) {
+	public Game(String name1, String name2) {
 		board = new Board();
 		deck = new Deck();
-		players = new Player[2];
+		Player player1 = new Player(name1, deck);
+		Player player2 = new Player(name2,deck);
 		players[0] = player1;
 		players[1] = player2;
 	}
 	
 	// geen idee of dit goed is
-	// Zal later moeten worden aangepast op Server
 	public void start() {
 		boolean doorgaan = true;
 		while (doorgaan) {
@@ -30,28 +30,10 @@ public class Game { // KOMT LATER OP SERVER
 	// geen idee of dit goed is
 	private void play() {
 		int moveNr = 0;
-		// hier moet iets staan voor de eerste beurt (nu begint speler 1 gewoon)
 		while(!(board.gameOver())) {
-			updateHand(players[moveNr % 2]);
-    		players[moveNr % 2].makeMove(board, players[moveNr % 2].getHand(), deck);
+			players[moveNr % 2].updateHand();
+    		players[moveNr % 2].makeMove(board, players[moveNr % 2].getHand());
     		moveNr++;
-		}
-	}
-	
-	// Na elke hand moet de speler nieuwe stenen krijgen
-	private void updateHand(Player player) { // WERKEND
-		Tile[] hand = player.getHand();
-		for (int i = 0; i < player.NROFTILESINHAND; i++) { // telt het aantal lege stenen in hand
-			if (hand[i] == null) {
-				hand[i] = deck.drawTile();
-				System.out.println("Nieuwe Steen voor: " + player.getName() + 
-						": " + hand[i].getColor() + " " + 
-						hand[i].getShape());
-			}
-		}
-		
-		for (int i = 0; i < player.NROFTILESINHAND; i++) { // slaat nieuwe hand op
-			player.getHand()[i] = hand[i];
 		}
 	}
 	
@@ -66,12 +48,9 @@ public class Game { // KOMT LATER OP SERVER
 	        } while (answer == null || (!answer.equals(yes) && !answer.equals(no)));
 	        return answer.equals(yes);
 	    }
-	
+	 
 	public static void main(String[] args) {
-		Player niek = new Player("Niek");
-		Player thomas = new Player("Thomas");
-			
-		Game game = new Game(niek, thomas);
+		Game game = new Game("Thomas","Niek");
 		game.start();
-	}
+	 }
 }
