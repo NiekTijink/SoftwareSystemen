@@ -41,7 +41,7 @@ public class Player {
     // makemove geeft de beslissingen die je maakt door aan het bord (dmv setfield of swap)
     // later zal makemove deze beslissingen door moeten geven aan de server dmv protocol
     public void makeMove(Board board, Tile[] hand) {
-       	Turn turn = new Turn(turnNr, board, hand);
+       	Turn turn = new Turn(name, turnNr, board, hand);
     	turn.makeTurn();
     	int choice = turn.getChoice();
     	move = new int[HANDSIZE][3];

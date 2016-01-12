@@ -13,12 +13,14 @@ public class Turn {
 	private int choice; // 0 of 1 (leggen of swappen)
 	private int[][] move;
 	private final int NROFTILESINHAND = 6;
+	String name;
 
-	public Turn(int turnNr, Board board, Tile[] hand) {
+	public Turn(String name, int turnNr, Board board, Tile[] hand) {
 		this.turnNr = turnNr;
 		this.board = board;
 		this.hand = hand;
 		move = new int[NROFTILESINHAND][3];
+		this.name = name;
 		
 		for (int i = 0; i < 6; i++) { // initialise
 			for (int j = 0; j < 3; j++) {
@@ -49,6 +51,7 @@ public class Turn {
 	}
 
 	public int getPlaceInHand(Tile tile) {
+		System.out.println(tile.getShape() + " " + tile.getColor());
 		for (int i = 0; i < NROFTILESINHAND; i++) {
 			if (hand[i].getShape() == tile.getShape() && hand[i].getColor() == tile.getColor()) {
 				return i;
@@ -61,23 +64,28 @@ public class Turn {
 		for (int i = 0; i < NROFTILESINHAND; i++) {
 			System.out.println(hand[i].getColor() + " " + hand[i].getShape());
 		}
-		String[] splitInput = new String[10];
-		String input = " ";
+		String[] splitInput = readChoice();
+		/*String[] splitInput = new String[10];
+		int j = 0;
 		Scanner stdin = new Scanner(System.in);
-		System.out.println("AAN DE BEURT");
-		while (!input.equals("") && stdin.hasNextLine()) {
-			input = stdin.nextLine();
-			splitInput = input.split("-");
-			input = "";
+		stdin.useDelimiter("-");
+		System.out.println(name + ": AAN DE BEURT");
+		while (stdin.hasNext()) {
+			splitInput[j] = stdin.next();
+			j++;
+			//splitInput = input.split("-");
+			//input = "";
 		}
-		Tile tile = new Tile(getShape(splitInput[0].charAt(0)),getColor(splitInput[1].charAt(0)));
-		move[0][2] = getPlaceInHand(tile);
-		move[0][0] = Integer.parseInt(splitInput[2]);
-		move[0][1] = Integer.parseInt(splitInput[3]);
-		deepcopy.setField(move[0][0], move[0][1], hand[move[0][2]]);
-		
+		stdin.close();*/
+
+		for (int i = 0; i < (splitInput.length / 4); i++) {
+			Tile tile = new Tile(getShape(splitInput[0+4*i].charAt(0)),getColor(splitInput[1+4*i].charAt(0)));
+		move[i][2] = getPlaceInHand(tile);
+		move[i][0] = Integer.parseInt(splitInput[2+4*i]);
+		move[i][1] = Integer.parseInt(splitInput[3+4*i]);
+		deepcopy.setField(move[i][0], move[i][1], hand[move[i][2]]);
+		}
 		testMove(move, deepcopy);
-		stdin.close();
 		
 		// algoritme die berekend wat de beste optie is
 	    // misschien iets van een deepcopy maken
@@ -90,6 +98,24 @@ public class Turn {
 	  
 	    	
 	    }
+	
+	public String[] readChoice() {
+		Scanner sc = new Scanner(System.in);
+		String[] temp;
+		int i = 0;
+		while (sc.hasNextLine()) {
+			String s = sc.nextLine();
+			temp = s.split("-");
+			/*sct.useDelimiter("-");
+			while (sct.hasNext()) {
+				temp[i] = sct.next();
+				i++;
+			}*/
+			sc.close();
+			return temp;
+		}
+		return null;
+	}
 	
 	public int[][] getMove() {
 		return move;
