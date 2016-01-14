@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Board {
 	private Tile[][] fields = new Tile[100][100];
 	private int[] boundaries = new int[4];
+	private static final int MAXSIZE = 100;
+	private static final int GAMESIZE = 5;
 
 	// maakt een bord aan
 	// misschien kunnen we dit variabel maken, denk dat dat wel kan
@@ -68,8 +70,10 @@ public class Board {
 	}
 	
 	public int[] getBoundaries(ArrayList<Coordinate> c) {
-        for( Coordinate temp : c){
-            boundaries[0] = Math.max(boundaries[0], temp.getY());
+		boundaries[2] = MAXSIZE;
+    	boundaries[3] = MAXSIZE;
+		for( Coordinate temp : c){
+        	boundaries[0] = Math.max(boundaries[0], temp.getY());
             boundaries[1] = Math.max(boundaries[1], temp.getX());
             boundaries[2] = Math.min(boundaries[2], temp.getY());
             boundaries[3] = Math.min(boundaries[3], temp.getX());
@@ -79,10 +83,10 @@ public class Board {
 
 	public String toString(int [] bound) {
         String result = "";
-        for (int y = boundaries[2]; y <= boundaries[0]; y++) {
-            for (int x = boundaries[3]; x < boundaries[1]; x++) {
+        for (int y = boundaries[2] - GAMESIZE; y <= boundaries[0] + GAMESIZE; y++) {
+            for (int x = boundaries[3] - GAMESIZE; x <= boundaries[1] + GAMESIZE; x++) {
                 Tile tile = getField(x, y);
-                result += tile == null ? "  " : tile.toString() + " ";
+                result += tile == null ? "|"+x+","+y+"|" : tile.toString() + " ";
             }
             result += "\n";
         }

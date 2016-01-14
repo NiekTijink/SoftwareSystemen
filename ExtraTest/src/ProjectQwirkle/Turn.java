@@ -58,10 +58,6 @@ public class Turn {
 	//Bepaal eerste move
 	private void determinefirstmove(Board deepcopy, Tile[] hand) {
 		//Kleur combinatie
-		System.out.println("Eerste beurt: Gaat automatisch. HAND:");
-		for (int k = 0; k < 6; k++) {
-			System.out.println(hand[k].getColor() + " " + hand[k].getShape());
-		}
 				ArrayList<Tile.Shape> blueshape = new ArrayList<Tile.Shape>();
 				ArrayList<Tile> blue = new ArrayList<Tile>();
 				ArrayList<Tile.Shape> cyanshape = new ArrayList<Tile.Shape>();
@@ -159,8 +155,6 @@ public class Turn {
 					move[i1][0] = 50;
 					move[i1][1] = i1+50;
 					move[i1][2] = getPlaceInHand(sizes.get(maxIndex).get(i1));
-					System.out.println("X-waarde: " + move[i1][0] + " Y-waarde: " + move[i1][1] 
-							+ " Steen: " + hand[move[i1][2]].toString());
 					i1++;
 				}
 	}
@@ -176,23 +170,14 @@ public class Turn {
 	}
 	
 	private void determinemove(Board deepcopy, Tile[] hand) {
-		System.out.println(name + ": Hand");
+		System.out.println("Player " + name + " Hand:");
 		for (int i = 0; i < NROFTILESINHAND; i++) {
 			System.out.println(hand[i].toString());
 		}
-		
-		String[] splitInput = readChoice();
-		for (int i = 0; i < (splitInput.length / 4); i++) {
-			Tile tile = new Tile(getShape(splitInput[0+4*i].charAt(0)),getColor(splitInput[1+4*i].charAt(0)));
-		move[i][2] = getPlaceInHand(tile);
-		move[i][0] = Integer.parseInt(splitInput[2+4*i]);
-		move[i][1] = Integer.parseInt(splitInput[3+4*i]);
-		}
-		
 		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
 		Tile[][] fields = deepcopy.getBoard();
 		
-		for(int i = 0; i <= MAXHALFARRAY; i++) {
+		for(int i = 0; i <= 3; i++) {
 			for(int k = 0; k <= (2*i); k++) {
 				if (fields[(ARRAYORGINX - i) + k][ARRAYORGINY + i] == null && movePossible(fields,(ARRAYORGINX - i) + k, ARRAYORGINY + i)) {
 					coordinates.add(new Coordinate((ARRAYORGINX - i) + k, ARRAYORGINY + i));
@@ -211,7 +196,18 @@ public class Turn {
 				
 			}
 		}
+		System.out.println("Board State :");
 		System.out.println(board.toString(board.getBoundaries(coordinates)));
+		
+		String[] splitInput = readChoice();
+		for (int i = 0; i < (splitInput.length / 4); i++) {
+			Tile tile = new Tile(getShape(splitInput[0+4*i].charAt(0)),getColor(splitInput[1+4*i].charAt(0)));
+		move[i][2] = getPlaceInHand(tile);
+		move[i][0] = Integer.parseInt(splitInput[2+4*i]);
+		move[i][1] = Integer.parseInt(splitInput[3+4*i]);
+		}
+		
+		
 		if (choice == 0) {
 			testMove(move, deepcopy);
 		}

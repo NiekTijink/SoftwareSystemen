@@ -21,8 +21,8 @@ public class TestMove {
 		int i = 0;
 		while (move[i][0] != -1) {
 			nrOfMoves++;
-			i++;
 			b.setField(move[i][0], move[i][1], hand[move[i][2]]);
+			i++;
 		}
 	}
 	
