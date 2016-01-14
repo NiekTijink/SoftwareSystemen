@@ -27,6 +27,7 @@ public class ClientHandler extends Thread {
         String msg;
         try {
             msg = in.readLine();
+            System.out.println(msg);
             while (msg != null) {
             	handleCommand(msg, out);
                 out.newLine();
@@ -55,6 +56,7 @@ public class ClientHandler extends Thread {
     	} else if (msg.startsWith(GET_COMMAND + " ")){
     		System.out.println("Showing recipe.");
     		String recipeName = msg.substring(GET_COMMAND.length() + 1);
+    		
     		showRecipe(recipeName, out);
     	} else {
     		out.write("ERROR: unknown command.");
@@ -68,6 +70,7 @@ public class ClientHandler extends Thread {
      */
     private void listRecipes(Writer out) throws IOException {
     	File[] files = new File("recipes").listFiles();
+    			
     	for (File file : files) {
 			out.write(file.getName() + System.lineSeparator());
 		}

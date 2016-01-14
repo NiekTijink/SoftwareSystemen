@@ -69,6 +69,19 @@ public class RecipeClient {
                     sock.getInputStream()));
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
                     sock.getOutputStream()));
+           /* out.write("GET " + "test.txt");
+            out.newLine();
+            out.flush();
+            System.out.println("Recipe text:");
+            System.out.println("------");
+            String lines = in.readLine();
+            while (lines != null && !lines.equals("--EOT--")) {
+            	// The server uses a special string ("--EOT--") to mark the end of a recipe.
+            	System.out.println(lines);
+            	lines = in.readLine();
+            }
+            System.out.println("------");*/
+            
             
             int rNum = -1;
             Scanner userIn = new Scanner(System.in);
@@ -95,8 +108,9 @@ public class RecipeClient {
 	            	System.out.println("Invalid input, try again.");
 	            	userIn.next();
 	            }
+	            
 	            if (rNum > 0 && rNum < recipeNames.size()+1) {
-		            out.write("GET " + recipeNames.get(rNum-1));
+		            out.write("GET " + "test.txt");
 		            out.newLine();
 		            out.flush();
 		            System.out.println("Recipe text:");

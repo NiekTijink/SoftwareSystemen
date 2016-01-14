@@ -5,24 +5,26 @@ import java.util.concurrent.locks.*;
 public class ConcatThread extends Thread {
     private static String text = ""; // global variable
     private String toe;
-    private static Lock lock = new ReentrantLock();
+    public final static Object MONITOR = new Object();
 
     public ConcatThread(String toeArg) {
         this.toe = toeArg;
     }
-
+    
+    @Override
     public void run() {
-    	while (toe == "two" && text == "") {
+    	synchronized(MONITOR) {
+    	while (toe.equals("two") && text.equals("")) {
     		try {
-				wait();
+				MONITOR.wait();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}
-    	lock.lock();
         text = text.concat(toe);
-        lock.unlock();
+    	MONITOR.notify();
+    	}
     }
    
 

@@ -3,8 +3,7 @@ package qwirkle;
 
 public class Tile {
 	public enum Shape {
-		SQUARE('A'), CIRCLE('B'), DIAMOND('C'), CLUB('D'), STARBURST('E'), CROSS('F');
-		//SQUARE, CIRCLE, DIAMOND, CLUB, STARBURST, CROSS;
+		CIRCLE('A'), CROSS('B'), DIAMOND('C'), SQUARE('D'), STAR('E'), PLUS('F');
 		
 		//constructor
 		private Shape(final char s) {
@@ -13,18 +12,22 @@ public class Tile {
 		// Internal state
 	    private char s;
 	 
-	    public int getShape() {
+	    public char getShape() {
 	        return s;
 	    }
 	}
 	
 	public enum Color {
-		RED('1'), GREEN('2'), YELLOW('3'), BLUE('4'), MAGNETA('5'), CYAN('6');
-		//RED, GREEN, YELLOW, BLUE, MAGNETA, CYAN;
-		public final int c;
+		RED('A'), ORANGE('B'), YELLOW('C'), GREEN('D'), BLUE('E'), PURPLE('F');
+
+		public final char c;
 		
 		Color(char c){
 			this.c = c;
+		}
+		
+		public char getColor() {
+			return c;
 		}
 	}
 	
@@ -45,7 +48,9 @@ public class Tile {
     	return color;
     }  
     
-    
+    public String toString() {
+    	return getColor() + " " + getShape();
+    }
     
     public static void main(String[] args) {
     	String test = "CIRCLE";
