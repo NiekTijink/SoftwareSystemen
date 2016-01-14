@@ -7,7 +7,7 @@ public class Player {
     private Deck deck;
     private Tile[] hand;
     private int move[][];
-    private static int HANDSIZE = 6;
+    public static int HANDSIZE = 6;
     private int turnNr = 0;
        
     public Player(String name, Deck deck) {

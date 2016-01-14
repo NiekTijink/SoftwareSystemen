@@ -473,7 +473,7 @@ public class Protocol {
 		 */
 
 		public static final String DECLINEINVITE = "DECLINEINVITE";
-
+	}
 	public static class Settings {
 
 		/**
@@ -515,5 +515,5 @@ public class Protocol {
 
 		public static final String COMMAND_END = "\n\n";
 	}
-}
+
 }

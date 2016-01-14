@@ -2,24 +2,35 @@ package qwirkle;
 
 import java.util.Scanner;
 
-public class Game {
+public class Game extends Thread {
 	private Board board;
 	private Deck deck;
-	private Player[] players = new Player[2];
+	private Player[] players;
 	
 	// maakt een game aan met twee spelers, een bord en een deck.
 	// moet later worden overgenomen door de server
-	public Game(String name1, String name2) {
+	public Game(String[] names) {
 		board = new Board();
 		deck = new Deck();
-		Player player1 = new Player(name1, deck);
-		Player player2 = new Player(name2,deck);
-		players[0] = player1;
-		players[1] = player2;
+		players = new Player[names.length];
+		for (int i = 0; i < names.length; i++) {
+			players[i] = new Player(names[i], deck);
+		}
+	}
+	public Player[] getPlayers() {
+		return players;
+	}
+	
+	public Board getBoard() {
+		return board;
+	}
+	
+	public Deck getDeck() {
+		return deck;
 	}
 	
 	// geen idee of dit goed is
-	public void start() {
+	public void run() {
 		boolean doorgaan = true;
 		while (doorgaan) {
 			play();
@@ -31,8 +42,8 @@ public class Game {
 	private void play() {
 		int moveNr = 0;
 		while(!(board.gameOver())) {
-			players[moveNr % 2].updateHand();
-    		players[moveNr % 2].makeMove(board, players[moveNr % 2].getHand());
+			players[moveNr % players.length].updateHand();
+    		players[moveNr % players.length].makeMove(board, players[moveNr % 2].getHand());
     		moveNr++;
 		}
 	}
@@ -50,7 +61,7 @@ public class Game {
 	    }
 	 
 	public static void main(String[] args) {
-		Game game = new Game("Thomas","Niek");
-		game.start();
+		Game game = new Game(args);
+		game.run();
 	 }
 }

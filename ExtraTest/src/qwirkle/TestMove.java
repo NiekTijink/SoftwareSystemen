@@ -8,8 +8,6 @@ public class TestMove {
 	private int[][] move;
 	private int score;
 	private char typeRow;
-	private int horizontalRow;
-	private int verticalRow;
 	private int nrOfMoves;
 	private boolean isConnected = false; //checks whether the move is connnected to tiles already on the board
 	
