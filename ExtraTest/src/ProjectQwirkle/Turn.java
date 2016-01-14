@@ -9,6 +9,7 @@ import ProjectQwirkle.Tile;
 import ProjectQwirkle.Tile.Color;
 import ProjectQwirkle.Tile.Shape;
 
+
 public class Turn {
 	
 	private int turnNr;
@@ -16,14 +17,19 @@ public class Turn {
 	private Tile[] hand;
 	private int choice = 0; // 0 of 1 (leggen of swappen)
 	private int[][] move;
-	private final int NROFTILESINHAND = 6;
+	private static final int NROFTILESINHAND = 6;
+	private static final int INDEXMOVE = 3;
+	private static final int NUMBEROFSHAPESCOLORS = 12;
+	private static final int MAXHALFARRAY = 50;
+	private static final int ARRAYORGINX = 50;
+	private static final int ARRAYORGINY = 50;
 	String name;
 
 	public Turn(String name, int turnNr, Board board, Tile[] hand) {
 		this.turnNr = turnNr;
 		this.board = board;
 		this.hand = hand;
-		move = new int[NROFTILESINHAND][3];
+		move = new int[NROFTILESINHAND][INDEXMOVE];
 		this.name = name;
 		
 		for (int i = 0; i < 6; i++) { // initialise
@@ -125,7 +131,7 @@ public class Turn {
 					} j++;
 				}
 				//Bepaal langste zet, door middel van langste ArrayList.
-				ArrayList<ArrayList<Tile>> sizes = new ArrayList<ArrayList<Tile>>(NROFTILESINHAND * 2);
+				ArrayList<ArrayList<Tile>> sizes = new ArrayList<ArrayList<Tile>>(NUMBEROFSHAPESCOLORS);
 				sizes.add(blue);;
 				sizes.add(cyan);
 				sizes.add(green);
@@ -141,7 +147,7 @@ public class Turn {
 				
 				int maxIndex = -1;
 				int max = 0;
-				for (int k =0; k < NROFTILESINHAND*2; k++) {
+				for (int k =0; k < NUMBEROFSHAPESCOLORS; k++) {
 					if (sizes.get(k).size() > max) {
 						max = sizes.get(k).size();
 						maxIndex = k;
@@ -169,7 +175,7 @@ public class Turn {
 	}
 	
 	private void determinemove(Board deepcopy, Tile[] hand) {
-		System.out.println(name + ": Hand");
+		/*System.out.println(name + ": Hand");
 		for (int i = 0; i < NROFTILESINHAND; i++) {
 			System.out.println(hand[i].toString());
 		}
@@ -183,20 +189,72 @@ public class Turn {
 		}
 		if (choice == 0) {
 			testMove(move, deepcopy);
+		}*/
+		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+		Tile[][] fields = deepcopy.getBoard();
+		
+		for(int i = 0; i <= MAXHALFARRAY; i++) {
+			for(int k = 0; k <= (2*i); k++) {
+				if (fields[(ARRAYORGINX - i) + k][ARRAYORGINY + i] == null && movePossible(fields,(ARRAYORGINX - i) + k, ARRAYORGINY + i)) {
+					coordinates.add(new Coordinate((ARRAYORGINX - i) + k, ARRAYORGINY + i));
+				}
+				if (fields[(ARRAYORGINX - i) + k][ARRAYORGINY - i] == null && movePossible(fields,(ARRAYORGINX - i) + k, ARRAYORGINY - i)) {
+					coordinates.add(new Coordinate((ARRAYORGINX - i) + k, ARRAYORGINY - i));
+				}
+			}
+			for (int k = 1; k < (2*i); k++) {
+				if (fields[ARRAYORGINX - i][(ARRAYORGINY + i) - k] == null && movePossible(fields,(ARRAYORGINX - i) , (ARRAYORGINY + i) - k)) {
+					coordinates.add(new Coordinate((ARRAYORGINX - i) , (ARRAYORGINY + i) - k));
+				}
+				if (fields[ARRAYORGINX + i][(ARRAYORGINY + i) - k] == null && movePossible(fields,(ARRAYORGINX + i) , (ARRAYORGINY + i) - k)) {
+					coordinates.add(new Coordinate((ARRAYORGINX + i) , (ARRAYORGINY + i) - k));
+				}
+				
+			}
+		}
+		board.getBoundaries(coordinates);
+		
+		boolean goOn = true;
+		while (goOn = true) {
+			if (checkQwirkle(coordinates, fields)) {
+			goOn = false;
+			}
+		
 		}
 		
-		// algoritme die berekend wat de beste optie is
-	    // misschien iets van een deepcopy maken
-	   	// hier moet dus ergens een algoritme komen
-	    	//int[] data = {0, 1,1,3};
-	    	// eerste getal: commando, tweede getal: xwaarde, derde getal: ywaarde, 
-	    	//vierde getal: nr van steen in je hand. (ligt altijd tussen 0 en 5)
-	    	//Dus 2 betekent hier dat je de (2+1 =) 3e steen uit je hand neerlegt
-	    	// misschien mogelijk om meteen meerdere stenen mee te geven tegelijk(234 = 1 steen)(567 volgende)
-	  
-	    	
-	    }
+	}
+
+	private boolean checkQwirkle( ArrayList<Coordinate> coordinates, Tile[][] fields) {
+		//Qwirkle, 5 op een rij?
+		boolean qwirkle = false;
+		for( Coordinate temp : coordinates) {
+			int i = 0;
+			while(i<6) {
+				if (testHorizontalQwirkle(fields, temp.getX(),temp.getY(), hand[i].getColor(), hand[i].getShape())) {
+					move[0][0] = temp.getX();
+					move[0][1] = temp.getY();
+					move[0][2] = i;
+					qwirkle = true;
+				} else if (testVerticalQwirkle(fields, temp.getX(),temp.getY(), hand[i].getColor(), hand[i].getShape())) {
+					move[0][0] = temp.getX();
+					move[0][1] = temp.getY();
+					move[0][2] = i;
+					qwirkle = true;
+				}
+				i++;
+			}
+		}
+		return qwirkle;
+	}
 	
+	private boolean movePossible(Tile[][] fields, int i, int j) {
+		if(fields[i][j+1] != null || fields[i][j-1] != null || fields[i-1][j] != null || fields[i+1][j] != null ) {
+			return true;
+		} else {
+		return false;
+		}
+	}
+
 	public String[] readChoice() {
 		Scanner sc = new Scanner(System.in);
 		String[] temp;
@@ -211,11 +269,9 @@ public class Turn {
 	
 	public int[][] getMove() {
 		return move;
-			
 	}
 
 	public int getChoice() {
-		// TODO Auto-generated method stub
 		return choice;
 	}
 	
@@ -255,6 +311,121 @@ public class Turn {
 	    	}
 	    }
 
-	
+	   public boolean testHorizontalQwirkle(Tile[][] fields, int xValue, int yValue, Tile.Color color, Tile.Shape shape) {
+			char typeOfRow = ' ';
+			ArrayList<Tile.Color> colors = new ArrayList<Tile.Color>();
+			colors.add(color);
+			ArrayList<Tile.Shape> shapes = new ArrayList<Tile.Shape>();
+			shapes.add(shape);
+			
+			boolean doorgaan = true;
+			int c = 0; //counter
+			while (doorgaan) { // omhoog kijken
+				c++;
+				if (!(fields[xValue+c][yValue] == null)) { // kijken of vakje leeg is
+					if (fields[xValue+c][yValue].getColor().equals(color) // kijken of kleur gelijk is
+							&& !(shapes.contains(fields[xValue+c][yValue].getShape())) // als kleur gelijk is, vorm mag niet gelijk
+							&& typeOfRow != 'S') { 
+						typeOfRow = 'C'; // rij van het type Color
+						shapes.add(fields[xValue+c][yValue].getShape());
+					} else if (fields[xValue+c][yValue].getShape().equals(shape) 
+							&& !(colors.contains(fields[xValue+c][yValue].getColor()))
+							&& typeOfRow != 'C') {
+						typeOfRow = 'S';
+						colors.add(fields[xValue+c][yValue].getColor());
+					} else {
+						return false;
+					}
+				}
+				doorgaan = false; // stoppen met zoeken als de steen leeg is
+			}
+			c = 0; //counter reset
+			doorgaan = true;
+			while (doorgaan) { //omlaag
+				c++;
+				if (!(fields[xValue-c][yValue] == null)) {
+					if (fields[xValue-c][yValue].getColor().equals(color) // kijken of kleur gelijk is
+							&& !(shapes.contains(fields[xValue-c][yValue].getShape())) // als kleur gelijk is, vorm mag niet gelijk
+							&& typeOfRow != 'S') {
+						typeOfRow = 'C';
+						shapes.add(fields[xValue-c][yValue].getShape());
+					} else if (fields[xValue-c][yValue].getShape().equals(shape) 
+							&& !(colors.contains(fields[xValue-c][yValue].getColor()))
+							&& typeOfRow != 'C') {
+						typeOfRow = 'S';
+						colors.add(fields[xValue-c][yValue].getColor());
+					} else {
+						return false;
+					}
+				} else {
+				doorgaan = false;
+				}
+			}
+			boolean isQwirkle = false;
+			if (shapes.size() == 6 || colors.size() == 6) {
+				isQwirkle = true;
+			}
+			return isQwirkle;
+			
+		}
+	   
+	   public boolean testVerticalQwirkle(Tile[][] fields, int xValue, int yValue, Tile.Color color, Tile.Shape shape) {
+			char typeOfRow = ' ';
+			ArrayList<Tile.Color> colors = new ArrayList<Tile.Color>();
+			colors.add(color);
+			ArrayList<Tile.Shape> shapes = new ArrayList<Tile.Shape>();
+			shapes.add(shape);
+			
+			boolean doorgaan = true;
+			int c = 0; //counter
+			while (doorgaan) { // omhoog kijken
+				c++;
+				if (!(fields[xValue][yValue + c] == null)) { // kijken of vakje leeg is
+					if (fields[xValue][yValue + c].getColor().equals(color) // kijken of kleur gelijk is
+							&& !(shapes.contains(fields[xValue][yValue + c].getShape())) // als kleur gelijk is, vorm mag niet gelijk
+							&& typeOfRow != 'S') {
+						typeOfRow = 'C';
+						shapes.add(fields[xValue][yValue + c].getShape());
+					} else if (fields[xValue][yValue + c].getShape().equals(shape) 
+							&& !(colors.contains(fields[xValue][yValue + c].getColor()))
+							&& typeOfRow != 'C') {
+						typeOfRow = 'S';
+						colors.add(fields[xValue][yValue + c].getColor());
+					} else {
+						return false;
+					}
+				} else {
+					doorgaan = false;
+				}
+			}
+			c = 0; //counter reset
+			doorgaan = true;
+			while (doorgaan) { //omlaag
+				c++;
+				if (!(fields[xValue][yValue - c] == null)) {
+					if (fields[xValue][yValue - c].getColor().equals(color) // kijken of kleur gelijk is
+							&& !(shapes.contains(fields[xValue][yValue - c].getShape())) // als kleur gelijk is, vorm mag niet gelijk
+							&& typeOfRow != 'S') {
+						typeOfRow = 'C';
+						shapes.add(fields[xValue][yValue - c].getShape());
+					} else if (fields[xValue][yValue - c].getShape().equals(shape) 
+							&& !(colors.contains(fields[xValue][yValue - c].getColor()))
+							&& typeOfRow != 'C') {
+						typeOfRow = 'S';
+						colors.add(fields[xValue][yValue - c].getColor());
+					} else {
+						return false;
+					}
+				} else {
+				doorgaan = false;
+				}
+			}
+			boolean isQwirkle = false;
+			if (shapes.size() == 6 || colors.size() == 6) {
+				isQwirkle = true;
+			}
+			return isQwirkle;
+		}
+
 }
 
