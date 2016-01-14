@@ -23,6 +23,7 @@ public class Turn {
 	private static final int MAXHALFARRAY = 50;
 	private static final int ARRAYORGINX = 50;
 	private static final int ARRAYORGINY = 50;
+	private int[] boundaries = new int[4];
 	String name;
 
 	public Turn(String name, int turnNr, Board board, Tile[] hand) {
@@ -175,7 +176,7 @@ public class Turn {
 	}
 	
 	private void determinemove(Board deepcopy, Tile[] hand) {
-		/*System.out.println(name + ": Hand");
+		System.out.println(name + ": Hand");
 		for (int i = 0; i < NROFTILESINHAND; i++) {
 			System.out.println(hand[i].toString());
 		}
@@ -187,9 +188,7 @@ public class Turn {
 		move[i][0] = Integer.parseInt(splitInput[2+4*i]);
 		move[i][1] = Integer.parseInt(splitInput[3+4*i]);
 		}
-		if (choice == 0) {
-			testMove(move, deepcopy);
-		}*/
+		
 		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
 		Tile[][] fields = deepcopy.getBoard();
 		
@@ -212,17 +211,21 @@ public class Turn {
 				
 			}
 		}
-		board.getBoundaries(coordinates);
+		System.out.println(board.toString(board.getBoundaries(coordinates)));
+		if (choice == 0) {
+			testMove(move, deepcopy);
+		}
 		
-		boolean goOn = true;
+		
+		/*boolean goOn = true;
 		while (goOn = true) {
 			if (checkQwirkle(coordinates, fields)) {
 			goOn = false;
-			}
-		
-		}
+			}*/
 		
 	}
+		
+
 
 	private boolean checkQwirkle( ArrayList<Coordinate> coordinates, Tile[][] fields) {
 		//Qwirkle, 5 op een rij?
