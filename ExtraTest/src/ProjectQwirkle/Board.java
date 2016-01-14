@@ -1,5 +1,6 @@
 package ProjectQwirkle;
 
+
 public class Board {
 	private Tile[][] fields = new Tile[100][100];
 
@@ -40,6 +41,15 @@ public class Board {
 			fields[xValue][yValue] = tile;
 		}
 	}
+	
+	public int testMove(int[][] move, Tile[] hand) {
+		TestMove test = new TestMove(this, move, hand);
+		if (test.isLegalMove()) {
+			return test.getScore();
+		}
+		return -1;
+	}
+	
 	
 	public boolean gameOver() {
 		return false;

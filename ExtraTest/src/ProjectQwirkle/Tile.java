@@ -1,35 +1,34 @@
+
 package ProjectQwirkle;
 
 public class Tile {
 	public enum Shape {
-		SQUARE('A'), CIRCLE('B'), DIAMOND('C'), CLUB('D'), STARBURST('E'), CROSS('F');
-		//SQUARE, CIRCLE, DIAMOND, CLUB, STARBURST, CROSS;
+		CIRCLE('A'), CROSS('B'), DIAMOND('C'), SQUARE('D'), STAR('E'), PLUS('F');
 		
 		//constructor
-		private Shape(char s) {
+		private Shape(final char s) {
 			this.s = s;
 		}
 		// Internal state
 	    private char s;
 	 
-	    public char getChar() {
+	    public char getShape() {
 	        return s;
 	    }
 	}
 	
 	public enum Color {
-		RED('1'), GREEN('2'), YELLOW('3'), BLUE('4'), MAGNETA('5'), CYAN('6');
-		//RED, GREEN, YELLOW, BLUE, MAGNETA, CYAN;
-				
-		private Color(char c){
+		RED('A'), ORANGE('B'), YELLOW('C'), GREEN('D'), BLUE('E'), PURPLE('F');
+
+		public final char c;
+		
+		Color(char c){
 			this.c = c;
 		}
-		// Internal state
-	    private char c;
-	 
-	    public char getChar() {
-	        return c;
-	    }
+		
+		public char getColor() {
+			return c;
+		}
 	}
 	
 	private final Shape shape;
@@ -43,14 +42,20 @@ public class Tile {
     public Shape getShape() {
     	return shape;
     }
+   
     
     public Color getColor() {
     	return color;
     }  
     
+    public String toString() {
+    	return getColor() + " " + getShape();
+    }
+    
     public static void main(String[] args) {
-    	Tile a = new Tile(Shape.CIRCLE , Color.CYAN);
-    	Shape.SQUARE.getChar();
+    	String test = "CIRCLE";
+    	//Tile a = new Tile(Shape.test , Color.CYAN);
+    //	a.getShape();
     	
     }
 
