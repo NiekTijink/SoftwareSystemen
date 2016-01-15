@@ -60,7 +60,7 @@ public class ClientHandler extends Thread {
 		} else if (msg.startsWith(Protocol.Client.REQUESTGAME)) {
 			return server.requestGame(clientName, Integer.parseInt(splitMsg[1]));
 		} else if (msg.startsWith(Protocol.Client.MAKEMOVE))
-			return server.makeMove(clientName,splitMsg);
+			return server.makeMove(clientName,msg);
 		return NOREPLY;
 	}
 	

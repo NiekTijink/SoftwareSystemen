@@ -17,6 +17,7 @@ public class Game extends Thread {
 			players[i] = new Player(names[i], deck);
 		}
 	}
+	
 	public Player[] getPlayers() {
 		return players;
 	}
@@ -47,7 +48,7 @@ public class Game extends Thread {
     		moveNr++;
 		}
 	}
-	
+		
 	private boolean readBoolean(String prompt, String yes, String no) {
 	        String answer;
 	        Scanner in = new Scanner(System.in);

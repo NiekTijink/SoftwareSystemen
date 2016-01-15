@@ -9,11 +9,20 @@ public class Player {
     private int move[][];
     public static int HANDSIZE = 6;
     private int turnNr = 0;
+    private int score;
        
     public Player(String name, Deck deck) {
     	this.name = name;
     	this.deck = deck;
     	this.hand = deck.drawHand();
+    }
+    
+    public int getScore() {
+    	return score;
+    }
+    
+    public void addScore(int score) {
+    	score += score;
     }
 
 	public String getName() {
@@ -28,10 +37,6 @@ public class Player {
 		}
 		
 	}
-    
-    /*public Tile[] drawHand() {
-    	return deck.drawHand();
-    }*/
     
     public Tile[] getHand() {
     	return hand;

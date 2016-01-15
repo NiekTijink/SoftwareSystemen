@@ -176,7 +176,7 @@ public class Turn {
 		
 		String[] splitInput = readChoice();
 		for (int i = 0; i < (splitInput.length / 4); i++) {
-			Tile tile = new Tile(getShape(splitInput[0+4*i].charAt(0)),getColor(splitInput[1+4*i].charAt(0)));
+			Tile tile = new Tile(splitInput[0+4*i].charAt(0),splitInput[1+4*i].charAt(0));
 		move[i][2] = getPlaceInHand(tile);
 		move[i][0] = Integer.parseInt(splitInput[2+4*i]);
 		move[i][1] = Integer.parseInt(splitInput[3+4*i]);
@@ -219,41 +219,7 @@ public class Turn {
 		return choice;
 	}
 	
-	   public Tile.Shape getShape(char i) {
-	    	if (i == 'D') {
-	    		return Tile.Shape.SQUARE;
-	    	} else if (i == 'A') {
-	    		return Tile.Shape.CIRCLE;
-	    	} else if (i == 'C') {
-	    		return Tile.Shape.DIAMOND;
-	    	} else if (i == 'F') {
-	    		return Tile.Shape.PLUS;
-	    	} else if (i == 'B') {
-	    		return Tile.Shape.CROSS;
-	    	} else if (i == 'E') {
-	    		return Tile.Shape.STAR;
-	    	} else {
-	    		return null;
-	    	}
-	    }
-	   
-	   public Tile.Color getColor(char i) {
-	    	if (i == 'A') {
-	    		return Tile.Color.RED;
-	    	} else if (i == 'D') {
-	    		return Tile.Color.GREEN;
-	    	} else if (i == 'C') {
-	    		return Tile.Color.YELLOW;
-	    	} else if (i == 'E') {
-	    		return Tile.Color.BLUE;
-	    	} else if (i == 'B') {
-	    		return Tile.Color.ORANGE;
-	    	} else if (i == 'F') {
-	    		return Tile.Color.PURPLE;
-	    	} else {
-	    		return null;
-	    	}
-	    }
+
 
 	
 }
