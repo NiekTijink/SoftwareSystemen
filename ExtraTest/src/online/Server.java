@@ -127,7 +127,7 @@ public class Server {
 				broadcast(Protocol.Server.STARTGAME + "_" + gameWith, game);
 				for (ClientHandler c : getHandler(game)) {
 					for (Player player : game.getPlayers()) {
-						if (player.getName().equals(c.getName())) {
+						if (player.getName().equals(c.getClientName())) {
 							c.sendMessage(initiateHand(player));
 						}
 					}
@@ -239,7 +239,7 @@ public class Server {
 			boolean go = true;
 			int i = 0;
 			while (go) {
-				if (threads.get(i).getName().equals(player.getName())) {
+				if (threads.get(i).getClientName().equals(player.getName())) {
 					handlers.add(threads.get(i));
 					go = false;
 				}

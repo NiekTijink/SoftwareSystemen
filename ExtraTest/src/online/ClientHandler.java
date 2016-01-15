@@ -44,7 +44,9 @@ public class ClientHandler extends Thread {
 			shutDown();
 		}
 	}
-		
+	public String getClientName() {
+		return clientName;
+	}
 	public String handleMessageFromClient(String msg) {
 		String[] splitMsg =  msg.split(Character.toString(Protocol.Settings.DELIMITER));;
 		if (msg.startsWith(Protocol.Client.HALLO)) {
