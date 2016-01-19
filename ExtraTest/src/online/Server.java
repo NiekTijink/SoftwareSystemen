@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
+
+import protocol.Protocol;
 import qwirkle.*;
 
 public class Server {
@@ -89,7 +91,7 @@ public class Server {
 		threads.remove(c);
 	}
 
-	public String addClientName(String msg) {
+	public String addClientName(String msg, ClientHandler c) {
 		for (int i = 0; i < clientNames.size(); i++) {
 			if (clientNames.get(i).equals(msg)) {
 				return Protocol.Server.ERROR + "_nameexists";
@@ -105,8 +107,12 @@ public class Server {
 		if (choice == 1) { // NOG NIET GOED
 			names = new String[1];
 			names[0] = clientName;
-			currentGames.add(new Game(names));
+			Game game= new Game(names,this);
+			currentGames.add(game);
+			Thread g = game;
+			g.start();
 			removeNames(names);
+			broadcast(Protocol.Server.STARTGAME + "_" + clientName, game);
 		} else if (choice == 2 || choice == 3 || choice == 4) {
 			if (waitingRooms.get(choice - 2).size() == choice - 1) {
 				names = new String[choice];
@@ -114,7 +120,7 @@ public class Server {
 				for (int i = 0; i <= choice - 2; i++) {
 					names[choice - 1 - i] = waitingRooms.get(choice - 2).get(i);
 				}
-				Game game = new Game(names); // GAME MOET GESTART WORDEN (nieuwe
+				Game game = new Game(names,this); // GAME MOET GESTART WORDEN (nieuwe
 												// thread?)
 				currentGames.add(game);
 				Thread g = game;
@@ -156,7 +162,7 @@ public class Server {
 						names[i - 1 - j] = waitingRooms.get(i - 2).get(j);
 					}
 					String gameWith = "";
-					Game game = new Game(names);
+					Game game = new Game(names,this);
 					currentGames.add(game);
 					Thread t = game;
 					t.start();
@@ -182,64 +188,25 @@ public class Server {
 		return ClientHandler.NOREPLY;
 	}
 
-	public String makeMove(String clientName, String completeMsg) { //checken of het wel zijn beurt is
-		Game thisGame = getCurrentGame(clientName);
-		if (thisGame == null) {
-			return Protocol.Server.ERROR + "_unknowncommand";
-		}
-		Player thisPlayer = getCurrentPlayer(clientName, thisGame);
-		int[][] moves = new int[Player.HANDSIZE][3];
-		String[] msg = completeMsg.split(Character.toString(Protocol.Settings.DELIMITER));
-		for (int i = 1; i < msg.length; i++) {
-			String[] move = msg[i].split(Character.toString(Protocol.Settings.DELIMITER2));
-			moves[i][0] = Integer.parseInt(move[1]);
-			moves[i][1] = Integer.parseInt(move[2]);
-			moves[i][2] = getPlaceInHand(thisPlayer.getHand(), new Tile(move[0].charAt(0), move[0].charAt(1)));
-		}
-		int score = thisGame.getBoard().deepcopy().testMove(moves, thisPlayer.getHand());
-		if (score < 0) {
-			return Protocol.Server.ERROR + "_unvalidmove";
-		} else {
-			int i = 0;
-			while (moves[i][0] != -1) {
-				thisGame.getBoard().setField(moves[i][0], moves[i][1], thisPlayer.getHand()[moves[i][2]]);
-			}
-			thisPlayer.addScore(score);
-			broadcast(Protocol.Server.MOVE + "_" + clientName + "_" + "nextPlayer" + completeMsg.substring(9),
-					thisGame);
-		}
-		return "";
+	public void makeMove(Game game, Player player, Player nextPlayer, String completeMsg) { //checken of het wel zijn beurt is
+		broadcast(Protocol.Server.MOVE + "_" + player.getName() + "_" + 
+				nextPlayer.getName() + completeMsg.substring(9),game);
 	}
 	
-	public int getPlaceInHand(Tile[] hand, Tile tile) {
-		for (int i = 0; i < hand.length; i++) {
-			if (tile.getColor() == hand[i].getColor() && tile.getShape() == hand[i].getShape()) {
-				return i;
+	public void updateHand(Player player, ArrayList<Tile> tiles) {
+		String msg = Protocol.Server.ADDTOHAND;
+		for (Tile t : tiles) {
+			msg += "_" + t.getColor().getColor() + t.getShape().getShape();
+		}
+		for (ClientHandler c : threads) {
+			if (c.getClientName().equals(player.getName())) {
+				c.sendMessage(msg);
+				break;
 			}
 		}
-		return -1;
 	}
-
-	public Player getCurrentPlayer(String clientName, Game game) {
-		for (Player player : game.getPlayers()) {
-			if (player.getName().equals(clientName)) {
-				return player;
-			}
-		}
-		return null;
-	}
-
-	public Game getCurrentGame(String clientName) {
-		for (Game game : currentGames) {
-			for (Player player : game.getPlayers()) {
-				if (player.getName().equals(clientName)) {
-					return game;
-				}
-			}
-		}
-		return null;
-	}
-
+		
+	
 	public ArrayList<ClientHandler> getHandler(Game game) {
 		ArrayList<ClientHandler> handlers = new ArrayList<ClientHandler>();
 		for (Player player : game.getPlayers()) {
@@ -283,18 +250,4 @@ public class Server {
 		}
 	}
 
-	
-	public void calcBestFirstMove(Game game, String[] firstMove, int[] scores) {
-		int bestScore = -1;
-		int bestPlayer = -1;
-		for (int i = 0; i < scores.length; i++) {
-			if (scores[i] > bestScore) {
-				bestScore = scores[i];
-				bestPlayer = i;
-			}
-		}
-		String s = Protocol.Server.MOVE + "_" + game.getPlayers()[bestPlayer].getName() + "_" + 
-				game.getPlayers()[(bestPlayer+1)%game.getPlayers().length].getName() + "_" + firstMove[bestPlayer].substring(9);
-		broadcast(s, game);
-	}
 }

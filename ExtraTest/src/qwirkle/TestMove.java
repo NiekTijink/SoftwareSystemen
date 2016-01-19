@@ -25,6 +25,9 @@ public class TestMove {
 	}
 	
 	public boolean isLegalMove() { // mag maar in rij/kolom & moet andere stenen raken
+		if (move[0][0] == -1) {
+			return false;
+		}
 		if (move[0][0] == move[1][0]) { // moves met zelfde x-waarde
 			int i = 2;
 			while (move[i][0] != -1) {

@@ -1,13 +1,13 @@
 package qwirkle;
 
+import java.util.ArrayList;
 
-
-public class Player {
+public abstract class Player {
     private String name;
     private Deck deck;
     private Tile[] hand;
     private int move[][];
-    public static int HANDSIZE = 6;
+    public final static int HANDSIZE = 6;
     private int turnNr = 0;
     private int score;
        
@@ -28,14 +28,21 @@ public class Player {
 	public String getName() {
     	return name;
     }
+	
+	public Deck getDeck() {
+		return deck;
+	}
     
-    public void updateHand() {
+    public ArrayList<Tile> updateHand() {
+    	ArrayList<Tile> temp = new ArrayList<Tile>();
 		for (int i = 0; i < HANDSIZE; i++) {
 			if (hand[i] == null) {
-				hand[i] = deck.drawTile();
+				Tile tempTile = deck.drawTile();
+				hand[i] = tempTile;
+				temp.add(tempTile);
 			}
 		}
-		
+		return temp;		
 	}
     
     public Tile[] getHand() {
@@ -54,36 +61,41 @@ public class Player {
     
     // makemove geeft de beslissingen die je maakt door aan het bord (dmv setfield of swap)
     // later zal makemove deze beslissingen door moeten geven aan de server dmv protocol
-    public void makeMove(Board board, Tile[] hand) {
-       	Turn turn = new Turn(name, turnNr, board, hand);
-    	System.out.println("TEST");
-
-    	turn.makeTurn();
-    	int choice = turn.getChoice();
-    	move = new int[HANDSIZE][3];
-    	move = turn.getMove(); 
-    	
-        if (choice == 0 || turnNr == 0 && name.equals("Thomas")) { // 0 houdt in dat je stenen gaat plaatsen
-        	int i = 0;
-        	while (move[i][0] != -1) {
-        		board.setField(move[i][0], move[i][1], hand[move[i][2]]);
-        		hand[move[i][2]] = null;
-        		i++;
-        	}
-      		
-        } else if (choice == 1) { // 1 houdt in dat je gaat swappen
-        	int i = 0;
-        	while (move[i][2] != -1) {
-        		hand[move[i][2]] = deck.changeTile(hand[move[i][2]]);
-        		i++;
-       		}
-       	
-        } else { // altijd 0 of 1, anders opnieuw aanroepen (of foutmeldingen oid)
-        	// TODO Auto-generated method stub
-        }
-        turnNr++;
+ public abstract boolean makeMove(Board board, String msg);
+    
+    protected ArrayList<Coordinate> getCoordinates(Board board) {
+       	final int MAXHALFARRAY = (50-2);
+    	final int ARRAYORGINX = 50;
+    	final int ARRAYORGINY = 50;
+    	ArrayList<Coordinate> possiblecoor = new ArrayList<Coordinate>();
+    	Tile[][] fields = board.getBoard();
+	
+    	for(int i = 0; i <= MAXHALFARRAY; i++) {
+    		for(int k = 0; k <= (2*i); k++) {
+    			if (fields[(ARRAYORGINX - i) + k][ARRAYORGINY + i] == null && movePossible(fields,(ARRAYORGINX - i) + k, ARRAYORGINY + i)) {
+				possiblecoor.add(new Coordinate((ARRAYORGINX - i) + k, ARRAYORGINY + i));
+    			}
+    			if (fields[(ARRAYORGINX - i) + k][ARRAYORGINY - i] == null && movePossible(fields,(ARRAYORGINX - i) + k, ARRAYORGINY - i)) {
+				possiblecoor.add(new Coordinate((ARRAYORGINX - i) + k, ARRAYORGINY - i));
+    			}
+		}
+    		for (int k = 1; k < (2*i); k++) {
+    			if (fields[ARRAYORGINX - i][(ARRAYORGINY + i) - k] == null && movePossible(fields,(ARRAYORGINX - i) , (ARRAYORGINY + i) - k)) {
+				possiblecoor.add(new Coordinate((ARRAYORGINX - i) , (ARRAYORGINY + i) - k));
+    			}
+    			if (fields[ARRAYORGINX + i][(ARRAYORGINY + i) - k] == null && movePossible(fields,(ARRAYORGINX + i) , (ARRAYORGINY + i) - k)) {
+				possiblecoor.add(new Coordinate((ARRAYORGINX + i) , (ARRAYORGINY + i) - k));
+    			}
+			}
+		}
+		return possiblecoor;
     }
     
-    
-    
+    private boolean movePossible(Tile[][] fields, int i, int j) {
+		if(fields[i][j+1] != null || fields[i][j-1] != null || fields[i-1][j] != null || fields[i+1][j] != null ) {
+			return true;
+		} else {
+		return false;
+		}
+	}
 }

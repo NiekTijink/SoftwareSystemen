@@ -2,9 +2,12 @@ package qwirkle;
 
 import java.util.ArrayList;
 
+
 public class Board {
-	private Tile[][] fields = new Tile[100][100];
+	private Tile[][] fields = new Tile[MAXSIZE][MAXSIZE];
 	private int[] boundaries = new int[4];
+	private static final int MAXSIZE = 180;
+	private static final int GAMESIZE = 5;
 
 	// maakt een bord aan
 	// misschien kunnen we dit variabel maken, denk dat dat wel kan

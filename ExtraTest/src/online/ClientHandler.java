@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import protocol.Protocol;
 import qwirkle.*;
 
 public class ClientHandler extends Thread {
@@ -52,9 +53,9 @@ public class ClientHandler extends Thread {
 
 	public String handleMessageFromClient(String msg) {
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
-		;
+
 		if (msg.startsWith(Protocol.Client.HALLO)) {
-			String msgback = server.addClientName(splitMsg[1]);
+			String msgback = server.addClientName(splitMsg[1],this);
 			if (!(msgback.startsWith(Protocol.Server.ERROR))) {
 				clientName = splitMsg[1];
 			}
@@ -66,12 +67,24 @@ public class ClientHandler extends Thread {
 		} else if (msg.startsWith(Protocol.Client.REQUESTGAME)) {
 			return server.requestGame(clientName, Integer.parseInt(splitMsg[1]));
 		} else if (msg.startsWith(Protocol.Client.MAKEMOVE)) {
-			if (currentGame == null) {
+			if (currentGame == null || currentPlayer == null) {
 				return Protocol.Server.ERROR + "_invalidmove";
 			} else if (currentGame.getMoveNr() == 0) {
 				return firstMove(currentGame,currentPlayer,msg);
 			} else {
-			return server.makeMove(clientName, msg);
+				if (currentGame.getPlayers()[currentGame.playersTurn] == currentPlayer) {
+					if (currentPlayer.makeMove(currentGame.getBoard(),msg)){
+						for (int i = 0; i < currentGame.getPlayers().length; i++) {
+							if (currentGame.getPlayers()[i] == currentPlayer) {
+								currentGame.playersTurn = (i+1)%currentGame.getPlayers().length;
+								server.makeMove(currentGame, currentPlayer,
+										currentGame.getPlayers()[currentGame.playersTurn], msg);
+							}
+						}
+					}
+				} else {
+					return Protocol.Server.ERROR + "_notyourmove";
+				}
 			}
 		}
 		return NOREPLY;
@@ -80,22 +93,11 @@ public class ClientHandler extends Thread {
 	public String firstMove(Game game, Player player, String msg) {
 		String msgback = currentGame.addToFirstMove(player, msg);
 		if (msgback.equals("true")) {
-			server.calcBestFirstMove(currentGame, currentGame.getFirstMove(), currentGame.getFirstMoveScores());
+			game.calcBestFirstMove();
 		} else if (msgback.startsWith(Protocol.Server.ERROR)) {
 			return msgback;
 		}
 		return NOREPLY;
-		/*boolean full = true;
-		for (int i = 0; i < currentGame.getPlayers().length;i++) {
-			if (currentGame.getFirstMove()[i] == null) {
-				full = false;
-			}
-		}
-		if (full) {
-			return server.calcBestFirstMove(currentGame.getFirstMove());
-		} else {
-			// TODO Error: één of meerdere clients reageert niet
-		}*/
 	}
 	
 
