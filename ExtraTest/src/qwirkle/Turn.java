@@ -35,11 +35,11 @@ public class Turn {
 	
 	public void makeTurn() {
 		Board deepcopy = board.deepcopy();
-		if(turnNr == 0 && name.equals("Thomas")) {
+		/*if(turnNr == 0 && name.equals("Thomas")) {
 			determinefirstmove(deepcopy, hand);
-		} else {
+		} else {*/
 			determinemove(deepcopy, hand);
-		}
+		//}
 	}
 	
 	public int testMove(int[][] move, Board b) {
@@ -169,10 +169,10 @@ public class Turn {
 	}
 	
 	private void determinemove(Board deepcopy, Tile[] hand) {
-		System.out.println(name + ": Hand");
+		/*System.out.println(name + ": Hand");
 		for (int i = 0; i < NROFTILESINHAND; i++) {
 			System.out.println(hand[i].toString());
-		}
+		}*/
 		
 		String[] splitInput = readChoice();
 		for (int i = 0; i < (splitInput.length / 4); i++) {

@@ -117,7 +117,8 @@ public class Server {
 				Game game = new Game(names); // GAME MOET GESTART WORDEN (nieuwe
 												// thread?)
 				currentGames.add(game);
-				game.start();
+				Thread g = game;
+				g.start();
 				String gameWith = "";
 				for (String name : names) {
 					gameWith += name + "_";
@@ -127,6 +128,8 @@ public class Server {
 				broadcast(Protocol.Server.STARTGAME + "_" + gameWith, game);
 				for (ClientHandler c : getHandler(game)) {
 					for (Player player : game.getPlayers()) {
+						c.setCurrentGame(game);
+						c.setCurrentPlayer(player);
 						if (player.getName().equals(c.getClientName())) {
 							c.sendMessage(initiateHand(player));
 						}
@@ -155,6 +158,8 @@ public class Server {
 					String gameWith = "";
 					Game game = new Game(names);
 					currentGames.add(game);
+					Thread t = game;
+					t.start();
 					for (String name : names) {
 						gameWith += name + "_";
 					}
@@ -163,6 +168,8 @@ public class Server {
 					broadcast(Protocol.Server.STARTGAME + "_" + gameWith, game);
 					for (ClientHandler c : getHandler(game)) {
 						for (Player player : game.getPlayers()) {
+							c.setCurrentGame(game);
+							c.setCurrentPlayer(player);
 							if (player.getName().equals(c.getName())) {
 								c.sendMessage(initiateHand(player));
 							}
@@ -175,14 +182,14 @@ public class Server {
 		return ClientHandler.NOREPLY;
 	}
 
-	public String makeMove(String clientName, String completeMsg) {
-		String[] msg = completeMsg.split(Character.toString(Protocol.Settings.DELIMITER));
+	public String makeMove(String clientName, String completeMsg) { //checken of het wel zijn beurt is
 		Game thisGame = getCurrentGame(clientName);
 		if (thisGame == null) {
 			return Protocol.Server.ERROR + "_unknowncommand";
 		}
 		Player thisPlayer = getCurrentPlayer(clientName, thisGame);
 		int[][] moves = new int[Player.HANDSIZE][3];
+		String[] msg = completeMsg.split(Character.toString(Protocol.Settings.DELIMITER));
 		for (int i = 1; i < msg.length; i++) {
 			String[] move = msg[i].split(Character.toString(Protocol.Settings.DELIMITER2));
 			moves[i][0] = Integer.parseInt(move[1]);
@@ -203,7 +210,7 @@ public class Server {
 		}
 		return "";
 	}
-
+	
 	public int getPlaceInHand(Tile[] hand, Tile tile) {
 		for (int i = 0; i < hand.length; i++) {
 			if (tile.getColor() == hand[i].getColor() && tile.getShape() == hand[i].getShape()) {
@@ -274,5 +281,20 @@ public class Server {
 				}
 			}
 		}
+	}
+
+	
+	public void calcBestFirstMove(Game game, String[] firstMove, int[] scores) {
+		int bestScore = -1;
+		int bestPlayer = -1;
+		for (int i = 0; i < scores.length; i++) {
+			if (scores[i] > bestScore) {
+				bestScore = scores[i];
+				bestPlayer = i;
+			}
+		}
+		String s = Protocol.Server.MOVE + "_" + game.getPlayers()[bestPlayer].getName() + "_" + 
+				game.getPlayers()[(bestPlayer+1)%game.getPlayers().length].getName() + "_" + firstMove[bestPlayer].substring(9);
+		broadcast(s, game);
 	}
 }

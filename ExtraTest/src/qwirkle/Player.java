@@ -42,6 +42,15 @@ public class Player {
     	return hand;
     }
     
+    public int getPlaceInHand(Tile tile) {
+		for (int i = 0; i < HANDSIZE; i++) {
+			if (hand[i].getShape() == tile.getShape() && hand[i].getColor() == tile.getColor()) {
+				return i;
+			}
+		}
+		return -1;
+	}
+    
     
     // makemove geeft de beslissingen die je maakt door aan het bord (dmv setfield of swap)
     // later zal makemove deze beslissingen door moeten geven aan de server dmv protocol
