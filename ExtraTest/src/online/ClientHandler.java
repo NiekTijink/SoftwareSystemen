@@ -32,14 +32,11 @@ public class ClientHandler extends Thread {
 			String msg = " ";
 			while (msg != null) {
 				msg = in.readLine();
-				String msgback = handleMessageFromClient(msg); // indien er een
-																// bericht naar
-																// client terug
-																// moet
+				String msgback = handleMessageFromClient(msg);
 				if (!(msgback.equals(NOREPLY))) {
 					sendMessage(msgback);
 				}
-				server.broadcast(msg);
+				//server.broadcast(msg);
 				// hier krijgt server commando, moet hij dingetjes gaan doen
 			}
 			shutDown();
