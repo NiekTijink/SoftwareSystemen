@@ -42,7 +42,12 @@ public class Tile {
         this.color = color;
     }
     
-    public Shape getShape() {
+    public Tile(char charAt, char charAt2) {
+		shape = getShape(charAt);
+		color = getColor(charAt2);
+	}
+
+	public Shape getShape() {
     	return shape;
     }
    
@@ -59,6 +64,42 @@ public class Tile {
     public static void main(String [ ] args) {
     	Tile tile = new Tile(Shape.CIRCLE, Color.BLUE);
     	System.out.println(tile.toString());
+    }
+    
+    public Tile.Shape getShape(char i) {
+    	if (i == 'D') {
+    		return Tile.Shape.SQUARE;
+    	} else if (i == 'A') {
+    		return Tile.Shape.CIRCLE;
+    	} else if (i == 'C') {
+    		return Tile.Shape.DIAMOND;
+    	} else if (i == 'F') {
+    		return Tile.Shape.PLUS;
+    	} else if (i == 'B') {
+    		return Tile.Shape.CROSS;
+    	} else if (i == 'E') {
+    		return Tile.Shape.STAR;
+    	} else {
+    		return null;
+    	}
+    }
+   
+   public Tile.Color getColor(char i) {
+    	if (i == 'A') {
+    		return Tile.Color.RED;
+    	} else if (i == 'D') {
+    		return Tile.Color.GREEN;
+    	} else if (i == 'C') {
+    		return Tile.Color.YELLOW;
+    	} else if (i == 'E') {
+    		return Tile.Color.BLUE;
+    	} else if (i == 'B') {
+    		return Tile.Color.ORANGE;
+    	} else if (i == 'F') {
+    		return Tile.Color.PURPLE;
+    	} else {
+    		return null;
+    	}
     }
 
 }

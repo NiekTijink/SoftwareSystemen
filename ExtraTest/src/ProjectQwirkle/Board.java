@@ -83,8 +83,8 @@ public class Board {
 
 	public String toString(int [] bound) {
         String result = "";
-        for (int y = boundaries[2] - GAMESIZE; y <= boundaries[0] + GAMESIZE; y++) {
-            for (int x = boundaries[3] - GAMESIZE; x <= boundaries[1] + GAMESIZE; x++) {
+        for (int y = bound[2] - GAMESIZE; y <= bound[0] + GAMESIZE; y++) {
+            for (int x = bound[3] - GAMESIZE; x <= bound[1] + GAMESIZE; x++) {
                 Tile tile = getField(x, y);
                 result += tile == null ? "|"+x+","+y+"|" : tile.toString() + " ";
             }
