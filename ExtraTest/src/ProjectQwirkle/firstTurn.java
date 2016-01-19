@@ -20,8 +20,8 @@ public class firstTurn {
 		this.board = board;
 		this.hand = hand;
 		
-		for (int i = 0; i < 6; i++) { // initialise
-			for (int j = 0; j < 3; j++) {
+		for (int i = 0; i < NROFTILESINHAND; i++) { // initialise
+			for (int j = 0; j < INDEXMOVE; j++) {
 				move[i][j] = -1;
 			}
 		}
@@ -82,6 +82,7 @@ public class firstTurn {
 					ArrayList<Tile> square = new ArrayList<Tile>();
 					ArrayList<Tile.Color> starburstcolor = new ArrayList<Tile.Color>();
 					ArrayList<Tile> starburst = new ArrayList<Tile>();
+					
 					int j = 0;
 					while(j < 6) {
 						if(hand[j].getShape() == Shape.CIRCLE && !circlecolor.contains(hand[j].getColor())) {
@@ -104,6 +105,7 @@ public class firstTurn {
 							starburst.add(hand[j]);
 						} j++;
 					}
+					
 					//Bepaal langste zet, door middel van langste ArrayList.
 					ArrayList<ArrayList<Tile>> sizes = new ArrayList<ArrayList<Tile>>(NUMBEROFSHAPESCOLORS);
 					sizes.add(blue);;

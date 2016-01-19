@@ -76,9 +76,9 @@ public class Turn {
 		move[i][0] = Integer.parseInt(splitInput[2+4*i]);
 		move[i][1] = Integer.parseInt(splitInput[3+4*i]);
 		}
+		
 		if (choice == 0) {
 			testMove(move, deepcopy);
-			
 		}
 		
 		
