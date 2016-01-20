@@ -61,7 +61,7 @@ public class ClientHandler extends Thread {
 			}
 			return msgback;
 		} else if (msg.equals(Protocol.Client.QUIT)) {
-			System.out.println("Quiting...");
+			sendMessage("Quiting...");
 			shutDown();
 			return NOREPLY;
 		} else if (msg.startsWith(Protocol.Client.REQUESTGAME)) {
@@ -73,18 +73,40 @@ public class ClientHandler extends Thread {
 				return firstMove(currentGame,currentPlayer,msg);
 			} else {
 				if (currentGame.getPlayers()[currentGame.playersTurn] == currentPlayer) {
-					if (currentPlayer.makeMove(currentGame.getBoard(),msg)){
+					String newStones = currentPlayer.makeMove(currentGame.getBoard(),msg);
+					if (newStones != NOREPLY){
 						for (int i = 0; i < currentGame.getPlayers().length; i++) {
 							if (currentGame.getPlayers()[i] == currentPlayer) {
 								currentGame.playersTurn = (i+1)%currentGame.getPlayers().length;
 								server.makeMove(currentGame, currentPlayer,
 										currentGame.getPlayers()[currentGame.playersTurn], msg);
+								return newStones;
 							}
 						}
+					} else {
+						return Protocol.Server.ERROR + "_invalidmove";
 					}
 				} else {
 					return Protocol.Server.ERROR + "_notyourmove";
 				}
+			}
+		} else if (msg.startsWith(Protocol.Client.CHANGESTONE)) {
+			if (currentGame.getPlayers()[currentGame.playersTurn] == currentPlayer) {
+				String newStones = currentPlayer.changeStones(splitMsg);
+				if (newStones != NOREPLY){
+					for (int i = 0; i < currentGame.getPlayers().length; i++) {
+						if (currentGame.getPlayers()[i] == currentPlayer) {
+							currentGame.playersTurn = (i+1)%currentGame.getPlayers().length;
+							server.makeMove(currentGame, currentPlayer,
+									currentGame.getPlayers()[currentGame.playersTurn], "");
+							return newStones;
+						}
+					}
+				} else {
+					return Protocol.Server.ERROR + "_notyourstones";
+				}
+			} else {
+				return Protocol.Server.ERROR + "_notyourmove";
 			}
 		}
 		return NOREPLY;

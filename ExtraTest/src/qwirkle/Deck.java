@@ -17,7 +17,7 @@ public class Deck {
 	        for (Tile.Shape s : Tile.Shape.values()) {
 	            for (Tile.Color c : Tile.Color.values()) {
 	                for (int i = 0; i < 3; i++) {
-	                    tiles.add(new Tile(s, c));
+	                    tiles.add(new Tile(c, s));
 	                }
 	            }
 	        }
@@ -50,7 +50,7 @@ public class Deck {
 	    }
 	    
 	    //Wissel Tile
-	    public Tile changeTile(Tile tile) {
+	    public Tile swapTile(Tile tile) {
 	    	Shuffle();
 	    	tiles.add(tiles.size(), tile);
 	    	return tiles.remove(0);    	

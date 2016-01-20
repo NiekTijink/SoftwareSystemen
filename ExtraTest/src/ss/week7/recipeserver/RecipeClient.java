@@ -110,7 +110,7 @@ public class RecipeClient {
 	            }
 	            
 	            if (rNum > 0 && rNum < recipeNames.size()+1) {
-		            out.write("GET " + "test.txt");
+		            out.write("GET " + "..\\ExtraTest\\src\\ss\\week7\\recipeserver");
 		            out.newLine();
 		            out.flush();
 		            System.out.println("Recipe text:");

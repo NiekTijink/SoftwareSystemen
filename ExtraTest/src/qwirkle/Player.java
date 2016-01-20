@@ -1,6 +1,10 @@
 package qwirkle;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import online.ClientHandler;
+import protocol.Protocol;
 
 public abstract class Player {
     private String name;
@@ -51,8 +55,10 @@ public abstract class Player {
     
     public int getPlaceInHand(Tile tile) {
 		for (int i = 0; i < HANDSIZE; i++) {
-			if (hand[i].getShape() == tile.getShape() && hand[i].getColor() == tile.getColor()) {
-				return i;
+			if (!(hand[i] == null)) {
+				if (hand[i].getShape() == tile.getShape() && hand[i].getColor() == tile.getColor()) {
+					return i;
+				}
 			}
 		}
 		return -1;
@@ -61,7 +67,32 @@ public abstract class Player {
     
     // makemove geeft de beslissingen die je maakt door aan het bord (dmv setfield of swap)
     // later zal makemove deze beslissingen door moeten geven aan de server dmv protocol
- public abstract boolean makeMove(Board board, String msg);
+ public abstract String makeMove(Board board, String msg);
+ 
+ public String changeStones(String[] msg) {
+	 String msgback = Protocol.Server.ADDTOHAND;
+	 ArrayList<Tile> newTiles = new ArrayList<Tile>();
+	 for (int i = 1; i < msg.length; i++) {
+		 Tile temp = new Tile(msg[i].charAt(0),msg[i].charAt(1));
+		 int placeInHand = getPlaceInHand(temp);
+		 if (placeInHand<0) {
+			 return ClientHandler.NOREPLY;
+		 } else {
+			 hand[placeInHand] = null;
+			 Tile newTile = deck.swapTile(temp);
+			 msgback += "_" + newTile.getColor().getCharColor() + newTile.getShape().getCharShape();
+			 newTiles.add(newTile);
+		 }
+	 }
+	 for (int i = 0; i < HANDSIZE; i++) {
+			if (hand[i] == null) {
+				hand [i] = newTiles.remove(0); // KAN DIT?
+				Collections.shuffle(newTiles);
+			}
+	 }
+	 return msgback;
+	 
+ }
     
     protected ArrayList<Coordinate> getCoordinates(Board board) {
        	final int MAXHALFARRAY = (50-2);

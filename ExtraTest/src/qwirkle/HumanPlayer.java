@@ -3,6 +3,7 @@ package qwirkle;
 import java.util.ArrayList;
 
 import online.ClientHandler;
+import protocol.Protocol;
 
 public class HumanPlayer extends Player {
 	
@@ -16,16 +17,16 @@ public class HumanPlayer extends Player {
 		super(name, deck);
 	}
 	
-	public boolean makeMove(Board board, String msg) {
+	public String makeMove(Board board, String msg) {
 		if (!(msg.equals(ClientHandler.NOREPLY))) {
 			HumanTurn ht = new HumanTurn(this, board);
 			int tempscore = ht.determinemove(board, msg);
 			if (tempscore <= 0) {
-				return false;
+				return ClientHandler.NOREPLY;
 			}
 			addScore(tempscore);
 		} else {
-			return false;
+			return ClientHandler.NOREPLY;
 		}
 		int i = 0;
     	while (move[i][0] != -1) {
@@ -33,7 +34,12 @@ public class HumanPlayer extends Player {
     		this.getHand()[move[i][2]] = null;
     		i++;
     	}
-    	return true;
+    	String newStones = Protocol.Server.ADDTOHAND;
+    	ArrayList<Tile> temp = updateHand();
+    	for (Tile t : temp) {
+        	newStones += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
+    	}
+    	return newStones;
 	}
 	public void makeMove(Board board) {
 		if (turnNr == 0 && getName().equals("Thomas")) {
@@ -78,7 +84,7 @@ public class HumanPlayer extends Player {
       	} else if (choice == 1) { // 1 houdt in dat je gaat swappen
         	int i = 0;
         	while (move[i][2] != -1) {
-        		this.getHand()[move[i][2]] = getDeck().changeTile(this.getHand()[move[i][2]]);
+        		this.getHand()[move[i][2]] = getDeck().swapTile(this.getHand()[move[i][2]]);
         		i++;
        		}
        	} else { // altijd 0 of 1, anders opnieuw aanroepen (of foutmeldingen oid)

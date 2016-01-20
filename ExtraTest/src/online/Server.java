@@ -188,7 +188,7 @@ public class Server {
 		return ClientHandler.NOREPLY;
 	}
 
-	public void makeMove(Game game, Player player, Player nextPlayer, String completeMsg) { //checken of het wel zijn beurt is
+	public void makeMove(Game game, Player player, Player nextPlayer, String completeMsg) { 
 		broadcast(Protocol.Server.MOVE + "_" + player.getName() + "_" + 
 				nextPlayer.getName() + completeMsg.substring(9),game);
 	}
@@ -196,7 +196,7 @@ public class Server {
 	public void updateHand(Player player, ArrayList<Tile> tiles) {
 		String msg = Protocol.Server.ADDTOHAND;
 		for (Tile t : tiles) {
-			msg += "_" + t.getColor().getColor() + t.getShape().getShape();
+			msg += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
 		}
 		for (ClientHandler c : threads) {
 			if (c.getClientName().equals(player.getName())) {
@@ -226,7 +226,7 @@ public class Server {
 	public String initiateHand(Player player) {
 		String hand = Protocol.Server.ADDTOHAND;
 		for (Tile tile : player.getHand()) {
-			hand += "_" + Character.toString(tile.getColor().getColor()) + Character.toString(tile.getShape().getShape());
+			hand += "_" + Character.toString(tile.getColor().getCharColor()) + Character.toString(tile.getShape().getCharShape());
 		}
 		return hand;
 	}

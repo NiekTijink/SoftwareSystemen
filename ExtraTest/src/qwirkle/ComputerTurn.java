@@ -43,7 +43,7 @@ public class ComputerTurn extends Turn {
 
 		String[] splitInput = readChoice();
 		for (int i = 0; i < (splitInput.length / 4); i++) {
-			Tile tile = new Tile(getShape(splitInput[0+4*i].charAt(0)),getColor(splitInput[1+4*i].charAt(0)));
+			Tile tile = new Tile(getColor(splitInput[1+4*i].charAt(0)),getShape(splitInput[0+4*i].charAt(0)));
 		move[i][2] = player.getPlaceInHand(tile);
 		move[i][0] = Integer.parseInt(splitInput[2+4*i]);
 		move[i][1] = Integer.parseInt(splitInput[3+4*i]);

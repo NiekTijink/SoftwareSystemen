@@ -12,7 +12,7 @@ public class Tile {
 		// Internal state
 	    private char s;
 	 
-	    public char getShape() {
+	    public char getCharShape() {
 	        return s;
 	    }
 	}
@@ -20,13 +20,13 @@ public class Tile {
 	public enum Color {
 		RED('A'), ORANGE('B'), YELLOW('C'), GREEN('D'), BLUE('E'), PURPLE('F');
 
-		public final char c;
+		private char c;
 		
 		Color(char c){
 			this.c = c;
 		}
 		
-		public char getColor() {
+		public char getCharColor() {
 			return c;
 		}
 	}
@@ -34,12 +34,12 @@ public class Tile {
 	private final Shape shape;
     private final Color color;
 
-    public Tile(Shape shape, Color color) {
+    public Tile(Color color, Shape shape) {
         this.shape = shape;
         this.color = color;
     }
     
-    public Tile(char s, char c) {
+    public Tile(char c, char s) {
     	shape = getShape(s);
     	color = getColor(c);
     }
@@ -53,7 +53,7 @@ public class Tile {
     	return color;
     }  
     
-	   public Tile.Shape getShape(char i) {
+    public static Tile.Shape getShape(char i) {
 	    	if (i == 'D') {
 	    		return Tile.Shape.SQUARE;
 	    	} else if (i == 'A') {
@@ -71,7 +71,7 @@ public class Tile {
 	    	}
 	    }
 	   
-	   public Tile.Color getColor(char i) {
+	   public static Tile.Color getColor(char i) {
 	    	if (i == 'A') {
 	    		return Tile.Color.RED;
 	    	} else if (i == 'D') {

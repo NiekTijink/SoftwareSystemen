@@ -145,8 +145,8 @@ public class firstTurn {
 		int nrMoves = 0;
 		String msg = Protocol.Client.MAKEMOVE;
 		while (move[nrMoves][0] != -1) {
-			msg += "_" + player.getHand()[move[nrMoves][2]].getColor().getColor() + 
-					player.getHand()[move[nrMoves][2]].getShape().getShape() + 
+			msg += "_" + player.getHand()[move[nrMoves][2]].getColor().getCharColor() + 
+					player.getHand()[move[nrMoves][2]].getShape().getCharShape() + 
 					"*" + move[nrMoves][0] + "*" + move[nrMoves][1];
 		}
 		return msg;
