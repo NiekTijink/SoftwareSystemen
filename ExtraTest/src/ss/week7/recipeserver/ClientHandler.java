@@ -55,6 +55,7 @@ public class ClientHandler extends Thread {
     	} else if (msg.startsWith(GET_COMMAND + " ")){
     		System.out.println("Showing recipe.");
     		String recipeName = msg.substring(GET_COMMAND.length() + 1);
+    		System.out.println(recipeName);
     		showRecipe(recipeName, out);
     	} else {
     		out.write("ERROR: unknown command.");

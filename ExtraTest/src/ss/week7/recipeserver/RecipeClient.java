@@ -96,7 +96,8 @@ public class RecipeClient {
 	            	userIn.next();
 	            }
 	            if (rNum > 0 && rNum < recipeNames.size()+1) {
-		            out.write("GET " + recipeNames.get(rNum-1));
+	            	System.out.println(recipeNames.get(rNum-1));
+		            out.write("GET " + "..\\ExtraTest\\src\\ss\\week7\\recipeserver\\RecipeServer.java");// + recipeNames.get(rNum-1));
 		            out.newLine();
 		            out.flush();
 		            System.out.println("Recipe text:");
