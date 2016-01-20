@@ -109,7 +109,7 @@ public class ClientHandler extends Thread {
 				return Protocol.Server.ERROR + "_notyourmove";
 			}
 		}
-		return NOREPLY;
+		return Protocol.Server.ERROR + "_generalerror";
 	}
 	
 	public String firstMove(Game game, Player player, String msg) {

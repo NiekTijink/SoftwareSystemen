@@ -15,6 +15,8 @@ public class Game extends Thread {
 	private int[] firstMoveScores;
 	public int startingPlayer;
 	public int playersTurn;
+	int[][] move = new int[Player.HANDSIZE][3];
+
 
 	public Game(String[] names, Server server) {
 		this.server = server;
@@ -35,9 +37,9 @@ public class Game extends Thread {
 	}
 
 	public String addToFirstMove(Player player, String msg) {
-		int[][] move = new int[Player.HANDSIZE][3];
+		initialiseMove(move);
 		String[] splitInput = msg.split(Character.toString(Protocol.Settings.DELIMITER));
-		for (int i = 0; i < (splitInput.length / 4); i++) {
+		for (int i = 0; i < (splitInput.length / 3); i++) {
 			Tile tile = new Tile(splitInput[1 + 3 * i].charAt(0), splitInput[1 + 3 * i].charAt(0));
 			move[i][2] = player.getPlaceInHand(tile);
 			move[i][0] = Integer.parseInt(splitInput[2 + 3 * i]);
@@ -62,6 +64,14 @@ public class Game extends Thread {
 			}
 		}
 		return Protocol.Server.ERROR + "_invalidmove";
+	}
+
+	private void initialiseMove(int[][] move) {
+		for (int i = 0; i < 6; i++) { // initialise
+			for (int j = 0; j < 3; j++) {
+				move[i][j] = -1;
+			}
+		}
 	}
 
 	public Player[] getPlayers() {
