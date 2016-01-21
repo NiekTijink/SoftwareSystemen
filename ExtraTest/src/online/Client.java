@@ -123,7 +123,7 @@ public class Client extends Thread{
 			}
 			currentGame = new Game(names,null);
 		} 
-		return Protocol.Server.ERROR;
+		return ClientHandler.NOREPLY;
 	}
 	
 	public static String readString(String tekst) {
@@ -145,22 +145,19 @@ public class Client extends Thread{
 	  private int readInt(String prompt) {
 	        int value = 0;
 	        boolean intRead = false;
-	        // SCANNER HIER GEPLAATST IPV IN DE DO-TRY LOOP
-	        
-	        Scanner line = new Scanner(System.in);
+	     
 	        do {
 	            System.out.print(prompt);
-	            try (//Scanner line = new Scanner(System.in);
-
-	                 Scanner scannerLine = new Scanner(line.nextLine());
-	            ) {
-	                if (scannerLine.hasNextInt()) {
-	                    intRead = true;
-	                    value = scannerLine.nextInt();
-	                }
+	            Scanner sc = new Scanner(System.in);
+	            try {
+	            	value = sc.nextInt();
+	            } catch (Exception e){
+	            	System.out.println(prompt);
 	            }
+	            
+				intRead = value >= 0 && value <= 4;
+					// TODO Auto-generated catch block
 	        } while (!intRead);
-	        line.close();
 	        return value;
 	 }
 	  
