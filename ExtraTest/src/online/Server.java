@@ -173,8 +173,8 @@ public class Server {
 					for (ClientHandler c : getHandler(game)) {
 						for (Player player : game.getPlayers()) {
 							c.setCurrentGame(game);
-							c.setCurrentPlayer(player);
 							if (player.getName().equals(c.getName())) {
+								c.setCurrentPlayer(player);
 								c.sendMessage(initiateHand(player));
 							}
 						}

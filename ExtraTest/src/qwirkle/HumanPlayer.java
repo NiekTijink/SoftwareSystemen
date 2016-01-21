@@ -13,11 +13,11 @@ public class HumanPlayer extends Player {
 	 private int choice;
 	 private HumanTurn humanTurn;
 
-	public HumanPlayer(String name, Deck deck) {
-		super(name, deck);
+	public HumanPlayer(String name) {
+		super(name);
 	}
 	
-	public String makeMove(Board board, String msg) {
+	public boolean makeMove(Board board, String msg) {
 		if (!(msg.equals(ClientHandler.NOREPLY))) {
 			/*HumanTurn ht = new HumanTurn(this, board);
 			int tempscore = ht.determinemove(board, msg);*/
@@ -37,12 +37,12 @@ public class HumanPlayer extends Player {
 			}
 			int tempscore = board.deepcopy().testMove(move, getHand());
 			if (tempscore <= 0) {
-				return ClientHandler.NOREPLY;
+				return false;
 			}
 			addScore(tempscore);
 			System.out.println(getScore());
 		} else {
-			return ClientHandler.NOREPLY;
+			return false;
 		}
 		int i = 0;
     	while (move[i][0] != -1) {
@@ -50,16 +50,11 @@ public class HumanPlayer extends Player {
     		getHand()[move[i][2]] = null;
     		i++;
     	}
-    	String newStones = Protocol.Server.ADDTOHAND;
-    	ArrayList<Tile> temp = updateHand();
-    	for (Tile t : temp) {
-        	newStones += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
-    	}
-    	return newStones;
+    	return true;
 	}
 	
 
-	public void makeMove(Board board) {
+	/*public void makeMove(Board board) {
 		if (turnNr == 0 && getName().equals("Thomas")) {
 			System.out.println("Board State :");
 			bound = new int[4];
@@ -91,7 +86,7 @@ public class HumanPlayer extends Player {
     		choice = turn.getChoice();
     		move = new int[HANDSIZE][3];
     		move = turn.getMove();  	
-    	}*/
+    	}
         if (choice == 0) { // 0 houdt in dat je stenen gaat plaatsen
         	int i = 0;
         	while (move[i][0] != -1) {
@@ -109,6 +104,6 @@ public class HumanPlayer extends Player {
         	// TODO Auto-generated method stub
         }
         turnNr++;
-    }
+    }*/
 
 }

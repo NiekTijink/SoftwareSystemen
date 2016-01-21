@@ -74,7 +74,7 @@ public class ClientHandler extends Thread {
 				return firstMove(currentGame,currentPlayer,msg);
 			} else {
 				if (currentGame.getPlayers()[currentGame.playersTurn] == currentPlayer) {
-					String newStones = currentPlayer.makeMove(currentGame.getBoard(),msg);
+					String newStones = currentGame.makeMove(currentPlayer, msg);
 					if (newStones != NOREPLY){
 						for (int i = 0; i < currentGame.getPlayers().length; i++) {
 							if (currentGame.getPlayers()[i] == currentPlayer) {
@@ -93,7 +93,7 @@ public class ClientHandler extends Thread {
 			}
 		} else if (msg.startsWith(Protocol.Client.CHANGESTONE)) {
 			if (currentGame.getPlayers()[currentGame.playersTurn] == currentPlayer) {
-				String newStones = currentPlayer.changeStones(splitMsg);
+				String newStones = currentPlayer.changeStones(splitMsg, currentGame.getDeck());
 				if (newStones != NOREPLY){
 					for (int i = 0; i < currentGame.getPlayers().length; i++) {
 						if (currentGame.getPlayers()[i] == currentPlayer) {

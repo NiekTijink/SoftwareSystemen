@@ -2,12 +2,12 @@ package qwirkle;
 
 public class ComputerPlayer extends Player {
 
-	public ComputerPlayer(Deck deck) {
-		super("Computer", deck);
+	public ComputerPlayer() {
+		super("Computer");
 	}
 	
-	public String makeMove(Board board, String msg) {
-		 return null;
+	public boolean makeMove(Board board, String msg) {
+		 return false;
 	}
 	
 	public String makeFirstMove(Board board) {

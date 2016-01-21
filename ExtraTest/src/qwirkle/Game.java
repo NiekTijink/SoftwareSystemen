@@ -25,17 +25,25 @@ public class Game extends Thread {
 		moveNr = 0;
 		if (names.length == 1) { 
 			players = new Player[2];
-			players[1] = new ComputerPlayer(deck); 
+			players[1] = new ComputerPlayer();
+			players[1].updateHand(deck);
 		}
 		players = new Player[names.length];
 		firstMove = new String[players.length];
 		firstMoveScores = new int[players.length];
 		for (int i = 0; i < names.length; i++) { //
-			players[i] = new HumanPlayer(names[i], deck);
+			players[i] = new HumanPlayer(names[i]);
+			players[i].updateHand(deck);
 		}
 		
 	}
-
+	public String makeMove(Player player, String msg) {
+		if(player.makeMove(board, msg)) {
+			return player.updateHand(deck);
+		}
+		return Protocol.Server.ERROR + "_invalidmove";
+	}
+	
 	public String addToFirstMove(Player player, String msg) {
 		initialiseMove(move);
 		String[] splitInput = msg.split(Character.toString(Protocol.Settings.DELIMITER));
@@ -133,7 +141,7 @@ public class Game extends Thread {
 			}
 		}
 		startingPlayer = bestPlayer;
-		String newStones = players[bestPlayer].makeMove(board,firstMove[bestPlayer]);
+		String newStones = makeMove(players[bestPlayer],firstMove[bestPlayer]);
 		playersTurn = (bestPlayer + 1) % players.length;
 		server.makeMove(this, players[bestPlayer], players[playersTurn], firstMove[bestPlayer]);
 		server.updateHand(players[bestPlayer], newStones);

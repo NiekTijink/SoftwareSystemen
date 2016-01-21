@@ -8,6 +8,9 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
+
+import protocol.Protocol;
 
 
 public class Client extends Thread{
@@ -20,7 +23,7 @@ public class Client extends Thread{
 			System.out.println(USAGE);
 			System.exit(0);
 		}
-	
+		clientName = args[0];
 		InetAddress host=null;
 		int port =0;
 
@@ -49,7 +52,7 @@ public class Client extends Thread{
 		}while(true);
 	}
 	
-	private String clientName;
+	private static String clientName;
 	private Socket sock;
 	private BufferedReader in;
 	private BufferedWriter out;
@@ -72,6 +75,7 @@ public class Client extends Thread{
 		while (msg != null) {
 			try {
 				msg = in.readLine();
+				String msgback = handleMsgFromServer(msg);
 				// hier krijgt client bericht van server. Moet hij automatisch afhandelen
 				print(msg);
 			} catch (IOException e) {
@@ -92,6 +96,20 @@ public class Client extends Thread{
 		}
 		// TODO insert body
 	}
+	public String handleMsgFromServer(String msg) {
+		if (msg.startsWith(Protocol.Server.HALLO)) {
+			String prompt = "> " + clientName + ", with how many players do you want to play? ";
+	        int choice = readInt(prompt);
+	        boolean valid = choice >= 0 && choice <= 4;
+	        while (!valid) {
+	            System.out.println("ERROR: Must be between 0 and 4");
+	            choice = readInt(prompt);
+	            valid = choice >= 0 && choice <= 4;
+	        }
+	        return Protocol.Client.REQUESTGAME + "_" + choice;
+		}
+		return Protocol.Server.ERROR;
+	}
 	
 	public static String readString(String tekst) {
 		System.out.print(tekst);
@@ -109,7 +127,28 @@ public class Client extends Thread{
 	public static void print(String msg) {
 		System.out.println(msg);
 	}
-	
+	  private int readInt(String prompt) {
+	        int value = 0;
+	        boolean intRead = false;
+	        // SCANNER HIER GEPLAATST IPV IN DE DO-TRY LOOP
+	        
+	        Scanner line = new Scanner(System.in);
+	        do {
+	            System.out.print(prompt);
+	            try (//Scanner line = new Scanner(System.in);
+
+	                 Scanner scannerLine = new Scanner(line.nextLine());
+	            ) {
+	                if (scannerLine.hasNextInt()) {
+	                    intRead = true;
+	                    value = scannerLine.nextInt();
+	                }
+	            }
+	        } while (!intRead);
+	        line.close();
+	        return value;
+	 }
+	  
 	public void shutDown() {
 		try {
 			System.out.println("Closing socket connection...");

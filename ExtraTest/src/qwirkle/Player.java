@@ -8,17 +8,15 @@ import protocol.Protocol;
 
 public abstract class Player {
     private String name;
-    private Deck deck;
     private Tile[] hand;
     private int move[][];
     public final static int HANDSIZE = 6;
     private int turnNr = 0;
     private int score;
        
-    public Player(String name, Deck deck) {
+    public Player(String name) {
     	this.name = name;
-    	this.deck = deck;
-    	this.hand = deck.drawHand();
+    	this.hand = new Tile[HANDSIZE];
     }
     
     public int getScore() {
@@ -32,12 +30,9 @@ public abstract class Player {
 	public String getName() {
     	return name;
     }
-	
-	public Deck getDeck() {
-		return deck;
-	}
-    
-    public ArrayList<Tile> updateHand() {
+	   
+    public String updateHand(Deck deck) {
+		String newStones = Protocol.Server.ADDTOHAND;
     	ArrayList<Tile> temp = new ArrayList<Tile>();
 		for (int i = 0; i < HANDSIZE; i++) {
 			if (hand[i] == null) {
@@ -46,7 +41,10 @@ public abstract class Player {
 				temp.add(tempTile);
 			}
 		}
-		return temp;		
+    	for (Tile t : temp) {
+        	newStones += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
+    	}
+    	return newStones;
 	}
     
     public Tile[] getHand() {
@@ -67,9 +65,9 @@ public abstract class Player {
     
     // makemove geeft de beslissingen die je maakt door aan het bord (dmv setfield of swap)
     // later zal makemove deze beslissingen door moeten geven aan de server dmv protocol
- public abstract String makeMove(Board board, String msg);
+ public abstract boolean makeMove(Board board, String msg);
  
- public String changeStones(String[] msg) {
+ public String changeStones(String[] msg, Deck deck) {
 	 String msgback = Protocol.Server.ADDTOHAND;
 	 ArrayList<Tile> newTiles = new ArrayList<Tile>();
 	 for (int i = 1; i < msg.length; i++) {
