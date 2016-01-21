@@ -46,10 +46,7 @@ public class Client extends Thread{
 		client.sendMessage("HALLO_" + args[0]);
 		client.start();
 		
-		do{
-			String input = readString("");
-			client.sendMessage(input);
-		}while(true);
+	
 	}
 	
 	private static String clientName;
@@ -57,6 +54,7 @@ public class Client extends Thread{
 	private BufferedReader in;
 	private BufferedWriter out;
 	private Game currentGame;
+	private Player currentPlayer;
 	
 	public Client(String name, InetAddress host, int port) {
 		clientName = name;
@@ -76,7 +74,7 @@ public class Client extends Thread{
 		while (msg != null) {
 			try {
 				msg = in.readLine();
-				print(msg);
+				//print(msg);
 				String msgback = handleMsgFromServer(msg);
 				if (msgback != ClientHandler.NOREPLY) {
 				sendMessage(msgback);
@@ -112,54 +110,49 @@ public class Client extends Thread{
 	            valid = choice >= 0 && choice <= 4;
 	        }
 	        return Protocol.Client.REQUESTGAME + "_" + choice;
+		} else if (msg.startsWith(Protocol.Server.OKWAITFOR)) {
+			print("Waiting for " + splitMsg[1] + "more player(s)");
 		} else if (msg.startsWith(Protocol.Server.STARTGAME)) {
+			int yourself = -1;
 			String[] names = new String[splitMsg.length-1];
 			for (int i = 1; i < splitMsg.length; i++) {
 				if (splitMsg[i].equals(clientName)) {
 					names[i-1] = "";
+					yourself = i-1;
 				} else {
 					names[i-1] = splitMsg[i];
 				}
 			}
-			currentGame = new Game(names,null);
-		} 
+			currentGame = new Game(names);
+			currentPlayer = currentGame.getPlayers()[yourself];
+			System.out.println(currentGame.getBoard().toString());
+		} else if (msg.startsWith(Protocol.Server.ADDTOHAND)) {
+			currentPlayer.addToHand(msg.substring(10));
+		} else if (msg.startsWith(Protocol.Server.STONESINBAG)) {
+			//nog niets
+		} else if (msg.startsWith(Protocol.Server.MOVE)) {
+			currentGame.getBoard().setMove(msg.substring(5));
+		}
 		return ClientHandler.NOREPLY;
 	}
 	
-	public static String readString(String tekst) {
+	public static int readInt(String tekst) {
 		System.out.print(tekst);
-		String antw = null;
+		int antw = -1;
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					System.in));
-			antw = in.readLine();
+			antw = Integer.parseInt(in.readLine());
 		} catch (IOException e) {
 		}
 
-		return (antw == null) ? "" : antw;
+		return antw;
 	}
 	
 	public static void print(String msg) {
 		System.out.println(msg);
 	}
-	  private int readInt(String prompt) {
-	        int value = 0;
-	        boolean intRead = false;
-	     
-	        do {
-	            System.out.print(prompt);
-	            Scanner sc = new Scanner(System.in);
-	            try {
-	            	value = sc.nextInt();
-	            } catch (Exception e){
-	            	System.out.println(prompt);
-	            }
-	            
-				intRead = value >= 0 && value <= 4;
-					// TODO Auto-generated catch block
-	        } while (!intRead);
-	        return value;
-	 }
+	 
 	  
 	public void shutDown() {
 		try {

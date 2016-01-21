@@ -127,4 +127,24 @@ public abstract class Player {
 		return false;
 		}
 	}
+
+	public void addToHand(String tiles) {
+		String[] splitTiles = tiles.split(Character.toString(Protocol.Settings.DELIMITER));
+		int countEmptyTiles = 0;
+		for (Tile t : hand) {
+			if (t == null) {
+				countEmptyTiles++;
+			}
+		}
+		if (countEmptyTiles != splitTiles.length) {
+			// SUPER GROTE ERROR (Want je krijgt meer/minder stenen dan je nodig bent. Server of Client is uit sync)
+		}
+		for (String s : splitTiles) {
+			for (int i = 0; i < HANDSIZE; i++) {
+				if (hand[i] == null) {
+					hand[i] = new Tile(s.charAt(0),s.charAt(1));
+				}
+			}
+		}
+	}
 }

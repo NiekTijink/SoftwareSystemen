@@ -18,8 +18,14 @@ public class Game extends Thread {
 	public int playersTurn;
 	int[][] move = new int[Player.HANDSIZE][3];
 
+	public Game(String[] names) { // voor de client
+		board = new Board();
+		moveNr = 0;
+		players = new Player[1];
+		players[0] = new ComputerPlayer();
+	}
 
-	public Game(String[] names, Server server) {
+	public Game(String[] names, Server server) { // voor de server
 		this.server = server;
 		board = new Board();
 		deck = new Deck();
@@ -33,14 +39,9 @@ public class Game extends Thread {
 		firstMove = new String[players.length];
 		firstMoveScores = new int[players.length];
 		for (int i = 0; i < names.length; i++) { //
-			if (names[i] == ClientHandler.NOREPLY) {
-				players[i] = new ComputerPlayer();
-			} else {
 			players[i] = new HumanPlayer(names[i]);
 			players[i].updateHand(deck);
-			}
 		}
-		
 	}
 	public String makeMove(Player player, String msg) {
 		if(player.makeMove(board, msg)) {

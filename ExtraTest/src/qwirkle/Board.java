@@ -2,6 +2,8 @@ package qwirkle;
 
 import java.util.ArrayList;
 
+import protocol.Protocol;
+
 
 public class Board {
 	private Tile[][] fields = new Tile[MAXSIZE][MAXSIZE];
@@ -39,6 +41,15 @@ public class Board {
 	
 	public boolean isEmptyField(int xValue, int yValue) {
 		return (isField(xValue, yValue) && fields[xValue][yValue] == null);
+	}
+	
+	public void setMove(String msg) {
+		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
+		for (int i = 0; i < splitMsg.length; i++) {
+			String[] move = splitMsg[i].split("\\" + Protocol.Settings.DELIMITER2);
+			Tile temp = new Tile(move[0].charAt(0),move[0].charAt(1));
+			setField(Integer.parseInt(move[1]),Integer.parseInt(move[2]),temp);
+		}
 	}
 	
 	public void setField(int xValue, int yValue, Tile tile) {
@@ -83,7 +94,12 @@ public class Board {
         return boundaries;
      }
 
-	public String toString(int [] bound) {
+	public String toString() {
+		int [] bound = new int[4];
+		bound[0] = 65;
+		bound[1] = 65;
+		bound[2] = 35;
+		bound[3] = 35;
         String result = "";
         for (int y = bound[2] - GAMESIZE; y <= bound[0] + GAMESIZE; y++) {
             for (int x = bound[3] - GAMESIZE; x <= bound[1] + GAMESIZE; x++) {
