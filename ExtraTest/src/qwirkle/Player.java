@@ -147,4 +147,12 @@ public abstract class Player {
 			}
 		}
 	}
+
+	public String getHandString() {
+		String answ = getName() + " : Maak een zet/n/n Hand: ";
+		for (Tile t : hand) {
+			answ += t.toString() + ", ";
+		}
+		return answ.substring(0, answ.length()-2);
+	}
 }
