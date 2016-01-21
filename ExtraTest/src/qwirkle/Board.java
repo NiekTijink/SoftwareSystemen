@@ -52,7 +52,7 @@ public class Board {
 		if (test.isLegalMove()) {
 			return test.getScore();
 		}
-		return -1; // dit moet -1 worden
+		return -1;
 	}
 	
 	

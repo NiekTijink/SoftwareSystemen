@@ -10,6 +10,7 @@ public class TestMove {
 	private char typeRow;
 	private int nrOfMoves;
 	private boolean isConnected = false; //checks whether the move is connnected to tiles already on the board
+	private boolean isFirstMove = false;
 	
 	public TestMove(Board board, int[][] move, Tile[] hand) {
 		Board b = board;
@@ -17,6 +18,7 @@ public class TestMove {
 		this.move = move;
 		this.hand = hand; // nu nog niet nodig, later wel lijkt me
 		int i = 0;
+		isFirstMove = (fields[50][50] == null);
 		while (move[i][0] != -1 && i < 6) {
 			nrOfMoves++;
 			b.setField(move[i][0], move[i][1], hand[move[i][2]]);
@@ -155,7 +157,7 @@ public class TestMove {
 			isConnected = true;
 		} else if (typeRow == 'z' && c+easternTiles > 1) {
 			isConnected = true;
-		} else if (fields[50][50 ]== null) {
+		} else if (isFirstMove && fields[50][50]!= null) {
 			isConnected = true;
 		}
 		return true;
@@ -221,7 +223,7 @@ public class TestMove {
 			isConnected = true;
 		} else if (typeRow == 'z' && c+northernTiles > 1) {
 			isConnected = true;
-		} else if (fields[50][50 ]== null) {
+		} else if (isFirstMove && fields[50][50]!= null) {
 			isConnected = true;
 		}
 		

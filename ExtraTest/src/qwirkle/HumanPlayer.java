@@ -31,10 +31,6 @@ public class HumanPlayer extends Player {
 			for (int i = 1; i < split.length; i++) {
 				String[] splitInput = split[i].split("\\"  + Character.toString(Protocol.Settings.DELIMITER2));
 				Tile tile = new Tile(splitInput[0].charAt(0),splitInput[0].charAt(1));
-				System.out.println(getName());
-				for (Tile t : getHand()) {
-					System.out.println(t.toString());
-				}
 				move[i-1][2] = getPlaceInHand(tile);
 				move[i-1][0] = Integer.parseInt(splitInput[1]);
 				move[i-1][1] = Integer.parseInt(splitInput[2]);
