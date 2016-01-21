@@ -115,10 +115,10 @@ public class Client extends Thread{
 		} else if (msg.startsWith(Protocol.Server.STARTGAME)) {
 			currentGame = new Game();
 			currentPlayer = currentGame.getPlayers()[0];
-			System.out.println(currentGame.getBoard().toString());
-			System.out.println(currentPlayer.getHandString());
 		} else if (msg.startsWith(Protocol.Server.ADDTOHAND)) {
 			currentPlayer.addToHand(msg.substring(10));
+			System.out.println(currentGame.getBoard().toString());
+			System.out.println(currentPlayer.getHandString());
 		} else if (msg.startsWith(Protocol.Server.STONESINBAG)) {
 			//nog niets
 		} else if (msg.startsWith(Protocol.Server.MOVE)) {
