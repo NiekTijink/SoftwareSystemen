@@ -114,14 +114,16 @@ public class Server {
 			removeNames(names);
 			broadcast(Protocol.Server.STARTGAME + "_" + clientName, game);
 		} else if (choice == 2 || choice == 3 || choice == 4) {
+			if (waitingRooms.get(choice-2).contains(clientName)) {
+				return Protocol.Server.ERROR + "_generalerror: Already in waitingroom for: " + (choice-2);
+			}
 			if (waitingRooms.get(choice - 2).size() == choice - 1) {
 				names = new String[choice];
 				names[0] = clientName;
 				for (int i = 0; i <= choice - 2; i++) {
 					names[choice - 1 - i] = waitingRooms.get(choice - 2).get(i);
 				}
-				Game game = new Game(names,this); // GAME MOET GESTART WORDEN (nieuwe
-												// thread?)
+				Game game = new Game(names,this); 
 				currentGames.add(game);
 				Thread g = game;
 				g.start();
@@ -143,18 +145,14 @@ public class Server {
 				}
 			} else {
 				waitingRooms.get(choice - 2).add(clientName);
-				String waitingFor = "";
-				for (String name : lobby) {
-					waitingFor += name + "_";
-				}
-				if (waitingFor.equals("")) {
-					return Protocol.Server.OKWAITFOR + "_";
-				}
-				waitingFor = waitingFor.substring(0, waitingFor.length() - 1);
-				return Protocol.Server.OKWAITFOR + "_" + waitingFor;
+				int waitFor = choice - waitingRooms.get(choice-2).size();
+				return Protocol.Server.OKWAITFOR + "_" + waitFor;
 			}
 		} else if (choice == 0) {
 			for (int i = 2; i <= 4; i++) {
+				if (waitingRooms.get(i-2).contains(clientName)) {
+					return Protocol.Server.ERROR + "_generalerror: Already in waitingroom for: " + (i-2) + " persons";
+				}
 				if (waitingRooms.get(i - 2).size() == i - 1) {
 					names = new String[i];
 					names[0] = clientName;

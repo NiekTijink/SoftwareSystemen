@@ -3,28 +3,29 @@ package qwirkle;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import protocol.Protocol;
+
 public class Deck {
 	//Aantal Tiles
-	 public static final int SIZE = 108;
+	public static final int SIZE = 108;
 
 	   	//Lijst van Tiles
-	    private ArrayList<Tile> tiles;
+	 private ArrayList<Tile> tiles;
 	    
 	    //Create deck, elke tile 3 keer
-	    public Deck() {
-	        tiles = new ArrayList<>(SIZE);
-
-	        for (Tile.Shape s : Tile.Shape.values()) {
-	            for (Tile.Color c : Tile.Color.values()) {
-	                for (int i = 0; i < 3; i++) {
-	                    tiles.add(new Tile(c, s));
-	                }
+	 public Deck() {
+		tiles = new ArrayList<>(SIZE);
+	    for (Tile.Shape s : Tile.Shape.values()) {
+	    	for (Tile.Color c : Tile.Color.values()) {
+	    		for (int i = 0; i < 3; i++) {
+	    			tiles.add(new Tile(c, s));
 	            }
 	        }
 	    }
+	 }
 	    
 	  //Aantal Tiles over in deck
-	    public int Tilesremaining() {
+	    public int TilesRemaining() {
 	        return tiles.size();
 	    }
 	    
@@ -38,7 +39,7 @@ public class Deck {
 	    	Shuffle();
 	        Tile[] hand = new Tile[6];
 	        for (int i = 0; i < 6; i++) {
-	            hand[i] = this.drawTile();
+	            hand[i] = drawTile();
 	        }
 	        return hand;
 	    }
@@ -54,6 +55,10 @@ public class Deck {
 	    	Shuffle();
 	    	tiles.add(tiles.size(), tile);
 	    	return tiles.remove(0);    	
+	    }
+	    
+	    public String getStonesInBag() {
+	    	return Protocol.Server.STONESINBAG + "_" + TilesRemaining();
 	    }
 
 		

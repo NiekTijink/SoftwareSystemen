@@ -109,6 +109,8 @@ public class ClientHandler extends Thread {
 			} else {
 				return Protocol.Server.ERROR + "_notyourmove";
 			}
+		} else if (msg.equals(Protocol.Client.GETSTONESINBAG)) {
+			return currentGame.getDeck().getStonesInBag();
 		}
 		return Protocol.Server.ERROR + "_generalerror";
 	}
