@@ -113,18 +113,8 @@ public class Client extends Thread{
 		} else if (msg.startsWith(Protocol.Server.OKWAITFOR)) {
 			print("Waiting for " + splitMsg[1] + "more player(s)");
 		} else if (msg.startsWith(Protocol.Server.STARTGAME)) {
-			int yourself = -1;
-			String[] names = new String[splitMsg.length-1];
-			for (int i = 1; i < splitMsg.length; i++) {
-				if (splitMsg[i].equals(clientName)) {
-					names[i-1] = "";
-					yourself = i-1;
-				} else {
-					names[i-1] = splitMsg[i];
-				}
-			}
-			currentGame = new Game(names);
-			currentPlayer = currentGame.getPlayers()[yourself];
+			currentGame = new Game();
+			currentPlayer = currentGame.getPlayers()[0];
 			System.out.println(currentGame.getBoard().toString());
 		} else if (msg.startsWith(Protocol.Server.ADDTOHAND)) {
 			currentPlayer.addToHand(msg.substring(10));

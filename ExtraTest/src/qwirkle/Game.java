@@ -18,7 +18,7 @@ public class Game extends Thread {
 	public int playersTurn;
 	int[][] move = new int[Player.HANDSIZE][3];
 
-	public Game(String[] names) { // voor de client
+	public Game() { // voor de client
 		board = new Board();
 		moveNr = 0;
 		players = new Player[1];
