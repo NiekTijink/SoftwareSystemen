@@ -50,7 +50,6 @@ public class HumanPlayer extends Player {
     		getHand()[move[i][2]] = null;
     		i++;
     	}
-    	System.out.println(board.getBoard()[50][50].toString());
     	String newStones = Protocol.Server.ADDTOHAND;
     	ArrayList<Tile> temp = updateHand();
     	for (Tile t : temp) {

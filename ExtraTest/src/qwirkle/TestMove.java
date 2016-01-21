@@ -80,6 +80,7 @@ public class TestMove {
 				i++;
 			}
 		} else if (typeRow == 'z') {
+			if(isFirstMove) {score = 1;}
 			Tile.Color color = fields[move[0][0]][move[0][1]].getColor();
 			Tile.Shape shape = fields[move[0][0]][move[0][1]].getShape();
 			return (testHorizontal(move[0][0],move[0][1],color,shape)&& testVertical(move[0][0],move[0][1],color,shape) && isConnected);

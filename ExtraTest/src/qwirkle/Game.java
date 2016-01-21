@@ -42,10 +42,6 @@ public class Game extends Thread {
 		for (int i = 1; i < (splitInput.length); i++) {
 			String s = splitInput[i];
 			String[] splitMoves = s.split("\\*");
-			System.out.println(player.getName());
-			for (Tile t : player.getHand()) {
-				System.out.println(t.toString());
-			}
 			Tile tile = new Tile(splitMoves[0].charAt(0), splitMoves[0].charAt(1));
 			move[i-1][2] = player.getPlaceInHand(tile); 
 			move[i-1][0] = Integer.parseInt(splitMoves[1]);

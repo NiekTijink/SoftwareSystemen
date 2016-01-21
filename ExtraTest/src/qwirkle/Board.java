@@ -48,7 +48,8 @@ public class Board {
 	}
 	
 	public int testMove(int[][] move, Tile[] hand) {
-		TestMove test = new TestMove(this, move, hand);
+		Board dc = deepcopy();
+		TestMove test = new TestMove(dc, move, hand);
 		if (test.isLegalMove()) {
 			return test.getScore();
 		}
