@@ -6,8 +6,8 @@ public class ComputerPlayer extends Player {
 		super("Computer", deck);
 	}
 	
-	public boolean makeMove(Board board, String msg) {
-		 return false;
+	public String makeMove(Board board, String msg) {
+		 return null;
 	}
 	
 	public String makeFirstMove(Board board) {
