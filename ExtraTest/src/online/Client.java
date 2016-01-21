@@ -113,16 +113,27 @@ public class Client extends Thread{
 		} else if (msg.startsWith(Protocol.Server.OKWAITFOR)) {
 			print("Waiting for " + splitMsg[1] + "more player(s)");
 		} else if (msg.startsWith(Protocol.Server.STARTGAME)) {
-			currentGame = new Game();
+			currentGame = new Game(clientName);
 			currentPlayer = currentGame.getPlayers()[0];
 		} else if (msg.startsWith(Protocol.Server.ADDTOHAND)) {
 			currentPlayer.addToHand(msg.substring(10));
-			System.out.println(currentGame.getBoard().toString());
-			System.out.println(currentPlayer.getHandString());
+			if (currentGame.getMoveNr() == 0) {
+				System.out.println(currentGame.getBoard().toString());
+				System.out.println(currentPlayer.getHandString());
+			}
 		} else if (msg.startsWith(Protocol.Server.STONESINBAG)) {
 			//nog niets
 		} else if (msg.startsWith(Protocol.Server.MOVE)) {
-			currentGame.getBoard().setMove(msg.substring(5));
+			String answ = "";
+			for (int i = 3; i < splitMsg.length; i++) {
+				answ += splitMsg[i];
+				currentGame.getBoard().setMove(answ);
+			}
+			if (splitMsg[2].equals(clientName)) {
+				// dit gaat een String teruggeven.
+				// Deze string printen we en sturen we door naar server
+				currentPlayer.makeMove(currentGame.getBoard(), "");
+			}
 		}
 		return ClientHandler.NOREPLY;
 	}

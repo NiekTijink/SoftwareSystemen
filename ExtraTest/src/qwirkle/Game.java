@@ -18,11 +18,12 @@ public class Game extends Thread {
 	public int playersTurn;
 	int[][] move = new int[Player.HANDSIZE][3];
 
-	public Game() { // voor de client
+	public Game(String name) { // voor de client
 		board = new Board();
 		moveNr = 0;
 		players = new Player[1];
-		players[0] = new ComputerPlayer();
+		players[0] = new ComputerPlayer(name);
+		
 	}
 
 	public Game(String[] names, Server server) { // voor de server
@@ -32,7 +33,7 @@ public class Game extends Thread {
 		moveNr = 0;
 		if (names.length == 1) { 
 			players = new Player[2];
-			players[1] = new ComputerPlayer();
+			players[1] = new ComputerPlayer("Computer");
 			players[1].updateHand(deck);
 		}
 		players = new Player[names.length];

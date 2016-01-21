@@ -2,8 +2,8 @@ package qwirkle;
 
 public class ComputerPlayer extends Player {
 
-	public ComputerPlayer() {
-		super("Computer");
+	public ComputerPlayer(String name) {
+		super(name);
 	}
 	
 	public boolean makeMove(Board board, String msg) {
