@@ -139,17 +139,17 @@ public abstract class Player {
 		if (countEmptyTiles != splitTiles.length) {
 			// SUPER GROTE ERROR (Want je krijgt meer/minder stenen dan je nodig bent. Server of Client is uit sync)
 		}
-		for (String s : splitTiles) {
-			for (int i = 0; i < HANDSIZE; i++) {
-				if (hand[i] == null) {
-					hand[i] = new Tile(s.charAt(0),s.charAt(1));
-				}
+		int j = 0;
+		for (int i = 0; i < HANDSIZE; i++) {
+			if (hand[i] == null) {
+				hand[i] = new Tile(splitTiles[j].charAt(0),splitTiles[j].charAt(1));
+				j++;
 			}
 		}
 	}
 
 	public String getHandString() {
-		String answ = getName() + " : Maak een zet/n/n Hand: ";
+		String answ = getName() + " : Maak een zet" + System.lineSeparator() + "Hand: ";
 		for (Tile t : hand) {
 			answ += t.toString() + ", ";
 		}
