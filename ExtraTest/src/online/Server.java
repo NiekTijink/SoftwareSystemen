@@ -190,14 +190,10 @@ public class Server {
 
 	public void makeMove(Game game, Player player, Player nextPlayer, String completeMsg) { 
 		broadcast(Protocol.Server.MOVE + "_" + player.getName() + "_" + 
-				nextPlayer.getName() + completeMsg.substring(9),game);
+				nextPlayer.getName() + "_" + completeMsg.substring(9),game);
 	}
 	
-	public void updateHand(Player player, ArrayList<Tile> tiles) {
-		String msg = Protocol.Server.ADDTOHAND;
-		for (Tile t : tiles) {
-			msg += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
-		}
+	public void updateHand(Player player, String msg) {
 		for (ClientHandler c : threads) {
 			if (c.getClientName().equals(player.getName())) {
 				c.sendMessage(msg);

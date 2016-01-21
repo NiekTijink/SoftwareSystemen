@@ -138,10 +138,10 @@ public class Game extends Thread {
 		}
 		startingPlayer = bestPlayer;
 		System.out.println(players[bestPlayer].getName());
-		players[bestPlayer].makeMove(board,firstMove[bestPlayer]);
+		String newStones = players[bestPlayer].makeMove(board,firstMove[bestPlayer]);
 		playersTurn = (bestPlayer + 1) % players.length;
 		server.makeMove(this, players[bestPlayer], players[playersTurn], firstMove[bestPlayer]);
-		server.updateHand(players[bestPlayer], players[bestPlayer].updateHand());
+		server.updateHand(players[bestPlayer], newStones);
 		moveNr++;
 	}
 

@@ -155,6 +155,8 @@ public class TestMove {
 			isConnected = true;
 		} else if (typeRow == 'z' && c+easternTiles > 1) {
 			isConnected = true;
+		} else if (fields[50][50 ]== null) {
+			isConnected = true;
 		}
 		return true;
 	}
@@ -218,6 +220,8 @@ public class TestMove {
 		} else if (typeRow == 'x' && c+northernTiles > nrOfMoves) {
 			isConnected = true;
 		} else if (typeRow == 'z' && c+northernTiles > 1) {
+			isConnected = true;
+		} else if (fields[50][50 ]== null) {
 			isConnected = true;
 		}
 		
