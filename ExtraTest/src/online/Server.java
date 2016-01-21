@@ -135,8 +135,8 @@ public class Server {
 				for (ClientHandler c : getHandler(game)) {
 					for (Player player : game.getPlayers()) {
 						c.setCurrentGame(game);
-						c.setCurrentPlayer(player);
 						if (player.getName().equals(c.getClientName())) {
+							c.setCurrentPlayer(player);
 							c.sendMessage(initiateHand(player));
 						}
 					}

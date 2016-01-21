@@ -19,21 +19,42 @@ public class HumanPlayer extends Player {
 	
 	public String makeMove(Board board, String msg) {
 		if (!(msg.equals(ClientHandler.NOREPLY))) {
-			HumanTurn ht = new HumanTurn(this, board);
-			int tempscore = ht.determinemove(board, msg);
+			/*HumanTurn ht = new HumanTurn(this, board);
+			int tempscore = ht.determinemove(board, msg);*/
+			move = new int[HANDSIZE][3];
+			for (int i = 0; i < 6; i++) { // initialise
+				for (int j = 0; j < 3; j++) {
+					move[i][j] = -1;
+				}
+			}
+			String[] split = msg.split(Character.toString(Protocol.Settings.DELIMITER));
+			for (int i = 1; i < split.length; i++) {
+				String[] splitInput = split[i].split("\\"  + Character.toString(Protocol.Settings.DELIMITER2));
+				Tile tile = new Tile(splitInput[0].charAt(0),splitInput[0].charAt(1));
+				System.out.println(getName());
+				for (Tile t : getHand()) {
+					System.out.println(t.toString());
+				}
+				move[i-1][2] = getPlaceInHand(tile);
+				move[i-1][0] = Integer.parseInt(splitInput[1]);
+				move[i-1][1] = Integer.parseInt(splitInput[2]);
+			}
+			int tempscore = board.deepcopy().testMove(move, getHand());
 			if (tempscore <= 0) {
 				return ClientHandler.NOREPLY;
 			}
 			addScore(tempscore);
+			System.out.println(getScore());
 		} else {
 			return ClientHandler.NOREPLY;
 		}
 		int i = 0;
     	while (move[i][0] != -1) {
     		board.setField(move[i][0], move[i][1], this.getHand()[move[i][2]]);
-    		this.getHand()[move[i][2]] = null;
+    		getHand()[move[i][2]] = null;
     		i++;
     	}
+    	System.out.println(board.getBoard()[50][50].toString());
     	String newStones = Protocol.Server.ADDTOHAND;
     	ArrayList<Tile> temp = updateHand();
     	for (Tile t : temp) {
@@ -41,6 +62,8 @@ public class HumanPlayer extends Player {
     	}
     	return newStones;
 	}
+	
+
 	public void makeMove(Board board) {
 		if (turnNr == 0 && getName().equals("Thomas")) {
 			System.out.println("Board State :");

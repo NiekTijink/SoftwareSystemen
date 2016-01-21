@@ -26,7 +26,7 @@ public abstract class Player {
     }
     
     public void addScore(int score) {
-    	score += score;
+    	this.score += score;
     }
 
 	public String getName() {

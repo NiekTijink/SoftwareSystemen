@@ -14,11 +14,11 @@ public class HumanTurn extends Turn{
 	public int determinemove(Board b, String msg) {
 		String[] split = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		for (int i = 1; i < split.length; i++) {
-			String[] splitInput = split[i].split(Character.toString(Protocol.Settings.DELIMITER2));
+			String[] splitInput = split[i].split("\\"  + Character.toString(Protocol.Settings.DELIMITER2));
 			Tile tile = new Tile(splitInput[0].charAt(0),splitInput[0].charAt(1));
-			move[i][2] = player.getPlaceInHand(tile);
-			move[i][0] = Integer.parseInt(splitInput[1]);
-			move[i][1] = Integer.parseInt(splitInput[2]);
+			move[i-1][2] = player.getPlaceInHand(tile);
+			move[i-1][0] = Integer.parseInt(splitInput[1]);
+			move[i-1][1] = Integer.parseInt(splitInput[2]);
 		}
 		return testMove(move, board);
 	}

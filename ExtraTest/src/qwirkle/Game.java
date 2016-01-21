@@ -39,11 +39,17 @@ public class Game extends Thread {
 	public String addToFirstMove(Player player, String msg) {
 		initialiseMove(move);
 		String[] splitInput = msg.split(Character.toString(Protocol.Settings.DELIMITER));
-		for (int i = 0; i < (splitInput.length / 3); i++) {
-			Tile tile = new Tile(splitInput[1 + 3 * i].charAt(0), splitInput[1 + 3 * i].charAt(0));
-			move[i][2] = player.getPlaceInHand(tile);
-			move[i][0] = Integer.parseInt(splitInput[2 + 3 * i]);
-			move[i][1] = Integer.parseInt(splitInput[3 + 3 * i]);
+		for (int i = 1; i < (splitInput.length); i++) {
+			String s = splitInput[i];
+			String[] splitMoves = s.split("\\*");
+			System.out.println(player.getName());
+			for (Tile t : player.getHand()) {
+				System.out.println(t.toString());
+			}
+			Tile tile = new Tile(splitMoves[0].charAt(0), splitMoves[0].charAt(1));
+			move[i-1][2] = player.getPlaceInHand(tile); 
+			move[i-1][0] = Integer.parseInt(splitMoves[1]);
+			move[i-1][1] = Integer.parseInt(splitMoves[2]);
 		}
 		for (int i = 0; i < players.length; i++) {
 			if (players[i].getName() == player.getName()) {
@@ -131,6 +137,7 @@ public class Game extends Thread {
 			}
 		}
 		startingPlayer = bestPlayer;
+		System.out.println(players[bestPlayer].getName());
 		players[bestPlayer].makeMove(board,firstMove[bestPlayer]);
 		playersTurn = (bestPlayer + 1) % players.length;
 		server.makeMove(this, players[bestPlayer], players[playersTurn], firstMove[bestPlayer]);

@@ -17,10 +17,10 @@ public class TestMove {
 		this.move = move;
 		this.hand = hand; // nu nog niet nodig, later wel lijkt me
 		int i = 0;
-		while (move[i][0] != -1 && i < 5) {
-			i++;
+		while (move[i][0] != -1 && i < 6) {
 			nrOfMoves++;
-			b.setField(move[i-1][0], move[i-1][1], hand[move[i-1][2]]);
+			b.setField(move[i][0], move[i][1], hand[move[i][2]]);
+			i++;
 		}
 	}
 	
