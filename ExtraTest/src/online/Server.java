@@ -92,6 +92,9 @@ public class Server {
 	}
 
 	public String addClientName(String msg, ClientHandler c) {
+		if (msg.equals(ClientHandler.NOREPLY)) {
+			return Protocol.Server.ERROR + "_nametooshort";
+		}
 		for (int i = 0; i < clientNames.size(); i++) {
 			if (clientNames.get(i).equals(msg)) {
 				return Protocol.Server.ERROR + "_nameexists";

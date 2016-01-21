@@ -2,6 +2,7 @@ package qwirkle;
 
 import java.util.Scanner;
 
+import online.ClientHandler;
 import online.Server;
 import protocol.Protocol;
 
@@ -32,8 +33,12 @@ public class Game extends Thread {
 		firstMove = new String[players.length];
 		firstMoveScores = new int[players.length];
 		for (int i = 0; i < names.length; i++) { //
+			if (names[i] == ClientHandler.NOREPLY) {
+				players[i] = new ComputerPlayer();
+			} else {
 			players[i] = new HumanPlayer(names[i]);
 			players[i].updateHand(deck);
+			}
 		}
 		
 	}

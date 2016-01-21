@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
-
+import qwirkle.*;
 import protocol.Protocol;
 
 
@@ -56,6 +56,7 @@ public class Client extends Thread{
 	private Socket sock;
 	private BufferedReader in;
 	private BufferedWriter out;
+	private Game currentGame;
 	
 	public Client(String name, InetAddress host, int port) {
 		clientName = name;
@@ -75,9 +76,12 @@ public class Client extends Thread{
 		while (msg != null) {
 			try {
 				msg = in.readLine();
-				String msgback = handleMsgFromServer(msg);
-				// hier krijgt client bericht van server. Moet hij automatisch afhandelen
 				print(msg);
+				String msgback = handleMsgFromServer(msg);
+				if (msgback != ClientHandler.NOREPLY) {
+				sendMessage(msgback);
+				}
+				// hier krijgt client bericht van server. Moet hij automatisch afhandelen
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -97,6 +101,7 @@ public class Client extends Thread{
 		// TODO insert body
 	}
 	public String handleMsgFromServer(String msg) {
+		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		if (msg.startsWith(Protocol.Server.HALLO)) {
 			String prompt = "> " + clientName + ", with how many players do you want to play? ";
 	        int choice = readInt(prompt);
@@ -107,7 +112,17 @@ public class Client extends Thread{
 	            valid = choice >= 0 && choice <= 4;
 	        }
 	        return Protocol.Client.REQUESTGAME + "_" + choice;
-		}
+		} else if (msg.startsWith(Protocol.Server.STARTGAME)) {
+			String[] names = new String[splitMsg.length-1];
+			for (int i = 1; i < splitMsg.length; i++) {
+				if (splitMsg[i].equals(clientName)) {
+					names[i-1] = "";
+				} else {
+					names[i-1] = splitMsg[i];
+				}
+			}
+			currentGame = new Game(names,null);
+		} 
 		return Protocol.Server.ERROR;
 	}
 	
