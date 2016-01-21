@@ -46,6 +46,10 @@ public class Client extends Thread{
 		client.sendMessage("HALLO_" + args[0]);
 		client.start();
 		
+		do{
+			String input = readString("");
+			client.sendMessage(input);
+		}while(true);
 	
 	}
 	
@@ -165,5 +169,17 @@ public class Client extends Thread{
 			// TODO Auto-generated catch block			
 			e.printStackTrace();
 		}
+	}
+	public static String readString(String tekst) {
+		System.out.print(tekst);
+		String antw = null;
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					System.in));
+			antw = in.readLine();
+		} catch (IOException e) {
+		}
+
+		return (antw == null) ? "" : antw;
 	}
 }
