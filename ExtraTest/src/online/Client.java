@@ -134,9 +134,9 @@ public class Client extends Thread{
 			System.out.println(msg);
 			String answ = "";
 			for (int i = 3; i < splitMsg.length; i++) {
-				answ += splitMsg[i];
-				currentGame.getBoard().setMove(answ);
+				answ += splitMsg[i] + Protocol.Settings.DELIMITER;
 			}
+			currentGame.getBoard().setMove(answ.substring(0,answ.length()-1));
 			if (splitMsg[2].equals(clientName)) {
 				// dit gaat een String teruggeven.
 				// Deze string printen we en sturen we door naar server
