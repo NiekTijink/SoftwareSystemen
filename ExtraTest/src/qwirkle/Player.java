@@ -1,5 +1,8 @@
 package qwirkle;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -65,7 +68,7 @@ public abstract class Player {
     
     // makemove geeft de beslissingen die je maakt door aan het bord (dmv setfield of swap)
     // later zal makemove deze beslissingen door moeten geven aan de server dmv protocol
- public abstract boolean makeMove(Board board, String msg);
+ public abstract String makeMove(Board board, String msg);
  
  public String changeStones(String[] msg, Deck deck) {
 	 String msgback = Protocol.Server.ADDTOHAND;
@@ -154,5 +157,19 @@ public abstract class Player {
 			answ += t.toString() + ", ";
 		}
 		return answ.substring(0, answ.length()-2);
+	}
+	
+	
+	public String determineMove(Board board) {
+			String antw = null;
+			try {
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						System.in));
+				antw = in.readLine();
+			} catch (IOException e) {
+			}
+
+			return (antw == null) ? "" : antw;
+		
 	}
 }

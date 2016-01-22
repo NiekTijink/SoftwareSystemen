@@ -17,7 +17,7 @@ public class HumanPlayer extends Player {
 		super(name);
 	}
 	
-	public boolean makeMove(Board board, String msg) {
+	public String makeMove(Board board, String msg) {
 		if (!(msg.equals(ClientHandler.NOREPLY))) {
 			/*HumanTurn ht = new HumanTurn(this, board);
 			int tempscore = ht.determinemove(board, msg);*/
@@ -37,12 +37,12 @@ public class HumanPlayer extends Player {
 			}
 			int tempscore = board.deepcopy().testMove(move, getHand());
 			if (tempscore <= 0) {
-				return false;
+				return ClientHandler.NOREPLY;
 			}
 			addScore(tempscore);
 			System.out.println(getScore());
 		} else {
-			return false;
+			return ClientHandler.NOREPLY;
 		}
 		int i = 0;
     	while (move[i][0] != -1) {
@@ -50,7 +50,7 @@ public class HumanPlayer extends Player {
     		getHand()[move[i][2]] = null;
     		i++;
     	}
-    	return true;
+    	return true + "";
 	}
 	
 

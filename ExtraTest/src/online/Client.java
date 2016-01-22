@@ -124,10 +124,14 @@ public class Client extends Thread{
 			if (currentGame.getMoveNr() == 0) {
 				System.out.println(currentGame.getBoard().toString());
 				System.out.println(currentPlayer.getHandString());
+				firstTurn ft = new firstTurn(currentPlayer, currentGame.getBoard());
+				ft.makefirstTurn();
+				return ft.getFirstMoveString();
 			}
 		} else if (msg.startsWith(Protocol.Server.STONESINBAG)) {
 			//nog niets
 		} else if (msg.startsWith(Protocol.Server.MOVE)) {
+			System.out.println(msg);
 			String answ = "";
 			for (int i = 3; i < splitMsg.length; i++) {
 				answ += splitMsg[i];
@@ -136,7 +140,12 @@ public class Client extends Thread{
 			if (splitMsg[2].equals(clientName)) {
 				// dit gaat een String teruggeven.
 				// Deze string printen we en sturen we door naar server
-				currentPlayer.makeMove(currentGame.getBoard(), "");
+				System.out.println(currentGame.getBoard().toString());
+				System.out.println(currentPlayer.getHandString());
+				String msg2 = currentPlayer.determineMove(currentGame.getBoard());
+				if (msg2.startsWith(Protocol.Client.MAKEMOVE)) {
+					return msg2;
+				} // of swappen 
 			}
 		}
 		return ClientHandler.NOREPLY;

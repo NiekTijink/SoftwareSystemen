@@ -14,7 +14,7 @@ public class Deck {
 	    
 	    //Create deck, elke tile 3 keer
 	 public Deck() {
-		tiles = new ArrayList<>(SIZE);
+		tiles = new ArrayList<Tile> (SIZE);
 	    for (Tile.Shape s : Tile.Shape.values()) {
 	    	for (Tile.Color c : Tile.Color.values()) {
 	    		for (int i = 0; i < 3; i++) {

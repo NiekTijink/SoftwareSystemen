@@ -52,6 +52,7 @@ public class ClientHandler extends Thread {
 	}
 
 	public String handleMessageFromClient(String msg) {
+		System.out.println(msg);
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		if (msg.startsWith(Protocol.Client.HALLO)) {
 			String msgback = server.addClientName(splitMsg[1],this);

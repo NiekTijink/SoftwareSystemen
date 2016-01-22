@@ -45,7 +45,7 @@ public class Game extends Thread {
 		}
 	}
 	public String makeMove(Player player, String msg) {
-		if(player.makeMove(board, msg)) {
+		if(player.makeMove(board, msg).equals("true")) {
 			return player.updateHand(deck);
 		}
 		return Protocol.Server.ERROR + "_invalidmove";
@@ -150,9 +150,9 @@ public class Game extends Thread {
 		startingPlayer = bestPlayer;
 		String newStones = makeMove(players[bestPlayer],firstMove[bestPlayer]);
 		playersTurn = (bestPlayer + 1) % players.length;
+		moveNr++;
 		server.makeMove(this, players[bestPlayer], players[playersTurn], firstMove[bestPlayer]);
 		server.updateHand(players[bestPlayer], newStones);
-		moveNr++;
 	}
 
 	private boolean readBoolean(String prompt, String yes, String no) {

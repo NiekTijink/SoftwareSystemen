@@ -6,7 +6,6 @@ import protocol.Protocol;
 
 public class firstTurn {
 	private Board board;
-	private Tile[] hand;
 	private int choice = 0; // 0 of 1 (leggen of swappen)
 	private int[][] move = new int[6][3];
 	private Player player;
@@ -14,10 +13,9 @@ public class firstTurn {
 	private static final int INDEXMOVE = 3;
 	private static final int NUMBEROFSHAPESCOLORS = 12;
 
-	public firstTurn(Player player, Board board, Tile[] hand) {
+	public firstTurn(Player player, Board board) {
 		this.player = player;
 		this.board = board;
-		this.hand = hand;
 		
 		for (int i = 0; i < NROFTILESINHAND; i++) { // initialise
 			for (int j = 0; j < INDEXMOVE; j++) {
@@ -29,7 +27,7 @@ public class firstTurn {
 
 	public void makefirstTurn() {
 		Board deepcopy = board.deepcopy();
-		determinefirstmove(deepcopy, hand);
+		determinefirstmove(deepcopy, player.getHand());
 	}
 		//Bepaal eerste move
 	private void determinefirstmove(Board deepcopy, Tile[] hand) {
