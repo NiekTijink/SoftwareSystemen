@@ -161,6 +161,7 @@ public abstract class Player {
 	
 	
 	public String determineMove(Board board) {
+		System.out.println("Geef je move: ");
 			String antw = null;
 			try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(

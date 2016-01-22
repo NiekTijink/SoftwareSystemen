@@ -146,7 +146,9 @@ public class firstTurn {
 			msg += "_" + player.getHand()[move[nrMoves][2]].getColor().getCharColor() + 
 					player.getHand()[move[nrMoves][2]].getShape().getCharShape() + 
 					"*" + move[nrMoves][0] + "*" + move[nrMoves][1];
+			nrMoves++;
 		}
+		System.out.println(msg);
 		return msg;
 	}
 }

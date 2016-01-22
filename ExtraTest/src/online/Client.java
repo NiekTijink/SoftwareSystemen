@@ -46,10 +46,10 @@ public class Client extends Thread{
 		client.sendMessage("HALLO_" + args[0]);
 		client.start();
 		
-		do{
+		/*do{
 			String input = readString("");
 			client.sendMessage(input);
-		}while(true);
+		}while(true);*/
 	
 	}
 	
