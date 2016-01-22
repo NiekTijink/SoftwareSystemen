@@ -1,5 +1,8 @@
 package qwirkle;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import online.ClientHandler;
@@ -15,6 +18,19 @@ public class HumanPlayer extends Player {
 
 	public HumanPlayer(String name) {
 		super(name);
+	}
+	
+	public String determineMove(Board board) {
+		System.out.println("Geef je move: ");
+			String antw = null;
+			try {
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						System.in));
+				antw = in.readLine();
+			} catch (IOException e) {
+			}
+
+			return (antw == null) ? "" : antw;
 	}
 	
 	public String makeMove(Board board, String msg) {
