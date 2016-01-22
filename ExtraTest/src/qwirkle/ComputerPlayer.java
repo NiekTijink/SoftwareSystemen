@@ -38,7 +38,7 @@ public class ComputerPlayer extends Player {
 				TestMove test = new TestMove(dc,moves,getHand());
 				if (test.isLegalMove()) {
 					return Protocol.Client.MAKEMOVE + "_" + t.getColor().getCharColor() 
-							+ t.getShape().getCharShape() + "\\*" + c.getX() + "//*" + c.getY();
+							+ t.getShape().getCharShape() + "*" + c.getX() + "*" + c.getY();
 				} else {
 					dc.getBoard()[c.getX()][c.getY()] = null;
 				}
