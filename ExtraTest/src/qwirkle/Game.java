@@ -143,8 +143,19 @@ public class Game extends Thread {
 		if (getDeck().TilesRemaining() == 0) {
 			return true;
 		} else {
-		return false;
+			for (Player p : players) {
+				boolean empty = true;
+				for (Tile t : p.getHand()) {
+					if (t != null) {
+						empty = false;
+					}
+				}
+				if (empty) {
+					return true;
+				}
+			}
 		}
+		return false;
 	}
 	public void calcBestFirstMove() {
 		int bestScore = -1;
