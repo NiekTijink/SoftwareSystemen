@@ -84,6 +84,11 @@ public class ClientHandler extends Thread {
 								return newStones;
 							}
 						}
+					if (currentGame.gameOver()) {
+						System.out.println("AFGELOPEN");
+						System.exit(0);
+						// hier iets doen als game is afgelopen
+					}
 					} else {
 						return Protocol.Server.ERROR + "_invalidmove";
 					}

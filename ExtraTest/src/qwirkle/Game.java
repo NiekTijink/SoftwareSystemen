@@ -128,16 +128,24 @@ public class Game extends Thread {
 			calcBestFirstMove();
 		}
 
-		while (!(board.gameOver())) {
+		//while (!(board.gameOver())) {
 			/* 	NIET LANGER NODIG GELOOF IK, DIT KAN DE SERVER (ICM EEN TIMER) DOEN
 
 			players[(moveNr + startingPlayer) % players.length].makeMove(board);
 			server.updateHand(players[(moveNr + startingPlayer) % players.length],
 					players[(moveNr + startingPlayer) % players.length].updateHand());
 			moveNr++;*/
-		}
+		//}
 	}
 
+	
+	public boolean gameOver() {
+		if (getDeck().TilesRemaining() == 0) {
+			return true;
+		} else {
+		return false;
+		}
+	}
 	public void calcBestFirstMove() {
 		int bestScore = -1;
 		int bestPlayer = -1;

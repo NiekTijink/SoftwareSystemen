@@ -66,12 +66,7 @@ public class Board {
 		}
 		return -1;
 	}
-	
-	
-	public boolean gameOver() {
-		return false;
-	}
-	
+		
 	public Board deepcopy() {
 		Board deepcopy = new Board();
 		for (int i = 0; i < 100; i++) {
