@@ -75,7 +75,7 @@ public class ClientHandler extends Thread {
 			} else {
 				if (currentGame.getPlayers()[currentGame.playersTurn] == currentPlayer) {
 					String newStones = currentGame.makeMove(currentPlayer, msg);
-					if (newStones != NOREPLY || newStones.startsWith(Protocol.Server.ERROR)){
+					if (newStones != NOREPLY && !(newStones.startsWith(Protocol.Server.ERROR))){
 						for (int i = 0; i < currentGame.getPlayers().length; i++) {
 							if (currentGame.getPlayers()[i] == currentPlayer) {
 								currentGame.playersTurn = (i+1)%currentGame.getPlayers().length;

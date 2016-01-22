@@ -173,4 +173,12 @@ public abstract class Player {
 			return (antw == null) ? "" : antw;
 		
 	}
+
+	public void deleteTiles(String tiles) {
+		String[] splitTiles = tiles.split(Character.toString(Protocol.Settings.DELIMITER));
+		for (int i = 0; i < splitTiles.length; i++) {
+			int index = getPlaceInHand(new Tile(splitTiles[i].charAt(0),splitTiles[i].charAt(1)));
+			hand[index] = null;
+		}
+	}
 }

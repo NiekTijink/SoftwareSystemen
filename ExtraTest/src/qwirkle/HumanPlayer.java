@@ -37,7 +37,7 @@ public class HumanPlayer extends Player {
 			}
 			int tempscore = board.testMove(move, getHand());
 			if (tempscore <= 0) {
-				return ClientHandler.NOREPLY;
+				return Protocol.Server.ERROR + "invalidMove";
 			}
 			addScore(tempscore);
 			System.out.println(getScore());

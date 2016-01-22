@@ -143,9 +143,13 @@ public class Client extends Thread{
 				System.out.println(currentGame.getBoard().toString());
 				System.out.println(currentPlayer.getHandString());
 				String msg2 = currentPlayer.determineMove(currentGame.getBoard());
-				if (msg2.startsWith(Protocol.Client.MAKEMOVE)) {
+				if (msg2.startsWith(Protocol.Client.MAKEMOVE)) { // jouw beurt
 					return msg2;
 				} // of swappen 
+			} else if (splitMsg[1].equals(clientName)) {// stenen uit hand verwijderen
+				currentPlayer.deleteTiles(answ.substring(0, answ.length() -1));
+			} else if (msg.startsWith(Protocol.Server.ERROR)) {
+				return msg;
 			}
 		}
 		return ClientHandler.NOREPLY;
