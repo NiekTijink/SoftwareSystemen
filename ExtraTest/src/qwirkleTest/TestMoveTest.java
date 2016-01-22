@@ -29,10 +29,11 @@ public class TestMoveTest {
 	@Test
 	public void FirstMoveTest() {
 		initMove();
-		initHand2();
+		initHand1();
 		move[0][0] = 50; move[0][1] = 50; move[0][2] = 0; move[1][0] = 50; move[1][1] = 51; move[1][2] = 1;
 		t = new TestMove(b, move, hand);
-		assertTrue(t.isLegalMove());
+		//assertTrue(t.isLegalMove());
+		assertFalse(t.isLegalMove());
 		t.isLegalMove();
 	}
 	
@@ -55,19 +56,20 @@ public class TestMoveTest {
 	}
 	
 	@Test
-	public void qtest() {
+	public void ComplicatedMoveTest() {
 		initMove();
 		initHand1();
-		initBoard();
+		initBoard1();
 		move[0][0] = 49; move[0][1] = 50; move[0][2] = 0; //move[1][0] = 50; move[1][1] = 51; move[1][2] = 1;
 		t = new TestMove(b, move, hand);
 		assertTrue(t.isLegalMove());
+		assertEquals(4, t.getScore());
 		t.isLegalMove();
 		
 	}
 	
 	@Test
-	public void wtest() {
+	public void qwrikleTest() {
 		fail("Not yet implemented");
 	}
 	
@@ -98,12 +100,14 @@ public class TestMoveTest {
 	}
 	
 	
-	private void initBoard() {
+	private void initBoard1() {
 		b.setField(50, 49, new Tile('D', 'A'));
 		b.setField(50, 50, new Tile('D', 'B'));
 		b.setField(50, 51, new Tile('D', 'C'));
 		b.setField(51, 51, new Tile('A', 'C'));
-		//b.setField(49, 50, new Tile('A', 'C'));
+		b.setField(52, 50, new Tile('B', 'B'));
+		b.setField(48, 50, new Tile('D', 'A'));
+		b.setField(47, 50, new Tile('D', 'D'));
 	}
 
 }
