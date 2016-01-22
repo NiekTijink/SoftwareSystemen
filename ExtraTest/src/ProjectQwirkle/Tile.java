@@ -43,8 +43,8 @@ public class Tile {
     }
     
     public Tile(char charAt, char charAt2) {
-		shape = getShape(charAt);
-		color = getColor(charAt2);
+		color = getShape(charAt);
+		shape = getColor(charAt2);
 	}
 
 	public Shape getShape() {
