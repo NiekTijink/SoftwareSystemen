@@ -37,7 +37,7 @@ public class Tile {
 	private final Shape shape;
     private final Color color;
 
-    public Tile(Shape shape, Color color) {
+    public Tile(Color color, Shape shape) {
         this.shape = shape;
         this.color = color;
     }
