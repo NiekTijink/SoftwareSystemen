@@ -119,9 +119,9 @@ public class TestMove {
 				} else {
 					return false;
 				}
+			} else {
+				doorgaan = false; // stoppen met zoeken als de steen leeg is
 			}
-			doorgaan = false; // stoppen met zoeken als de steen leeg is
-
 		}
 		easternTiles = c - 1;
 		c = 0; //counter reset
