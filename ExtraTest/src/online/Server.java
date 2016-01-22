@@ -190,8 +190,13 @@ public class Server {
 	}
 
 	public void makeMove(Game game, Player player, Player nextPlayer, String completeMsg) { 
-		broadcast(Protocol.Server.MOVE + "_" + player.getName() + "_" + 
+		if (completeMsg.length() > 0) {
+			broadcast(Protocol.Server.MOVE + "_" + player.getName() + "_" + 
 				nextPlayer.getName() + "_" + completeMsg.substring(9),game);
+		} else {
+			broadcast(Protocol.Server.MOVE + "_" + player.getName() + "_" + 
+					nextPlayer.getName() + "_" + "",game);
+		}
 	}
 	
 	public void updateHand(Player player, String msg) {

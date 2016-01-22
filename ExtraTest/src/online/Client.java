@@ -135,10 +135,12 @@ public class Client extends Thread{
 		} else if (msg.startsWith(Protocol.Server.MOVE)) {
 			System.out.println(msg);
 			String answ = "";
-			for (int i = 3; i < splitMsg.length; i++) {
-				answ += splitMsg[i] + Protocol.Settings.DELIMITER;
+			if (splitMsg.length >= 4) {
+				for (int i = 3; i < splitMsg.length; i++) {
+					answ += splitMsg[i] + Protocol.Settings.DELIMITER;
+				}
+				currentGame.getBoard().setMove(answ.substring(0,answ.length()-1));
 			}
-			currentGame.getBoard().setMove(answ.substring(0,answ.length()-1));
 			currentGame.moveNr++;
 			if (splitMsg[2].equals(clientName)) {
 				// dit gaat een String teruggeven.
@@ -148,7 +150,9 @@ public class Client extends Thread{
 				String msg2 = currentPlayer.determineMove(currentGame.getBoard());
 				if (msg2.startsWith(Protocol.Client.MAKEMOVE)) { // jouw beurt
 					return msg2;
-				} // of swappen 
+				} else if (msg2.startsWith(Protocol.Client.CHANGESTONE)) {
+					return msg2;
+				}
 			} else if (splitMsg[1].equals(clientName) && answ.length() > 1) {// stenen uit hand verwijderen
 				currentPlayer.deleteTiles(answ.substring(0, answ.length() -1));
 			} 
