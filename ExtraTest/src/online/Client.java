@@ -103,6 +103,7 @@ public class Client extends Thread{
 		// TODO insert body
 	}
 	public String handleMsgFromServer(String msg) {
+		System.out.println(msg);
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		if (msg.startsWith(Protocol.Server.HALLO)) {
 			String prompt = "> " + clientName + ", with how many players do you want to play? ";
