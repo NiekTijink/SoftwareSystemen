@@ -48,6 +48,9 @@ public class ComputerPlayer extends Player {
 		for (Tile t : getHand()) {
 			swap += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
 		}
+		for (int i = 0; i < HANDSIZE; i++) {
+			getHand()[i] = null;
+		}
 		return swap;
 	}
 	
