@@ -122,7 +122,6 @@ public class Client extends Thread{
 		} else if (msg.startsWith(Protocol.Server.ADDTOHAND)) {
 			currentPlayer.addToHand(msg.substring(10));
 			if (currentGame.getMoveNr() == 0) {
-				System.out.println(currentGame.getBoard().toString());
 				System.out.println(currentPlayer.getHandString());
 				firstTurn ft = new firstTurn(currentPlayer, currentGame.getBoard());
 				ft.makefirstTurn();
@@ -137,6 +136,7 @@ public class Client extends Thread{
 				answ += splitMsg[i] + Protocol.Settings.DELIMITER;
 			}
 			currentGame.getBoard().setMove(answ.substring(0,answ.length()-1));
+			currentGame.moveNr++;
 			if (splitMsg[2].equals(clientName)) {
 				// dit gaat een String teruggeven.
 				// Deze string printen we en sturen we door naar server

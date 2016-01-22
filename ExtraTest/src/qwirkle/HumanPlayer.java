@@ -35,7 +35,7 @@ public class HumanPlayer extends Player {
 				move[i-1][0] = Integer.parseInt(splitInput[1]);
 				move[i-1][1] = Integer.parseInt(splitInput[2]);
 			}
-			int tempscore = board.deepcopy().testMove(move, getHand());
+			int tempscore = board.testMove(move, getHand());
 			if (tempscore <= 0) {
 				return ClientHandler.NOREPLY;
 			}

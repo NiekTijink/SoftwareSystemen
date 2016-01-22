@@ -97,7 +97,7 @@ public class Tile {
     	Tile tile = new Tile('A','B');
     	System.out.println(tile.getColor());
     	String msg = "Makemove_Hoi";
-    	System.out.println(msg.substring(9));
+    	System.out.println(msg.substring(9,msg.length()-1));
     }
 
 }

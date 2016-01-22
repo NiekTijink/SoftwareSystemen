@@ -11,7 +11,7 @@ public class Game extends Thread {
 	private Deck deck;
 	private Player[] players;
 	private Server server;
-	private int moveNr;
+	public int moveNr;
 	private String[] firstMove;
 	private int[] firstMoveScores;
 	public int startingPlayer;
