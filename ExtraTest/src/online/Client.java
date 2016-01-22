@@ -149,7 +149,11 @@ public class Client extends Thread{
 			} else if (splitMsg[1].equals(clientName)) {// stenen uit hand verwijderen
 				currentPlayer.deleteTiles(answ.substring(0, answ.length() -1));
 			} else if (msg.startsWith(Protocol.Server.ERROR)) {
-				return msg;
+				System.out.println(msg);
+				String msg2 = currentPlayer.determineMove(currentGame.getBoard());
+				if (msg2.startsWith(Protocol.Client.MAKEMOVE)) { // jouw beurt
+					return msg2;
+				}
 			}
 		}
 		return ClientHandler.NOREPLY;
