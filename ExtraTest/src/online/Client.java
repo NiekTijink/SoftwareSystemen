@@ -121,7 +121,9 @@ public class Client extends Thread{
 			currentGame = new Game(clientName);
 			currentPlayer = currentGame.getPlayers()[0];
 		} else if (msg.startsWith(Protocol.Server.ADDTOHAND)) {
-			currentPlayer.addToHand(msg.substring(10));
+			if (!(msg.substring(10).equals("notilesremaining"))) {
+				currentPlayer.addToHand(msg.substring(10));
+			}
 			if (currentGame.getMoveNr() == 0) {
 				System.out.println(currentPlayer.getHandString());
 				firstTurn ft = new firstTurn(currentPlayer, currentGame.getBoard());

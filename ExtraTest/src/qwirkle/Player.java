@@ -45,7 +45,12 @@ public abstract class Player {
 			}
 		}
     	for (Tile t : temp) {
-        	newStones += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
+    		if (!(t == null)) {
+            	newStones += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
+    		}
+    	}
+    	if (newStones.equals(Protocol.Server.ADDTOHAND)) {
+    		return newStones + "_notilesremaining";
     	}
     	return newStones;
 	}
@@ -56,7 +61,7 @@ public abstract class Player {
     
     public int getPlaceInHand(Tile tile) {
 		for (int i = 0; i < HANDSIZE; i++) {
-			if (!(hand[i] == null)) {
+			if (!(hand[i] == null) && tile != null) {
 				if (hand[i].getShape() == tile.getShape() && hand[i].getColor() == tile.getColor()) {
 					return i;
 				}
@@ -128,7 +133,9 @@ public abstract class Player {
 	public String getHandString() {
 		String answ = getName() + " : Maak een zet" + System.lineSeparator() + "Hand: ";
 		for (Tile t : hand) {
-			answ += t.toString() + ", ";
+			if (t != null) {
+				answ += t.toString() + ", ";
+			}
 		}
 		return answ.substring(0, answ.length()-2);
 	}

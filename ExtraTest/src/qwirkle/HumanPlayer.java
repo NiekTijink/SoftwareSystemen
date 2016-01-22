@@ -56,7 +56,7 @@ public class HumanPlayer extends Player {
 				return Protocol.Server.ERROR + "invalidMove";
 			}
 			addScore(tempscore);
-			System.out.println(getScore());
+			System.out.println(getName() + ": " + getScore());
 		} else {
 			return ClientHandler.NOREPLY;
 		}

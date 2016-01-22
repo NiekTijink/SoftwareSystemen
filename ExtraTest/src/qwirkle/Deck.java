@@ -46,6 +46,9 @@ public class Deck {
 	    
 	    //Krijg de bovenste Tile en verwijder deze
 	    public Tile drawTile() {
+	    	if (TilesRemaining() == 0) {
+	    		return null;
+	    	}
 	    	Shuffle();
 	    	return tiles.remove(0);
 	    }

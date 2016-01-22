@@ -31,16 +31,18 @@ public class ComputerPlayer extends Player {
 		ArrayList<Coordinate> possibleMoves = getCoordinates(board);
 		for (Coordinate c : possibleMoves) {
 			for (Tile t: getHand()) {
-				dc.setField(c.getX(), c.getY(), t);
-				moves[0][0]=c.getX();
-				moves[0][1]=c.getY();
-				moves[0][2]=getPlaceInHand(t);
-				TestMove test = new TestMove(dc,moves,getHand());
-				if (test.isLegalMove()) {
-					return Protocol.Client.MAKEMOVE + "_" + t.getColor().getCharColor() 
-							+ t.getShape().getCharShape() + "*" + c.getX() + "*" + c.getY();
-				} else {
-					dc.getBoard()[c.getX()][c.getY()] = null;
+				if (t != null) {
+					dc.setField(c.getX(), c.getY(), t);
+					moves[0][0]=c.getX();
+					moves[0][1]=c.getY();
+					moves[0][2]=getPlaceInHand(t);
+					TestMove test = new TestMove(dc,moves,getHand());
+					if (test.isLegalMove()) {
+						return Protocol.Client.MAKEMOVE + "_" + t.getColor().getCharColor() 
+								+ t.getShape().getCharShape() + "*" + c.getX() + "*" + c.getY();
+					} else {
+						dc.getBoard()[c.getX()][c.getY()] = null;
+					}
 				}
 			}
 		}
