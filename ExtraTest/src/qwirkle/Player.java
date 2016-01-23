@@ -69,12 +69,13 @@ public abstract class Player {
 		}
 		return -1;
 	}
-    public void initialiseMove(int[][] move) {
+    public int[][] initialiseMove(int[][] move) {
 		for (int i = 0; i < 6; i++) { // initialise
 			for (int j = 0; j < 3; j++) {
 				move[i][j] = -1;
 			}
 		}
+		return move;
 	}
     
     

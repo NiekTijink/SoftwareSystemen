@@ -86,8 +86,7 @@ public class ComputerTurn extends Turn {
 		}
 		return qwirkle;
 	}
-	
-	
+   
 
 	public String[] readChoice() {
 		Scanner sc = new Scanner(System.in);

@@ -56,6 +56,7 @@ public class Board {
 		if (isField(xValue, yValue) && isEmptyField(xValue, yValue)) {
 			fields[xValue][yValue] = tile;
 		}
+		
 	}
 	
 	public int testMove(int[][] move, Tile[] hand) {
@@ -106,4 +107,6 @@ public class Board {
         }
         return result;
     }
+	
+
 }
