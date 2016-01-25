@@ -182,6 +182,7 @@ public class Server {
 							}
 						}
 					}
+					return ClientHandler.NOREPLY;
 				}
 				waitingRooms.get(i - 2).add(clientName);
 			}

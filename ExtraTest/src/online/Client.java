@@ -59,6 +59,7 @@ public class Client extends Thread{
 	private BufferedWriter out;
 	private Game currentGame;
 	private Player currentPlayer;
+	private boolean typeOfPlayer;
 	
 	public Client(String name, InetAddress host, int port) {
 		clientName = name;
@@ -114,6 +115,7 @@ public class Client extends Thread{
 	            choice = readInt(prompt);
 	            valid = choice >= 0 && choice <= 4;
 	        }
+	        typeOfPlayer = readBoolean("\n> Play another time? (computer/human)?", "computer", "human");
 	        return Protocol.Client.REQUESTGAME + "_" + choice;
 		} else if (msg.startsWith(Protocol.Server.OKWAITFOR)) {
 			print("Waiting for " + splitMsg[1] + "more player(s)");
@@ -156,7 +158,7 @@ public class Client extends Thread{
 			} else if (splitMsg[1].equals(clientName) && answ.length() > 1) {// stenen uit hand verwijderen
 				currentPlayer.deleteTiles(answ.substring(0, answ.length() -1));
 			} 
-		} else if (msg.startsWith(Protocol.Server.ERROR)) {
+		} else if (msg.equals(Protocol.Server.ERROR + "_invalidmove")) {
 				System.out.println(msg);
 				String msg2 = currentPlayer.determineMove(currentGame.getBoard());
 				if (msg2.startsWith(Protocol.Client.MAKEMOVE)) { // jouw beurt
@@ -207,4 +209,16 @@ public class Client extends Thread{
 
 		return (antw == null) ? "" : antw;
 	}
+	
+	private boolean readBoolean(String prompt, String computer, String human) {
+        String answer;
+        Scanner in = new Scanner(System.in);
+        do {
+            System.out.print(prompt);
+            try /*(Scanner in = new Scanner(System.in))*/ {
+                answer = in.hasNextLine() ? in.nextLine() : null;
+            } finally { }
+        } while (answer == null || (!answer.equals(computer) && !answer.equals(human)));
+        return answer.equals(computer);
+    }
 }
