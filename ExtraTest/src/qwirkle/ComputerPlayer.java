@@ -32,10 +32,6 @@ public class ComputerPlayer extends Player {
 		int[][] moves = new int[Player.HANDSIZE][3];
 		initialiseMove(moves);
 		ArrayList<Coordinate> possibleMoves = getCoordinates(board);
-		String qwirkle = getQwirkle(startTime, board, possibleMoves);
-		//if (!(qwirkle.equals(ClientHandler.NOREPLY))) {
-			// return qwirkle;
-		//}
 		ArrayList<ArrayList<Tile>> tileGrouping = getTileDistribution(getHand());
 
 		int bestScore = 0;
