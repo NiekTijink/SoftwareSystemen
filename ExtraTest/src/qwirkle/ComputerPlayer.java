@@ -108,7 +108,7 @@ public class ComputerPlayer extends Player {
 			}
 			elapsedTime = System.currentTimeMillis() - startTime;
 		}
-		if (!bestMove.equals(ClientHandler.NOREPLY)) {
+		if (!bestMove.equals(ClientHandler.NOREPLY) && !bestMove.equals(Protocol.Client.MAKEMOVE)) {
 			String[] split = bestMove.split(Character.toString(Protocol.Settings.DELIMITER));
 			String msg = Protocol.Client.MAKEMOVE;
 			for (int i = 1; i < split.length; i++) {
