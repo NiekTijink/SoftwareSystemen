@@ -40,7 +40,7 @@ public class ComputerPlayer extends Player {
 
 		int bestScore = 0;
 		String bestMove = "";
-		while (elapsedTime < 0.9 * Protocol.Settings.TIMEOUTSECONDS * 1000) {
+		//while (elapsedTime < 0.9 * Protocol.Settings.TIMEOUTSECONDS * 1000) {
 			// pak degene waar er het meest van zijn (kleur of vorm)
 			int maxIndex = -1;
 			int max = 0;
@@ -107,7 +107,7 @@ public class ComputerPlayer extends Player {
 				}
 			}
 			elapsedTime = System.currentTimeMillis() - startTime;
-		}
+		//}
 		if (!bestMove.equals(ClientHandler.NOREPLY)) {
 			String[] split = bestMove.split(Character.toString(Protocol.Settings.DELIMITER));
 			String msg = Protocol.Client.MAKEMOVE;

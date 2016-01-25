@@ -115,7 +115,7 @@ public class Client extends Thread{
 	            choice = readInt(prompt);
 	            valid = choice >= 0 && choice <= 4;
 	        }
-	        typeOfPlayer = readBoolean("\n> Play another time? (computer/human)?", "computer", "human");
+	        typeOfPlayer = readBoolean("\n> Play as computer or human? (computer/human)?", "computer", "human");
 	        return Protocol.Client.REQUESTGAME + "_" + choice;
 		} else if (msg.startsWith(Protocol.Server.OKWAITFOR)) {
 			print("Waiting for " + splitMsg[1] + "more player(s)");
