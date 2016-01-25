@@ -756,8 +756,8 @@ public class ComputerPlayer extends Player {
 			int i = 0;
 			while (bestMove[i][0] != -1) {
 				msg += getHand()[bestMove[i][2]].getColor().getCharColor()
-						+ getHand()[bestMove[i][2]].getShape().getCharShape() + Protocol.Settings.DELIMITER2
-						+ bestMove[i][0] + Protocol.Settings.DELIMITER2 + bestMove[i][1] + Protocol.Settings.DELIMITER;
+						+ getHand()[bestMove[i][2]].getShape().getCharShape() + "\\*" 
+						+ bestMove[i][0] + "\\*" + bestMove[i][1] + Protocol.Settings.DELIMITER;
 				i++;
 			}
 			return msg.substring(msg.length() - 1);
