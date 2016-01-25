@@ -27,34 +27,35 @@ public class TestMove {
 	}
 	
 	public boolean isLegalMove() { // mag maar in rij/kolom & moet andere stenen raken
+		boolean legalMove = false;
 		if (move[0][0] == -1) {
-			return false;
+			legalMove = false;
 		}
 		if (move[0][0] == move[1][0]) { // moves met zelfde x-waarde
 			int i = 2;
 			while (move[i][0] != -1) {
 				if (move[i][0] != move[0][0]) {
-					return false; // niet allemaal zelfde x-waarde
+					legalMove = false; // niet allemaal zelfde x-waarde
 				}
 				i++;
 			}
 			typeRow = 'x';
-			if (!testVertical(move[0][0],move[0][1],
+			if (testVertical(move[0][0],move[0][1],
 					fields[move[0][0]][move[0][1]].getColor(),fields[move[0][0]][move[0][1]].getShape())) {
-				return false;
+				legalMove = true;
 			}
 		} else if (move[0][1] == move[1][1]) { // moves met zelfde y-waarde
 			int i = 2;
 			while (move[i][0] != -1) {
 				if (move[i][1] != move[0][1]) {
-					return false; // niet allemaal zelfde y-waarde
+					legalMove = false;; // niet allemaal zelfde y-waarde
 				}
 				i++;
 			}
 			typeRow = 'y';
-			if (!testHorizontal(move[0][0],move[0][1],
+			if (testHorizontal(move[0][0],move[0][1],
 					fields[move[0][0]][move[0][1]].getColor(),fields[move[0][0]][move[0][1]].getShape())) {
-				return false;
+				legalMove = true;
 			}
 		} else if (move[1][0] == -1) { // maar 1 zet
 			typeRow = 'z';
@@ -64,28 +65,27 @@ public class TestMove {
 			int i = 0;
 			while (move[i][0] != -1) {
 				if (!testHorizontal(move[i][0],move[i][1],
-						fields[move[i][0]][move[i][1]].getColor(),fields[move[i][0]][move[i][1]].getShape())) {
-					return false;
+						fields[move[i][0]][move[i][1]].getColor(),fields[move[i][0]][move[i][1]].getShape()) && !legalMove) {
+					legalMove = false;
+						}
+						i++;
+					}
+				} else if (typeRow == 'y') {
+					int i = 0;
+					while (move[i][0] != -1) {
+						if (!testVertical(move[i][0],move[i][1],
+								fields[move[i][0]][move[i][1]].getColor(),fields[move[i][0]][move[i][1]].getShape())&& !legalMove) {
+							legalMove = false;
+						}
+						i++;
+					}
+				} else if (typeRow == 'z') {
+					if(isFirstMove) {score = 1;}
+					Tile.Color color = fields[move[0][0]][move[0][1]].getColor();
+					Tile.Shape shape = fields[move[0][0]][move[0][1]].getShape();
+					legalMove = (testHorizontal(move[0][0],move[0][1],color,shape)&& testVertical(move[0][0],move[0][1],color,shape) && isConnected);
 				}
-				i++;
-			}
-			return true;
-		} else if (typeRow == 'y') {
-			int i = 0;
-			while (move[i][0] != -1) {
-				if (!testVertical(move[i][0],move[i][1],
-						fields[move[i][0]][move[i][1]].getColor(),fields[move[i][0]][move[i][1]].getShape())) {
-					return false;
-				}
-				i++;
-			}
-		} else if (typeRow == 'z') {
-			if(isFirstMove) {score = 1;}
-			Tile.Color color = fields[move[0][0]][move[0][1]].getColor();
-			Tile.Shape shape = fields[move[0][0]][move[0][1]].getShape();
-			return (testHorizontal(move[0][0],move[0][1],color,shape)&& testVertical(move[0][0],move[0][1],color,shape) && isConnected);
-		}
-		return false;
+		return legalMove;
 
 	}
 		

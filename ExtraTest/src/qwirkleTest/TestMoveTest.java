@@ -30,10 +30,10 @@ public class TestMoveTest {
 	public void FirstMoveTest() {
 		initMove();
 		initHand1();
-		move[0][0] = 50; move[0][1] = 50; move[0][2] = 0; move[1][0] = 50; move[1][1] = 51; move[1][2] = 1;
+		move[0][0] = 50; move[0][1] = 50; move[0][2] = 0; //move[1][0] = 50; move[1][1] = 51; move[1][2] = 1;
 		t = new TestMove(b, move, hand);
-		//assertTrue(t.isLegalMove());
-		assertFalse(t.isLegalMove());
+		assertTrue(t.isLegalMove());
+		assertEquals(1, t.getScore());
 		t.isLegalMove();
 	}
 	
@@ -51,26 +51,27 @@ public class TestMoveTest {
 	
 	
 	@Test
-	public void SimpleMoveTest() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
 	public void ComplicatedMoveTest() {
 		initMove();
 		initHand1();
 		initBoard1();
-		move[0][0] = 49; move[0][1] = 50; move[0][2] = 0; //move[1][0] = 50; move[1][1] = 51; move[1][2] = 1;
+		move[0][0] = 49; move[0][1] = 50; move[0][2] = 0; move[1][0] = 46; move[1][1] = 50; move[1][2] = 1;
 		t = new TestMove(b, move, hand);
 		assertTrue(t.isLegalMove());
-		assertEquals(4, t.getScore());
-		t.isLegalMove();
-		
+		assertEquals(5, t.getScore());	
 	}
 	
 	@Test
 	public void qwrikleTest() {
-		fail("Not yet implemented");
+		initMove();
+		initHand1();
+		initBoard1();
+		move[0][0] = 49; move[0][1] = 50; move[0][2] = 0; 
+		move[1][0] = 46; move[1][1] = 50; move[1][2] = 1; 
+		move[2][0] = 45; move[2][1] = 50; move[2][2] = 2;
+		t = new TestMove(b, move, hand);
+		assertTrue(t.isLegalMove());
+		assertEquals(12, t.getScore());	
 	}
 	
 	private void initMove() {
@@ -83,11 +84,8 @@ public class TestMoveTest {
 	}
 	private void initHand1() {
 		hand[0] = new Tile('D','C');
-		hand[1] = new Tile('A','B'); 
-		/*for(Tile t : hand) {
-			t = new Tile('A','A');
-		}*/
-		
+		hand[1] = new Tile('D','E');
+		hand[2] = new Tile('D','F');
 	}
 	
 	private void initHand2() {
@@ -109,5 +107,16 @@ public class TestMoveTest {
 		b.setField(48, 50, new Tile('D', 'A'));
 		b.setField(47, 50, new Tile('D', 'D'));
 	}
+	
+	private void initBoard2() {
+		b.setField(50, 49, new Tile('D', 'A'));
+		b.setField(50, 50, new Tile('D', 'B'));
+		b.setField(50, 51, new Tile('D', 'C'));
+		b.setField(51, 51, new Tile('A', 'C'));
+		b.setField(52, 50, new Tile('B', 'B'));
+		b.setField(48, 50, new Tile('D', 'A'));
+		b.setField(47, 50, new Tile('D', 'D'));
+	}
+
 
 }
