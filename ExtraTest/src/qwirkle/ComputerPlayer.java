@@ -45,7 +45,7 @@ public class ComputerPlayer extends Player {
 						if (test.isLegalMove()) {
 							if (test.getScore() > bestScore) {
 								bestScore = test.getScore();
-								int x = protocol.Protocol.Settings.ORGINX - c.getX();
+								int x = c.getX() - protocol.Protocol.Settings.ORGINX ;
 								int y = protocol.Protocol.Settings.ORGINY - c.getY();
 								bestMove = Protocol.Client.MAKEMOVE + "_" + t.getColor().getCharColor()
 										+ t.getShape().getCharShape() + "*" + x + "*" + y ;
