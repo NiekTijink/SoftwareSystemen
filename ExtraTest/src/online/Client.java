@@ -140,6 +140,7 @@ public class Client extends Thread {
 					answ += splitMsg[i] + Protocol.Settings.DELIMITER;
 				}
 				currentGame.getBoard().setMove(answ.substring(0, answ.length() - 1));
+				currentGame.moveNr++;
 			}
 			if (splitMsg[2].equals(clientName)) {
 				print(currentGame.getBoard().toString());
