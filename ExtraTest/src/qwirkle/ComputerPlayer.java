@@ -9,9 +9,6 @@ import protocol.Protocol;
  
 public class ComputerPlayer extends Player {
 	
-	final static int ARRAYORGINX = 50;
-	final static int ARRAYORGINY = 50;
-
 	public ComputerPlayer(String name) {
 		super(name);
 	}
@@ -70,7 +67,7 @@ public class ComputerPlayer extends Player {
 		for (Tile t : getHand()) {
 			swap += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
 		}
-		for (int i = 0; i < HANDSIZE; i++) {
+		for (int i = 0; i < protocol.Protocol.Settings.NROFTILESINHAND; i++) {
 			getHand()[i] = null;
 		}
 		return swap;
@@ -85,30 +82,30 @@ public class ComputerPlayer extends Player {
 		while (doorgaan) {
 			int count = 0;
 			for (int k = 0; k <= (2 * i); k++) {
-				if (fields[(ARRAYORGINX - i) + k][ARRAYORGINY + i] == null) {
+				if (fields[(protocol.Protocol.Settings.ORGINX - i) + k][protocol.Protocol.Settings.ORGINY + i] == null) {
 					count++;
-					if (movePossible(fields, (ARRAYORGINX - i) + k, ARRAYORGINY + i)) {
-						possiblecoor.add(new Coordinate((ARRAYORGINX - i) + k, ARRAYORGINY + i));
+					if (movePossible(fields, (protocol.Protocol.Settings.ORGINX - i) + k, protocol.Protocol.Settings.ORGINY + i)) {
+						possiblecoor.add(new Coordinate((protocol.Protocol.Settings.ORGINX - i) + k, protocol.Protocol.Settings.ORGINY + i));
 					}
 				}
-				if (fields[(ARRAYORGINX - i) + k][ARRAYORGINY - i] == null) {
+				if (fields[(protocol.Protocol.Settings.ORGINX - i) + k][protocol.Protocol.Settings.ORGINY - i] == null) {
 					count++;
-					if (movePossible(fields, (ARRAYORGINX - i) + k, ARRAYORGINY - i)) {
-						possiblecoor.add(new Coordinate((ARRAYORGINX - i) + k, ARRAYORGINY - i));
+					if (movePossible(fields, (protocol.Protocol.Settings.ORGINX - i) + k, protocol.Protocol.Settings.ORGINY - i)) {
+						possiblecoor.add(new Coordinate((protocol.Protocol.Settings.ORGINX - i) + k, protocol.Protocol.Settings.ORGINY - i));
 					}
 				}
 			}
 			for (int k = 1; k < (2 * i); k++) { 
-				if (fields[ARRAYORGINX - i][(ARRAYORGINY + i) - k] == null) {
+				if (fields[protocol.Protocol.Settings.ORGINX - i][(protocol.Protocol.Settings.ORGINY + i) - k] == null) {
 					count++;
-					if (movePossible(fields, ARRAYORGINX - i, (ARRAYORGINY + i) - k)) {
-						possiblecoor.add(new Coordinate(ARRAYORGINX - i, (ARRAYORGINY + i) - k));
+					if (movePossible(fields, protocol.Protocol.Settings.ORGINX - i, (protocol.Protocol.Settings.ORGINY + i) - k)) {
+						possiblecoor.add(new Coordinate(protocol.Protocol.Settings.ORGINX - i, (protocol.Protocol.Settings.ORGINY + i) - k));
 					}
 				}
-				if (fields[ARRAYORGINX + i][(ARRAYORGINY + i) - k] == null) {
+				if (fields[protocol.Protocol.Settings.ORGINX + i][(protocol.Protocol.Settings.ORGINY + i) - k] == null) {
 					count++;
-					if (movePossible(fields, ARRAYORGINX + i, (ARRAYORGINY + i) - k)) {
-						possiblecoor.add(new Coordinate(ARRAYORGINX + i, (ARRAYORGINY + i) - k));
+					if (movePossible(fields, protocol.Protocol.Settings.ORGINX + i, (protocol.Protocol.Settings.ORGINY + i) - k)) {
+						possiblecoor.add(new Coordinate(protocol.Protocol.Settings.ORGINX + i, (protocol.Protocol.Settings.ORGINY + i) - k));
 					}
 				}
 			}

@@ -11,16 +11,12 @@ public abstract class Player {
 	private String name;
 	private Tile[] hand;
 	public int[][] move;
-	public final static int HANDSIZE = 6;
-	public final static int MOVEINDEX = 3;
-	private static final int ORGINX = 50;
-	private static final int ORGINY = 50;
 	private int score;
 
 	public Player(String name) {
 		this.name = name;
-		this.hand = new Tile[HANDSIZE];
-		move = new int[HANDSIZE][MOVEINDEX];
+		this.hand = new Tile[protocol.Protocol.Settings.NROFTILESINHAND];
+		move = new int[protocol.Protocol.Settings.NROFTILESINHAND][protocol.Protocol.Settings.INDEXMOVE];
 	}
  
 	public int getScore() {
@@ -38,7 +34,7 @@ public abstract class Player {
 	public String updateHand(Deck deck) {
 		String newStones = Protocol.Server.ADDTOHAND;
 		ArrayList<Tile> temp = new ArrayList<Tile>();
-		for (int i = 0; i < HANDSIZE; i++) {
+		for (int i = 0; i < protocol.Protocol.Settings.NROFTILESINHAND; i++) {
 			if (hand[i] == null) {
 				Tile tempTile = deck.drawTile();
 				hand[i] = tempTile;
@@ -61,7 +57,7 @@ public abstract class Player {
 	}
 
 	public int getPlaceInHand(Tile tile) {
-		for (int i = 0; i < HANDSIZE; i++) {
+		for (int i = 0; i < protocol.Protocol.Settings.NROFTILESINHAND; i++) {
 			if (!(hand[i] == null) && tile != null) {
 				if (hand[i].getShape() == tile.getShape() && 
 						  hand[i].getColor() == tile.getColor()) {
@@ -73,8 +69,8 @@ public abstract class Player {
 	}
 
 	public void initialiseMove() {
-		for (int i = 0; i < HANDSIZE; i++) { // initialise
-			for (int j = 0; j < MOVEINDEX; j++) {
+		for (int i = 0; i < protocol.Protocol.Settings.NROFTILESINHAND; i++) { // initialise
+			for (int j = 0; j < protocol.Protocol.Settings.INDEXMOVE; j++) {
 				move[i][j] = -1;
 			}
 		}
@@ -87,7 +83,7 @@ public abstract class Player {
  
 	public String makeMove(Board board, String msg) {
 		if (!(msg.equals(ClientHandler.NOREPLY))) {
-			move = new int[HANDSIZE][MOVEINDEX];
+			move = new int[protocol.Protocol.Settings.NROFTILESINHAND][protocol.Protocol.Settings.INDEXMOVE];
 			initialiseMove();
 			String[] split = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 			for (int i = 1; i < split.length; i++) {
@@ -95,8 +91,8 @@ public abstract class Player {
 			  + Character.toString(Protocol.Settings.DELIMITER2));
 				Tile tile = new Tile(splitInput[0].charAt(0), splitInput[0].charAt(1));
 				move[i - 1][2] = getPlaceInHand(tile);
-				move[i - 1][0] = ORGINX + (Integer.parseInt(splitInput[1]));
-				move[i - 1][1] = ORGINY - (Integer.parseInt(splitInput[2]));
+				move[i - 1][0] = protocol.Protocol.Settings.ORGINX + (Integer.parseInt(splitInput[1]));
+				move[i - 1][1] = protocol.Protocol.Settings.ORGINY - (Integer.parseInt(splitInput[2]));
 			}
 			int tempscore = board.testMove(move, getHand());
 			if (tempscore <= 0) {
@@ -133,7 +129,7 @@ public abstract class Player {
 				newTiles.add(newTile);
 			}
 		}
-		for (int i = 0; i < HANDSIZE; i++) {
+		for (int i = 0; i < protocol.Protocol.Settings.NROFTILESINHAND; i++) {
 			if (hand[i] == null) {
 				hand[i] = newTiles.remove(0); // KAN DIT?
 				Collections.shuffle(newTiles);
@@ -155,7 +151,7 @@ public abstract class Player {
 			throw new OutOfSyncException();
 		}
 		int j = 0;
-		for (int i = 0; i < HANDSIZE; i++) {
+		for (int i = 0; i < protocol.Protocol.Settings.NROFTILESINHAND; i++) {
 			if (hand[i] == null) {
 				hand[i] = new Tile(splitTiles[j].charAt(0), splitTiles[j].charAt(1));
 				j++;

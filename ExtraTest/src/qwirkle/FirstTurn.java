@@ -8,18 +8,15 @@ public class FirstTurn {
 	private Board board;
 	private int[][] move = new int[6][3];
 	private Player player;
-	private static final int NROFTILESINHAND = 6;
-	private static final int INDEXMOVE = 3;
 	private static final int NUMBEROFSHAPESCOLORS = 12;
-	private static final int ORGINX = 50;
-	private static final int ORGINY = 50;
+
 
 	public FirstTurn(Player player, Board board) {
 		this.player = player;
 		this.board = board;
 
-		for (int i = 0; i < NROFTILESINHAND; i++) { // initialise
-			for (int j = 0; j < INDEXMOVE; j++) {
+		for (int i = 0; i < protocol.Protocol.Settings.NROFTILESINHAND; i++) { 
+			for (int j = 0; j < protocol.Protocol.Settings.INDEXMOVE; j++) {
 				move[i][j] = -1;
 			}
 		}
@@ -142,8 +139,8 @@ public class FirstTurn {
 		}
 		int i1 = 0;
 		while (i1 < sizes.get(maxIndex).size()) {
-			move[i1][0] = ORGINX;
-			move[i1][1] = i1 + ORGINY;
+			move[i1][0] = protocol.Protocol.Settings.ORGINX;
+			move[i1][1] = i1 + protocol.Protocol.Settings.ORGINY;
 			move[i1][2] = player.getPlaceInHand(sizes.get(maxIndex).get(i1));
 			i1++;
 		}

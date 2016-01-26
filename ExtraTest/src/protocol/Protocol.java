@@ -515,8 +515,11 @@ public class Protocol {
 
 		public static final String COMMAND_END = "\n\n";
 		
-		public static final int ORGINX = 50;
-		public static final int ORGINY = 50;
+		public static final int ORGINX = 75;
+		public static final int ORGINY = 75;
+		public static final int ARRAYSIZE = 150;
+		public static final int NROFTILESINHAND = 6;
+		public static final int INDEXMOVE = 3;
 	}
 
 }

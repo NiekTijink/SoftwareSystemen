@@ -6,17 +6,16 @@ import protocol.Protocol;
 
 
 public class Board {
-	private Tile[][] fields = new Tile[MAXSIZE][MAXSIZE];
-	private int[] boundaries = new int[4];
-	private static final int MAXSIZE = 180;
 	private static final int GAMESIZE = 5;
-
+	private Tile[][] fields = new Tile[protocol.Protocol.Settings.ARRAYSIZE][protocol.Protocol.Settings.ARRAYSIZE];
+	private int[] boundaries = new int[4];
+	
 	// maakt een bord aan
 	// misschien kunnen we dit variabel maken, denk dat dat wel kan
 	// eerst maar eens zo werkend krijgen
 	public Board() {
-		for (int i = 0; i < 100; i++) {
-			for (int j = 0; j < 100; j++) {
+		for (int i = 0; i < protocol.Protocol.Settings.ARRAYSIZE; i++) {
+			for (int j = 0; j < protocol.Protocol.Settings.ARRAYSIZE; j++) {
 				fields[i][j] = null;
 			}
 		}
@@ -28,7 +27,7 @@ public class Board {
 	
 	// checkt of een bepaald veld wel een veld is
 	public boolean isField(int xValue, int yValue) {
-		return xValue >= 0 || xValue < 100 || yValue >= 0 || yValue < 100;
+		return xValue >= 0 || xValue < protocol.Protocol.Settings.ARRAYSIZE || yValue >= 0 || yValue < protocol.Protocol.Settings.ARRAYSIZE;
 	}
 	
 	public Tile getField(int xValue, int yValue) {
@@ -80,8 +79,8 @@ public class Board {
 	}
 	
 	public int[] getBoundaries(ArrayList<Coordinate> c) {
-		boundaries[2] = MAXSIZE;
-    	boundaries[3] = MAXSIZE;
+		boundaries[2] = protocol.Protocol.Settings.ARRAYSIZE;
+    	boundaries[3] = protocol.Protocol.Settings.ARRAYSIZE;
 		for (Coordinate temp : c) {
         	boundaries[0] = Math.max(boundaries[0], temp.getY());
             boundaries[1] = Math.max(boundaries[1], temp.getX());
@@ -101,7 +100,7 @@ public class Board {
         for (int y = bound[2] - GAMESIZE; y <= bound[0] + GAMESIZE; y++) {
             for (int x = bound[3] - GAMESIZE; x <= bound[1] + GAMESIZE; x++) {
                 Tile tile = getField(x, y);
-                result += tile == null ? "|" + x + "," + y + "|" : tile.toString() + " ";
+                result += tile == null ? "| " + x + " , " + y + "|" : tile.toString() + " ";
             }
             result += "\n";
         }

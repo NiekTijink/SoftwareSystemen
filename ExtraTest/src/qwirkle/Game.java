@@ -15,7 +15,7 @@ public class Game extends Thread {
 	private int[] firstMoveScores;
 	public int startingPlayer;
 	public int playersTurn;
-	int[][] move = new int[Player.HANDSIZE][3];
+	int[][] move = new int[protocol.Protocol.Settings.NROFTILESINHAND][protocol.Protocol.Settings.INDEXMOVE];
 
 	public Game(String name, Boolean typeOfPlayer) { // voor de client
 		board = new Board();
