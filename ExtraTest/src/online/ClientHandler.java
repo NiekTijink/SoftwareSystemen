@@ -16,14 +16,12 @@ public class ClientHandler extends Thread {
 	private BufferedReader in;
 	private BufferedWriter out;
 	private String clientName;
-	private Socket sock;
 	public static final String NOREPLY = "";
 	private Game currentGame;
 	private Player currentPlayer;
 
 	public ClientHandler(Server server, Socket sockArg) throws IOException {
 		this.server = server;
-		sock = sockArg;
 		in = new BufferedReader(new InputStreamReader(sockArg.getInputStream()));
 		out = new BufferedWriter(new OutputStreamWriter(sockArg.getOutputStream()));
 	}

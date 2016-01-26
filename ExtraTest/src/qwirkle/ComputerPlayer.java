@@ -28,31 +28,29 @@ public class ComputerPlayer extends Player {
 
 	public String determineMove(Board board) {
 		long startTime = System.currentTimeMillis();
-		while (System.currentTimeMillis() - startTime < 3000) {
-			
-		}
 		initialiseMove();
 		ArrayList<Coordinate> possibleMoves = getCoordinates(board);
 		int bestScore = 0;
 		String bestMove = "";
-
-		Board dc = board.deepcopy();
-		for (Coordinate c : possibleMoves) {
-			for (Tile t : getHand()) {
-				if (t != null) {
-					dc.setField(c.getX(), c.getY(), t);
-					move[0][0] = c.getX();
-					move[0][1] = c.getY();
-					move[0][2] = getPlaceInHand(t);
-					TestMove test = new TestMove(dc, move, getHand());
-					if (test.isLegalMove()) {
-						if (test.getScore() > bestScore) {
-							bestScore = test.getScore();
-							bestMove = Protocol.Client.MAKEMOVE + "_" + t.getColor().getCharColor()
-									+ t.getShape().getCharShape() + "*" + c.getX() + "*" + c.getY();
+		while (System.currentTimeMillis() - startTime < 0.9 * Protocol.Settings.TIMEOUTSECONDS * 1000) {
+			Board dc = board.deepcopy();
+			for (Coordinate c : possibleMoves) {
+				for (Tile t : getHand()) {
+					if (t != null) {
+						dc.setField(c.getX(), c.getY(), t);
+						move[0][0] = c.getX();
+						move[0][1] = c.getY();
+						move[0][2] = getPlaceInHand(t);
+						TestMove test = new TestMove(dc, move, getHand());
+						if (test.isLegalMove()) {
+							if (test.getScore() > bestScore) {
+								bestScore = test.getScore();
+								bestMove = Protocol.Client.MAKEMOVE + "_" + t.getColor().getCharColor()
+										+ t.getShape().getCharShape() + "*" + c.getX() + "*" + c.getY();
+							}
+						} else {
+							dc.getBoard()[c.getX()][c.getY()] = null;
 						}
-					} else {
-						dc.getBoard()[c.getX()][c.getY()] = null;
 					}
 				}
 			}
@@ -130,7 +128,11 @@ public class ComputerPlayer extends Player {
 		long starttime = System.currentTimeMillis();
 		ComputerPlayer cp = new ComputerPlayer("Niek");
 		Deck deck = new Deck();
-		cp.addToHand("AE_DA_DB_CC_CA_DF");
+		try {
+			cp.addToHand("AE_DA_DB_CC_CA_DF");
+		} catch (Exception e) {
+			System.exit(0);
+		}
 		cp.updateHand(deck);
 		Board b = new Board();
 		b.setField(50, 50, new Tile('A', 'A'));

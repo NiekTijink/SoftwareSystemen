@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 import qwirkle.*;
+import exception.*;
 import protocol.Protocol;
 
 public class Client extends Thread {
@@ -124,7 +125,11 @@ public class Client extends Thread {
 			currentPlayer = currentGame.getPlayers()[0];
 		} else if (msg.startsWith(Protocol.Server.ADDTOHAND)) {
 			if (!(msg.substring(10).equals("notilesremaining"))) {
-				currentPlayer.addToHand(msg.substring(10));
+				try {
+					currentPlayer.addToHand(msg.substring(10));
+				} catch (OutOfSyncException e) {
+					shutDown(); // client is out sync => shutdown
+				}
 			}
 			if (currentGame.getMoveNr() == 0) {
 				print(currentPlayer.getHandString());

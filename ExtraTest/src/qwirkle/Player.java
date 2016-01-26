@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import online.ClientHandler;
 import protocol.Protocol;
+import exception.*;
   
 public abstract class Player {
 	private String name;
@@ -138,7 +139,7 @@ public abstract class Player {
 
 	}
 
-	public void addToHand(String tiles) {
+	public void addToHand(String tiles) throws OutOfSyncException {
 		String[] splitTiles = tiles.split(Character.toString(Protocol.Settings.DELIMITER));
 		int countEmptyTiles = 0;
 		for (Tile t : hand) {
@@ -146,9 +147,8 @@ public abstract class Player {
 				countEmptyTiles++;
 			}
 		}
-		if (countEmptyTiles != splitTiles.length) {
-			// SUPER GROTE ERROR (Want je krijgt meer/minder stenen dan je nodig
-			// bent. Server of Client is uit sync)
+		if (countEmptyTiles < splitTiles.length) {
+			throw new OutOfSyncException();
 		}
 		int j = 0;
 		for (int i = 0; i < HANDSIZE; i++) {
