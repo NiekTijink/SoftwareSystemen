@@ -10,33 +10,32 @@ import online.ClientHandler;
 import protocol.Protocol;
 
 public abstract class Player {
-    private String name;
-    private Tile[] hand;
-    private int move[][];
-    public final static int HANDSIZE = 6;
-    private int turnNr = 0;
-    private int score;
-       
-    public Player(String name) {
-    	this.name = name;
-    	this.hand = new Tile[HANDSIZE];
-    }
-    
-    public int getScore() {
-    	return score;
-    }
-    
-    public void addScore(int score) {
-    	this.score += score;
-    }
+	private String name;
+	private Tile[] hand;
+	private int move[][];
+	public final static int HANDSIZE = 6;
+	private int score;
+
+	public Player(String name) {
+		this.name = name;
+		this.hand = new Tile[HANDSIZE];
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void addScore(int score) {
+		this.score += score;
+	}
 
 	public String getName() {
-    	return name;
-    }
-	   
-    public String updateHand(Deck deck) {
+		return name;
+	}
+
+	public String updateHand(Deck deck) {
 		String newStones = Protocol.Server.ADDTOHAND;
-    	ArrayList<Tile> temp = new ArrayList<Tile>();
+		ArrayList<Tile> temp = new ArrayList<Tile>();
 		for (int i = 0; i < HANDSIZE; i++) {
 			if (hand[i] == null) {
 				Tile tempTile = deck.drawTile();
@@ -44,22 +43,22 @@ public abstract class Player {
 				temp.add(tempTile);
 			}
 		}
-    	for (Tile t : temp) {
-    		if (!(t == null)) {
-            	newStones += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
-    		}
-    	}
-    	if (newStones.equals(Protocol.Server.ADDTOHAND)) {
-    		return newStones + "_notilesremaining";
-    	}
-    	return newStones;
+		for (Tile t : temp) {
+			if (!(t == null)) {
+				newStones += "_" + t.getColor().getCharColor() + t.getShape().getCharShape();
+			}
+		}
+		if (newStones.equals(Protocol.Server.ADDTOHAND)) {
+			return newStones + "_notilesremaining";
+		}
+		return newStones;
 	}
-    
-    public Tile[] getHand() {
-    	return hand;
-    }
-    
-    public int getPlaceInHand(Tile tile) {
+
+	public Tile[] getHand() {
+		return hand;
+	}
+
+	public int getPlaceInHand(Tile tile) {
 		for (int i = 0; i < HANDSIZE; i++) {
 			if (!(hand[i] == null) && tile != null) {
 				if (hand[i].getShape() == tile.getShape() && hand[i].getColor() == tile.getColor()) {
@@ -69,7 +68,8 @@ public abstract class Player {
 		}
 		return -1;
 	}
-    public int[][] initialiseMove(int[][] move) {
+
+	public int[][] initialiseMove(int[][] move) {
 		for (int i = 0; i < 6; i++) { // initialise
 			for (int j = 0; j < 3; j++) {
 				move[i][j] = -1;
@@ -77,39 +77,67 @@ public abstract class Player {
 		}
 		return move;
 	}
-    
-    
-    // makemove geeft de beslissingen die je maakt door aan het bord (dmv setfield of swap)
-    // later zal makemove deze beslissingen door moeten geven aan de server dmv protocol
- public abstract String makeMove(Board board, String msg);
- public abstract String determineMove(Board board);
 
- public String changeStones(String[] msg, Deck deck) {
-	 String msgback = Protocol.Server.ADDTOHAND;
-	 ArrayList<Tile> newTiles = new ArrayList<Tile>();
-	 for (int i = 1; i < msg.length; i++) {
-		 Tile temp = new Tile(msg[i].charAt(0),msg[i].charAt(1));
-		 int placeInHand = getPlaceInHand(temp);
-		 if (placeInHand<0) {
-			 return ClientHandler.NOREPLY;
-		 } else {
-			 hand[placeInHand] = null;
-			 Tile newTile = deck.swapTile(temp);
-			 msgback += "_" + newTile.getColor().getCharColor() + newTile.getShape().getCharShape();
-			 newTiles.add(newTile);
-		 }
-	 }
-	 for (int i = 0; i < HANDSIZE; i++) {
+	// makemove geeft de beslissingen die je maakt door aan het bord (dmv
+	// setfield of swap)
+	// later zal makemove deze beslissingen door moeten geven aan de server dmv
+	// protocol
+
+	public String makeMove(Board board, String msg) {
+		if (!(msg.equals(ClientHandler.NOREPLY))) {
+			move = new int[HANDSIZE][3];
+			initialiseMove(move);
+			String[] split = msg.split(Character.toString(Protocol.Settings.DELIMITER));
+			for (int i = 1; i < split.length; i++) {
+				String[] splitInput = split[i].split("\\" + Character.toString(Protocol.Settings.DELIMITER2));
+				Tile tile = new Tile(splitInput[0].charAt(0), splitInput[0].charAt(1));
+				move[i - 1][2] = getPlaceInHand(tile);
+				move[i - 1][0] = Integer.parseInt(splitInput[1]);
+				move[i - 1][1] = Integer.parseInt(splitInput[2]);
+			}
+			int tempscore = board.testMove(move, getHand());
+			if (tempscore <= 0) {
+				return Protocol.Server.ERROR + "invalidMove";
+			}
+			addScore(tempscore);
+		} else {
+			return ClientHandler.NOREPLY;
+		}
+		int i = 0;
+		while (move[i][0] != -1) {
+			board.setField(move[i][0], move[i][1], this.getHand()[move[i][2]]);
+			getHand()[move[i][2]] = null;
+			i++;
+		}
+		return true + "";
+	}
+
+	public abstract String determineMove(Board board);
+
+	public String changeStones(String[] msg, Deck deck) {
+		String msgback = Protocol.Server.ADDTOHAND;
+		ArrayList<Tile> newTiles = new ArrayList<Tile>();
+		for (int i = 1; i < msg.length; i++) {
+			Tile temp = new Tile(msg[i].charAt(0), msg[i].charAt(1));
+			int placeInHand = getPlaceInHand(temp);
+			if (placeInHand < 0) {
+				return ClientHandler.NOREPLY;
+			} else {
+				hand[placeInHand] = null;
+				Tile newTile = deck.swapTile(temp);
+				msgback += "_" + newTile.getColor().getCharColor() + newTile.getShape().getCharShape();
+				newTiles.add(newTile);
+			}
+		}
+		for (int i = 0; i < HANDSIZE; i++) {
 			if (hand[i] == null) {
-				hand [i] = newTiles.remove(0); // KAN DIT?
+				hand[i] = newTiles.remove(0); // KAN DIT?
 				Collections.shuffle(newTiles);
 			}
-	 }
-	 return msgback;
-	 
- }
-    
+		}
+		return msgback;
 
+	}
 
 	public void addToHand(String tiles) {
 		String[] splitTiles = tiles.split(Character.toString(Protocol.Settings.DELIMITER));
@@ -120,12 +148,13 @@ public abstract class Player {
 			}
 		}
 		if (countEmptyTiles != splitTiles.length) {
-			// SUPER GROTE ERROR (Want je krijgt meer/minder stenen dan je nodig bent. Server of Client is uit sync)
+			// SUPER GROTE ERROR (Want je krijgt meer/minder stenen dan je nodig
+			// bent. Server of Client is uit sync)
 		}
 		int j = 0;
 		for (int i = 0; i < HANDSIZE; i++) {
 			if (hand[i] == null) {
-				hand[i] = new Tile(splitTiles[j].charAt(0),splitTiles[j].charAt(1));
+				hand[i] = new Tile(splitTiles[j].charAt(0), splitTiles[j].charAt(1));
 				j++;
 			}
 		}
@@ -138,14 +167,13 @@ public abstract class Player {
 				answ += t.toString() + ", ";
 			}
 		}
-		return answ.substring(0, answ.length()-2);
+		return answ.substring(0, answ.length() - 2);
 	}
-	
 
 	public void deleteTiles(String tiles) {
 		String[] splitTiles = tiles.split(Character.toString(Protocol.Settings.DELIMITER));
 		for (int i = 0; i < splitTiles.length; i++) {
-			int index = getPlaceInHand(new Tile(splitTiles[i].charAt(0),splitTiles[i].charAt(1)));
+			int index = getPlaceInHand(new Tile(splitTiles[i].charAt(0), splitTiles[i].charAt(1)));
 			hand[index] = null;
 		}
 	}

@@ -6,63 +6,62 @@ import java.util.Collections;
 import protocol.Protocol;
 
 public class Deck {
-	//Aantal Tiles
+	// Aantal Tiles
 	public static final int SIZE = 108;
 
-	   	//Lijst van Tiles
-	 private ArrayList<Tile> tiles;
-	    
-	    //Create deck, elke tile 3 keer
-	 public Deck() {
-		tiles = new ArrayList<Tile> (SIZE);
-	    for (Tile.Shape s : Tile.Shape.values()) {
-	    	for (Tile.Color c : Tile.Color.values()) {
-	    		for (int i = 0; i < 3; i++) {
-	    			tiles.add(new Tile(c, s));
-	            }
-	        }
-	    }
-	 }
-	    
-	  //Aantal Tiles over in deck
-	    public int TilesRemaining() {
-	        return tiles.size();
-	    }
-	    
-	    //Schud Deck
-	    private void Shuffle() {
-	    	Collections.shuffle(tiles);
-	    }
-	    
-	    //Krijg Hand
-	    public Tile[] drawHand() {
-	    	Shuffle();
-	        Tile[] hand = new Tile[6];
-	        for (int i = 0; i < 6; i++) {
-	            hand[i] = drawTile();
-	        }
-	        return hand;
-	    }
-	    
-	    //Krijg de bovenste Tile en verwijder deze
-	    public Tile drawTile() {
-	    	if (TilesRemaining() == 0) {
-	    		return null;
-	    	}
-	    	Shuffle();
-	    	return tiles.remove(0);
-	    }
-	    
-	    //Wissel Tile
-	    public Tile swapTile(Tile tile) {
-	    	Shuffle();
-	    	tiles.add(tiles.size(), tile);
-	    	return tiles.remove(0);    	
-	    }
-	    
-	    public String getStonesInBag() {
-	    	return Protocol.Server.STONESINBAG + "_" + TilesRemaining();
-	    }
+	// Lijst van Tiles
+	private ArrayList<Tile> tiles;
 
-		
+	// Create deck, elke tile 3 keer
+	public Deck() {
+		tiles = new ArrayList<Tile>(SIZE);
+		for (Tile.Shape s : Tile.Shape.values()) {
+			for (Tile.Color c : Tile.Color.values()) {
+				for (int i = 0; i < 3; i++) {
+					tiles.add(new Tile(c, s));
+				}
+			}
+		}
+	}
+
+	// Aantal Tiles over in deck
+	public int TilesRemaining() {
+		return tiles.size();
+	}
+
+	// Schud Deck
+	private void Shuffle() {
+		Collections.shuffle(tiles);
+	}
+
+	// Krijg Hand
+	public Tile[] drawHand() {
+		Shuffle();
+		Tile[] hand = new Tile[6];
+		for (int i = 0; i < 6; i++) {
+			hand[i] = drawTile();
+		}
+		return hand;
+	}
+
+	// Krijg de bovenste Tile en verwijder deze
+	public Tile drawTile() {
+		if (TilesRemaining() == 0) {
+			return null;
+		}
+		Shuffle();
+		return tiles.remove(0);
+	}
+
+	// Wissel Tile
+	public Tile swapTile(Tile tile) {
+		Shuffle();
+		tiles.add(tiles.size(), tile);
+		return tiles.remove(0);
+	}
+
+	public String getStonesInBag() {
+		return Protocol.Server.STONESINBAG + "_" + TilesRemaining();
+	}
+
 }
