@@ -61,14 +61,15 @@ public class Client extends Thread {
 
 	public Client(String name, InetAddress host, int port) {
 		clientName = name;
+		//boolean connected = socket.isConnected() && !socket.isClosed();
 		try {
 			sock = new Socket(host, port);
 			System.out.println("Client: " + name + " aangemaakt op poort: " + port);
 			in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			shutDown();
 		}
 	}
 
@@ -76,6 +77,7 @@ public class Client extends Thread {
 		String msg = "> ";
 		while (msg != null) {
 			try {
+				//Gaat kapot als server down is
 				msg = in.readLine();
 				// print(msg);
 				String msgback = handleMsgFromServer(msg);
@@ -84,7 +86,7 @@ public class Client extends Thread {
 				}
 				// hier krijgt client bericht van server. Moet hij automatisch
 				// afhandelen
-			} catch (IOException e) {
+			} catch (IOException | InvalidInputFromServerException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -103,7 +105,7 @@ public class Client extends Thread {
 		// TODO insert body
 	}
 
-	public String handleMsgFromServer(String msg) {
+	public String handleMsgFromServer(String msg) throws InvalidInputFromServerException {
 		System.out.println(msg);
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		if (msg.startsWith(Protocol.Server.HALLO)) {
@@ -167,9 +169,9 @@ public class Client extends Thread {
 			if (msg2.startsWith(Protocol.Client.MAKEMOVE)) { // jouw beurt
 				return msg2;
 			}
-		}
-
+		} 
 		return ClientHandler.NOREPLY;
+		
 	}
 
 	public static int readInt(String tekst) {

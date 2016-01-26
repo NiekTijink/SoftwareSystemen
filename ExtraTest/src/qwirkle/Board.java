@@ -92,15 +92,15 @@ public class Board {
 
 	public String toString() {
 		int[] bound = new int[4];
-		bound[0] = 65;
-		bound[1] = 65;
-		bound[2] = 35;
-		bound[3] = 35;
+		bound[0] = 85;
+		bound[1] = 85;
+		bound[2] = 65;
+		bound[3] = 65;
         String result = "";
         for (int y = bound[2] - GAMESIZE; y <= bound[0] + GAMESIZE; y++) {
             for (int x = bound[3] - GAMESIZE; x <= bound[1] + GAMESIZE; x++) {
                 Tile tile = getField(x, y);
-                result += tile == null ? String.format("%1$"+14+ "s", "|" + x + "," + y + "|") : String.format("%1$"+14+ "s", tile.toString() + " ");
+                result += tile == null ? String.format("%1$"+15+ "s", "|" + x + "," + y + "|") : String.format("%1$"+14+ "s", tile.toString() + " ");
             }
             result += "\n";
         }
