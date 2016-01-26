@@ -6,8 +6,6 @@ import online.Server;
 import protocol.Protocol;
   
 public class Game extends Thread {
-	private static final int ORGINX = 50;
-	private static final int ORGINY = 50;
 	private Board board;
 	private Deck deck;
 	private Player[] players;
@@ -66,8 +64,8 @@ public class Game extends Thread {
 			String[] splitMoves = s.split("\\*");
 			Tile tile = new Tile(splitMoves[0].charAt(0), splitMoves[0].charAt(1));
 			move[i - 1][2] = player.getPlaceInHand(tile);
-			move[i - 1][0] = ORGINX + (Integer.parseInt(splitMoves[1]));
-			move[i - 1][1] = ORGINY - (Integer.parseInt(splitMoves[2]));
+			move[i - 1][0] = protocol.Protocol.Settings.ORGINX + (Integer.parseInt(splitMoves[1]));
+			move[i - 1][1] = protocol.Protocol.Settings.ORGINY - (Integer.parseInt(splitMoves[2]));
 		}
 		for (int i = 0; i < players.length; i++) {
 			if (players[i].getName() == player.getName()) {
