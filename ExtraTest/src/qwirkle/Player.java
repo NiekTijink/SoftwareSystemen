@@ -17,6 +17,7 @@ public abstract class Player {
 	public Player(String name) {
 		this.name = name;
 		this.hand = new Tile[HANDSIZE];
+		move = new int[HANDSIZE][3];
 	}
 
 	public int getScore() {
