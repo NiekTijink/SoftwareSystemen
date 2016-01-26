@@ -1,14 +1,11 @@
 package qwirkle;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 
 import online.ClientHandler;
 import protocol.Protocol;
-import qwirkle.Tile.Color;
-import qwirkle.Tile.Shape;
+
 
 public class ComputerPlayer extends Player {
 

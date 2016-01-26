@@ -10,12 +10,6 @@ import protocol.Protocol;
 
 public class HumanPlayer extends Player {
 
-	private int move[][];
-	private int bound[];
-	private int turnNr = 0;
-	private int choice;
-	private HumanTurn humanTurn;
-
 	public HumanPlayer(String name) {
 		super(name);
 	}
