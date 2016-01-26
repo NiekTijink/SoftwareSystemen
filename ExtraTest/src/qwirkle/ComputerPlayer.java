@@ -32,7 +32,7 @@ public class ComputerPlayer extends Player {
 		ArrayList<Coordinate> possibleMoves = getCoordinates(board);
 		int bestScore = 0;
 		String bestMove = "";
-		while (System.currentTimeMillis() - startTime < 0.9 * Protocol.Settings.TIMEOUTSECONDS * 1000) {
+		while (System.currentTimeMillis() - startTime < 0.2 * Protocol.Settings.TIMEOUTSECONDS * 1000) {
 			Board dc = board.deepcopy();
 			for (Coordinate c : possibleMoves) {
 				for (Tile t : getHand()) {
