@@ -18,7 +18,7 @@ public class ComputerPlayer extends Player {
  
 	public String makeMove(Board board, String msg) {
 		return "";
-	}
+	} 
 
 	public String makeFirstMove(Board board) {
 		FirstTurn ft = new FirstTurn(this, board);
@@ -45,7 +45,7 @@ public class ComputerPlayer extends Player {
 						if (test.isLegalMove()) {
 							if (test.getScore() > bestScore) {
 								bestScore = test.getScore();
-								int x = protocol.Protocol.Settings.ORGINX + c.getX();
+								int x = protocol.Protocol.Settings.ORGINX - c.getX();
 								int y = protocol.Protocol.Settings.ORGINY - c.getY();
 								bestMove = Protocol.Client.MAKEMOVE + "_" + t.getColor().getCharColor()
 										+ t.getShape().getCharShape() + "*" + x + "*" + y ;

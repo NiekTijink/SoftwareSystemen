@@ -200,7 +200,7 @@ public class Client extends Thread {
 	}
 
 	public static String readString(String tekst) {
-		System.out.print(tekst);
+		System.out.print(tekst); 
 		String antw = null;
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
