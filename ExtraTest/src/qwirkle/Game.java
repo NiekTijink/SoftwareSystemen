@@ -52,7 +52,6 @@ public class Game extends Thread {
 
 	public String makeMove(Player player, String msg) {
 		if (player.makeMove(board, msg).equals("true")) {
-			moveNr++;
 			return player.updateHand(deck);
 		}
 		return Protocol.Server.ERROR + "_invalidmove";
