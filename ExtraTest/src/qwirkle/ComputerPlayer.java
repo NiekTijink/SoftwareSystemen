@@ -27,6 +27,10 @@ public class ComputerPlayer extends Player {
 	}
 
 	public String determineMove(Board board) {
+		long startTime = System.currentTimeMillis();
+		while (System.currentTimeMillis() - startTime < 3000) {
+			
+		}
 		int[][] moves = new int[Player.HANDSIZE][3];
 		initialiseMove(moves);
 		ArrayList<Coordinate> possibleMoves = getCoordinates(board);
