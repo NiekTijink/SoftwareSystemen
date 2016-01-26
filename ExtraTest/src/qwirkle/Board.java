@@ -20,7 +20,7 @@ public class Board {
 				fields[i][j] = null;
 			}
 		}
-	}
+	} 
 	
 	public Tile[][] getBoard() {
 		return fields;
@@ -28,7 +28,7 @@ public class Board {
 	
 	// checkt of een bepaald veld wel een veld is
 	public boolean isField(int xValue, int yValue) {
-		return (xValue >= 0 || xValue < 100 || yValue >= 0 || yValue < 100);
+		return xValue >= 0 || xValue < 100 || yValue >= 0 || yValue < 100;
 	}
 	
 	public Tile getField(int xValue, int yValue) {
@@ -40,15 +40,15 @@ public class Board {
 	}
 	
 	public boolean isEmptyField(int xValue, int yValue) {
-		return (isField(xValue, yValue) && fields[xValue][yValue] == null);
+		return isField(xValue, yValue) && fields[xValue][yValue] == null;
 	}
 	
 	public void setMove(String msg) {
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		for (int i = 0; i < splitMsg.length; i++) {
 			String[] move = splitMsg[i].split("\\" + Protocol.Settings.DELIMITER2);
-			Tile temp = new Tile(move[0].charAt(0),move[0].charAt(1));
-			setField(Integer.parseInt(move[1]),Integer.parseInt(move[2]),temp);
+			Tile temp = new Tile(move[0].charAt(0), move[0].charAt(1));
+			setField(Integer.parseInt(move[1]), Integer.parseInt(move[2]), temp);
 		}
 	}
 	
@@ -82,17 +82,17 @@ public class Board {
 	public int[] getBoundaries(ArrayList<Coordinate> c) {
 		boundaries[2] = MAXSIZE;
     	boundaries[3] = MAXSIZE;
-		for(Coordinate temp : c){
+		for (Coordinate temp : c) {
         	boundaries[0] = Math.max(boundaries[0], temp.getY());
             boundaries[1] = Math.max(boundaries[1], temp.getX());
             boundaries[2] = Math.min(boundaries[2], temp.getY());
             boundaries[3] = Math.min(boundaries[3], temp.getX());
         }
         return boundaries;
-     }
+    }
 
 	public String toString() {
-		int [] bound = new int[4];
+		int[] bound = new int[4];
 		bound[0] = 65;
 		bound[1] = 65;
 		bound[2] = 35;
@@ -101,7 +101,7 @@ public class Board {
         for (int y = bound[2] - GAMESIZE; y <= bound[0] + GAMESIZE; y++) {
             for (int x = bound[3] - GAMESIZE; x <= bound[1] + GAMESIZE; x++) {
                 Tile tile = getField(x, y);
-                result += tile == null ? "|"+x+","+y+"|" : tile.toString() + " ";
+                result += tile == null ? "|" + x + "," + y + "|" : tile.toString() + " ";
             }
             result += "\n";
         }

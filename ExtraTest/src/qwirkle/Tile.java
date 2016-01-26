@@ -98,6 +98,6 @@ public class Tile {
 		System.out.println(tile.getColor());
 		String msg = "Makemove_Hoi";
 		System.out.println(msg.substring(9, msg.length() - 1));
-	}
+	} 
 
 }

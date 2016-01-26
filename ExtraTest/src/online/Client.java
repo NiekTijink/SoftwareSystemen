@@ -1,5 +1,5 @@
 package online;
-
+ 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -114,7 +114,8 @@ public class Client extends Thread {
 				choice = readInt(prompt);
 				valid = choice >= 0 && choice <= 4;
 			}
-			typeOfPlayer = readBoolean("> Play as computer or human? (computer/human)?", "computer", "human");
+			typeOfPlayer = readBoolean(
+					"> Play as computer or human? (computer/human)?", "computer", "human");
 			return Protocol.Client.REQUESTGAME + "_" + choice;
 		} else if (msg.startsWith(Protocol.Server.OKWAITFOR)) {
 			print("Waiting for " + splitMsg[1] + "more player(s)");
@@ -127,7 +128,7 @@ public class Client extends Thread {
 			}
 			if (currentGame.getMoveNr() == 0) {
 				print(currentPlayer.getHandString());
-				firstTurn ft = new firstTurn(currentPlayer, currentGame.getBoard());
+				FirstTurn ft = new FirstTurn(currentPlayer, currentGame.getBoard());
 				ft.makefirstTurn();
 				return ft.getFirstMoveString();
 			}
@@ -151,10 +152,8 @@ public class Client extends Thread {
 				} else if (msg2.startsWith(Protocol.Client.CHANGESTONE)) {
 					return msg2;
 				}
-			} else if (splitMsg[1].equals(clientName) && answ.length() > 1) {// stenen
-																				// uit
-																				// hand
-																				// verwijderen
+			} else if (splitMsg[1].equals(clientName) && answ.length() > 1) {
+				//stenen uit hand verwijderen
 				currentPlayer.deleteTiles(answ.substring(0, answ.length() - 1));
 			}
 		} else if (msg.equals(Protocol.Server.ERROR + "_invalidmove")) {
@@ -209,12 +208,13 @@ public class Client extends Thread {
 
 	private boolean readBoolean(String prompt, String computer, String human) {
 		String answer;
-		Scanner in = new Scanner(System.in);
+		Scanner read = new Scanner(System.in);
 		do {
 			System.out.print(prompt);
 			try /* (Scanner in = new Scanner(System.in)) */ {
-				answer = in.hasNextLine() ? in.nextLine() : null;
+				answer = read.hasNextLine() ? read.nextLine() : null;
 			} finally {
+				read.close();
 			}
 		} while (answer == null || (!answer.equals(computer) && !answer.equals(human)));
 		return answer.equals(computer);

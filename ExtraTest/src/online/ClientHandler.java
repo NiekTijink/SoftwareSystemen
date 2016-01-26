@@ -55,7 +55,7 @@ public class ClientHandler extends Thread {
 		System.out.println(msg);
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		if (msg.startsWith(Protocol.Client.HALLO)) {
-			String msgback = server.addClientName(splitMsg[1],this);
+			String msgback = server.addClientName(splitMsg[1], this);
 			if (!(msgback.startsWith(Protocol.Server.ERROR))) {
 				clientName = splitMsg[1];
 			}
@@ -68,27 +68,27 @@ public class ClientHandler extends Thread {
 			return server.requestGame(clientName, Integer.parseInt(splitMsg[1]));
 		} else if (msg.startsWith(Protocol.Client.MAKEMOVE)) {
 			if (currentGame == null || currentPlayer == null) {
-						return Protocol.Server.ERROR + "_invalidmove";
+				return Protocol.Server.ERROR + "_invalidmove";
 			} else if (currentGame.getMoveNr() == 0) {
 				System.out.println(currentPlayer.getName());
-				return firstMove(currentGame,currentPlayer,msg);
+				return firstMove(currentGame, currentPlayer, msg);
 			} else {
 				if (currentGame.getPlayers()[currentGame.playersTurn] == currentPlayer) {
 					String newStones = currentGame.makeMove(currentPlayer, msg);
-					if (newStones != NOREPLY && !(newStones.startsWith(Protocol.Server.ERROR))){
+					if (newStones != NOREPLY && !(newStones.startsWith(Protocol.Server.ERROR))) {
 						for (int i = 0; i < currentGame.getPlayers().length; i++) {
 							if (currentGame.getPlayers()[i] == currentPlayer) {
-								currentGame.playersTurn = (i+1)%currentGame.getPlayers().length;
+								currentGame.playersTurn = (i + 1) % currentGame.getPlayers().length;
 								server.makeMove(currentGame, currentPlayer,
-										currentGame.getPlayers()[currentGame.playersTurn], msg);
+									   currentGame.getPlayers()[currentGame.playersTurn], msg);
 								return newStones;
 							}
 						}
-					if (currentGame.gameOver()) {
-						System.out.println("AFGELOPEN");
-						System.exit(0);
-						// hier iets doen als game is afgelopen
-					}
+						if (currentGame.gameOver()) {
+							System.out.println("AFGELOPEN");
+							System.exit(0);
+							// hier iets doen als game is afgelopen
+						}
 					} else {
 						return Protocol.Server.ERROR + "_invalidmove";
 					}
@@ -99,12 +99,12 @@ public class ClientHandler extends Thread {
 		} else if (msg.startsWith(Protocol.Client.CHANGESTONE)) {
 			if (currentGame.getPlayers()[currentGame.playersTurn] == currentPlayer) {
 				String newStones = currentPlayer.changeStones(splitMsg, currentGame.getDeck());
-				if (newStones != NOREPLY){
+				if (newStones != NOREPLY) {
 					for (int i = 0; i < currentGame.getPlayers().length; i++) {
 						if (currentGame.getPlayers()[i] == currentPlayer) {
-							currentGame.playersTurn = (i+1)%currentGame.getPlayers().length;
+							currentGame.playersTurn = (i + 1) % currentGame.getPlayers().length;
 							server.makeMove(currentGame, currentPlayer,
-									currentGame.getPlayers()[currentGame.playersTurn], "");
+									  currentGame.getPlayers()[currentGame.playersTurn], "");
 							return newStones;
 						}
 					}

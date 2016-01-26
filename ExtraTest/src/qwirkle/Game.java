@@ -2,10 +2,9 @@ package qwirkle;
 
 import java.util.Scanner;
 
-import online.ClientHandler;
 import online.Server;
 import protocol.Protocol;
-
+  
 public class Game extends Thread {
 	private Board board;
 	private Deck deck;
@@ -58,7 +57,7 @@ public class Game extends Thread {
 	}
 
 	public String addToFirstMove(Player player, String msg) {
-		initialiseMove(move);
+		initialiseMove();
 		String[] splitInput = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		for (int i = 1; i < (splitInput.length); i++) {
 			String s = splitInput[i];
@@ -89,7 +88,7 @@ public class Game extends Thread {
 		return Protocol.Server.ERROR + "_invalidmove";
 	}
 
-	private void initialiseMove(int[][] move) {
+	private void initialiseMove() {
 		for (int i = 0; i < 6; i++) { // initialise
 			for (int j = 0; j < 3; j++) {
 				move[i][j] = -1;
@@ -147,7 +146,7 @@ public class Game extends Thread {
 	}
 
 	public boolean gameOver() {
-		if (getDeck().TilesRemaining() == 0) {
+		if (getDeck().tilesRemaining() == 0) {
 			return true;
 		} else {
 			for (Player p : players) {
@@ -190,6 +189,7 @@ public class Game extends Thread {
 			try /* (Scanner in = new Scanner(System.in)) */ {
 				answer = in.hasNextLine() ? in.nextLine() : null;
 			} finally {
+				in.close();
 			}
 		} while (answer == null || (!answer.equals(yes) && !answer.equals(no)));
 		return answer.equals(yes);

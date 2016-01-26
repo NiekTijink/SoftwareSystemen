@@ -1,13 +1,16 @@
 package qwirkle;
 
-
+ 
 import java.util.ArrayList;
 
 import online.ClientHandler;
 import protocol.Protocol;
 
-
+ 
 public class ComputerPlayer extends Player {
+	
+	final static int ARRAYORGINX = 50;
+	final static int ARRAYORGINY = 50;
 
 	public ComputerPlayer(String name) {
 		super(name);
@@ -18,7 +21,7 @@ public class ComputerPlayer extends Player {
 	}
 
 	public String makeFirstMove(Board board) {
-		firstTurn ft = new firstTurn(this, board);
+		FirstTurn ft = new FirstTurn(this, board);
 		ft.makefirstTurn();
 		return ft.getFirstMoveString();
 	}
@@ -28,8 +31,7 @@ public class ComputerPlayer extends Player {
 		while (System.currentTimeMillis() - startTime < 3000) {
 			
 		}
-		int[][] moves = new int[Player.HANDSIZE][3];
-		initialiseMove(moves);
+		initialiseMove();
 		ArrayList<Coordinate> possibleMoves = getCoordinates(board);
 		int bestScore = 0;
 		String bestMove = "";
@@ -39,10 +41,10 @@ public class ComputerPlayer extends Player {
 			for (Tile t : getHand()) {
 				if (t != null) {
 					dc.setField(c.getX(), c.getY(), t);
-					moves[0][0] = c.getX();
-					moves[0][1] = c.getY();
-					moves[0][2] = getPlaceInHand(t);
-					TestMove test = new TestMove(dc, moves, getHand());
+					move[0][0] = c.getX();
+					move[0][1] = c.getY();
+					move[0][2] = getPlaceInHand(t);
+					TestMove test = new TestMove(dc, move, getHand());
 					if (test.isLegalMove()) {
 						if (test.getScore() > bestScore) {
 							bestScore = test.getScore();
@@ -76,8 +78,6 @@ public class ComputerPlayer extends Player {
 
 	private ArrayList<Coordinate> getCoordinates(Board board) {
 		int i = 0;
-		final int ARRAYORGINX = 50;
-		final int ARRAYORGINY = 50;
 		ArrayList<Coordinate> possiblecoor = new ArrayList<Coordinate>();
 		Tile[][] fields = board.getBoard();
 		boolean doorgaan = true;
@@ -98,17 +98,17 @@ public class ComputerPlayer extends Player {
 					}
 				}
 			}
-			for (int k = 1; k < (2 * i); k++) {
+			for (int k = 1; k < (2 * i); k++) { 
 				if (fields[ARRAYORGINX - i][(ARRAYORGINY + i) - k] == null) {
 					count++;
-					if (movePossible(fields, (ARRAYORGINX - i), (ARRAYORGINY + i) - k)) {
-						possiblecoor.add(new Coordinate((ARRAYORGINX - i), (ARRAYORGINY + i) - k));
+					if (movePossible(fields, ARRAYORGINX - i, (ARRAYORGINY + i) - k)) {
+						possiblecoor.add(new Coordinate(ARRAYORGINX - i, (ARRAYORGINY + i) - k));
 					}
 				}
 				if (fields[ARRAYORGINX + i][(ARRAYORGINY + i) - k] == null) {
 					count++;
-					if (movePossible(fields, (ARRAYORGINX + i), (ARRAYORGINY + i) - k)) {
-						possiblecoor.add(new Coordinate((ARRAYORGINX + i), (ARRAYORGINY + i) - k));
+					if (movePossible(fields, ARRAYORGINX + i, (ARRAYORGINY + i) - k)) {
+						possiblecoor.add(new Coordinate(ARRAYORGINX + i, (ARRAYORGINY + i) - k));
 					}
 				}
 			}
@@ -122,8 +122,8 @@ public class ComputerPlayer extends Player {
 	}
 
 	private boolean movePossible(Tile[][] fields, int i, int j) {
-		return (fields[i][j + 1] != null || fields[i][j - 1] != null || fields[i - 1][j] != null
-				|| fields[i + 1][j] != null);
+		return fields[i][j + 1] != null || fields[i][j - 1] != null || fields[i - 1][j] != null
+				|| fields[i + 1][j] != null;
 	}
 
 	public static void main(String[] args) {

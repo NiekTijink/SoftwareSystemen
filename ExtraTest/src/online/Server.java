@@ -1,5 +1,5 @@
 package online;
-
+ 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -110,15 +110,16 @@ public class Server {
 		if (choice == 1) { // NOG NIET GOED
 			names = new String[1];
 			names[0] = clientName;
-			Game game= new Game(names,this);
+			Game game = new Game(names, this);
 			currentGames.add(game);
 			Thread g = game;
 			g.start();
 			removeNames(names);
 			broadcast(Protocol.Server.STARTGAME + "_" + clientName, game);
 		} else if (choice == 2 || choice == 3 || choice == 4) {
-			if (waitingRooms.get(choice-2).contains(clientName)) {
-				return Protocol.Server.ERROR + "_generalerror: Already in waitingroom for: " + (choice-2);
+			if (waitingRooms.get(choice - 2).contains(clientName)) {
+				return Protocol.Server.ERROR + "_generalerror: Already in waitingroom for: "
+						+ (choice - 2);
 			}
 			if (waitingRooms.get(choice - 2).size() == choice - 1) {
 				names = new String[choice];
@@ -126,13 +127,13 @@ public class Server {
 				for (int i = 0; i <= choice - 2; i++) {
 					names[choice - 1 - i] = waitingRooms.get(choice - 2).get(i);
 				}
-				Game game = new Game(names,this); 
+				Game game = new Game(names, this); 
 				currentGames.add(game);
 				Thread g = game;
 				g.start();
 				String gameWith = "";
-				for (String name : names) {
-					gameWith += name + "_";
+				for (String temp : names) {
+					gameWith += temp + "_";
 				}
 				gameWith = gameWith.substring(0, gameWith.length() - 1);
 				removeNames(names);
@@ -148,13 +149,14 @@ public class Server {
 				}
 			} else {
 				waitingRooms.get(choice - 2).add(clientName);
-				int waitFor = choice - waitingRooms.get(choice-2).size();
+				int waitFor = choice - waitingRooms.get(choice - 2).size();
 				return Protocol.Server.OKWAITFOR + "_" + waitFor;
 			}
 		} else if (choice == 0) {
 			for (int i = 2; i <= 4; i++) {
-				if (waitingRooms.get(i-2).contains(clientName)) {
-					return Protocol.Server.ERROR + "_generalerror: Already in waitingroom for: " + (i-2) + " persons";
+				if (waitingRooms.get(i - 2).contains(clientName)) {
+					return Protocol.Server.ERROR + "_generalerror: Already in waitingroom for: " 
+							+ (i - 2) + " persons";
 				}
 				if (waitingRooms.get(i - 2).size() == i - 1) {
 					names = new String[i];
@@ -163,12 +165,12 @@ public class Server {
 						names[i - 1 - j] = waitingRooms.get(i - 2).get(j);
 					}
 					String gameWith = "";
-					Game game = new Game(names,this);
+					Game game = new Game(names, this);
 					currentGames.add(game);
 					Thread t = game;
 					t.start();
-					for (String name : names) {
-						gameWith += name + "_";
+					for (String temp : names) {
+						gameWith += temp + "_";
 					}
 					gameWith = gameWith.substring(0, gameWith.length() - 1);
 					removeNames(names);
@@ -193,10 +195,10 @@ public class Server {
 	public void makeMove(Game game, Player player, Player nextPlayer, String completeMsg) { 
 		if (completeMsg.length() > 0) {
 			broadcast(Protocol.Server.MOVE + "_" + player.getName() + "_" + 
-				nextPlayer.getName() + "_" + completeMsg.substring(9),game);
+				   nextPlayer.getName() + "_" + completeMsg.substring(9), game);
 		} else {
 			broadcast(Protocol.Server.MOVE + "_" + player.getName() + "_" + 
-					nextPlayer.getName() + "_" + "",game);
+				   nextPlayer.getName() + "_" + "", game);
 		}
 	}
 	
@@ -229,7 +231,8 @@ public class Server {
 	public String initiateHand(Player player) {
 		String hand = Protocol.Server.ADDTOHAND;
 		for (Tile tile : player.getHand()) {
-			hand += "_" + Character.toString(tile.getColor().getCharColor()) + Character.toString(tile.getShape().getCharShape());
+			hand += "_" + Character.toString(tile.getColor().getCharColor()) 
+				+ Character.toString(tile.getShape().getCharShape());
 		}
 		return hand;
 	}
@@ -237,16 +240,16 @@ public class Server {
 	public void removeNames(String[] names) { // de namen die beginnen uit alle
 												// wachtruimtes en evt lobby
 												// verwijderen
-		for (String name : names) {
+		for (String temp : names) {
 			for (int i = 2; i <= 4; i++) {
 				for (int j = 0; j < waitingRooms.get(i - 2).size(); j++) {
-					if (waitingRooms.get(i - 2).get(j).equals(name)) {
+					if (waitingRooms.get(i - 2).get(j).equals(temp)) {
 						waitingRooms.get(i - 2).remove(j);
 					}
 				}
 			}
 			for (int k = 0; k < lobby.size(); k++) {
-				if (lobby.get(k).equals(name)) {
+				if (lobby.get(k).equals(temp)) {
 					lobby.remove(k);
 				}
 			}

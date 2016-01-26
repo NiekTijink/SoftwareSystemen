@@ -1,18 +1,15 @@
 package qwirkle;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import online.ClientHandler;
 import protocol.Protocol;
-
+  
 public abstract class Player {
 	private String name;
 	private Tile[] hand;
-	private int move[][];
+	public int[][] move;
 	public final static int HANDSIZE = 6;
 	private int score;
 
@@ -25,8 +22,8 @@ public abstract class Player {
 		return score;
 	}
 
-	public void addScore(int score) {
-		this.score += score;
+	public void addScore(int a) {
+		this.score += a;
 	}
 
 	public String getName() {
@@ -61,7 +58,8 @@ public abstract class Player {
 	public int getPlaceInHand(Tile tile) {
 		for (int i = 0; i < HANDSIZE; i++) {
 			if (!(hand[i] == null) && tile != null) {
-				if (hand[i].getShape() == tile.getShape() && hand[i].getColor() == tile.getColor()) {
+				if (hand[i].getShape() == tile.getShape() && 
+						  hand[i].getColor() == tile.getColor()) {
 					return i;
 				}
 			}
@@ -69,13 +67,12 @@ public abstract class Player {
 		return -1;
 	}
 
-	public int[][] initialiseMove(int[][] move) {
+	public void initialiseMove() {
 		for (int i = 0; i < 6; i++) { // initialise
 			for (int j = 0; j < 3; j++) {
 				move[i][j] = -1;
 			}
 		}
-		return move;
 	}
 
 	// makemove geeft de beslissingen die je maakt door aan het bord (dmv
@@ -86,10 +83,11 @@ public abstract class Player {
 	public String makeMove(Board board, String msg) {
 		if (!(msg.equals(ClientHandler.NOREPLY))) {
 			move = new int[HANDSIZE][3];
-			initialiseMove(move);
+			initialiseMove();
 			String[] split = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 			for (int i = 1; i < split.length; i++) {
-				String[] splitInput = split[i].split("\\" + Character.toString(Protocol.Settings.DELIMITER2));
+				String[] splitInput = split[i].split("\\" 
+			  + Character.toString(Protocol.Settings.DELIMITER2));
 				Tile tile = new Tile(splitInput[0].charAt(0), splitInput[0].charAt(1));
 				move[i - 1][2] = getPlaceInHand(tile);
 				move[i - 1][0] = Integer.parseInt(splitInput[1]);
@@ -125,7 +123,8 @@ public abstract class Player {
 			} else {
 				hand[placeInHand] = null;
 				Tile newTile = deck.swapTile(temp);
-				msgback += "_" + newTile.getColor().getCharColor() + newTile.getShape().getCharShape();
+				msgback += "_" + newTile.getColor().getCharColor() 
+						+ newTile.getShape().getCharShape();
 				newTiles.add(newTile);
 			}
 		}

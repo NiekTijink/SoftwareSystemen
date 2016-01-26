@@ -3,17 +3,16 @@ package qwirkle;
 import java.util.ArrayList;
 
 import protocol.Protocol;
-
-public class firstTurn {
+ 
+public class FirstTurn {
 	private Board board;
-	private int choice = 0; // 0 of 1 (leggen of swappen)
 	private int[][] move = new int[6][3];
 	private Player player;
 	private static final int NROFTILESINHAND = 6;
 	private static final int INDEXMOVE = 3;
 	private static final int NUMBEROFSHAPESCOLORS = 12;
 
-	public firstTurn(Player player, Board board) {
+	public FirstTurn(Player player, Board board) {
 		this.player = player;
 		this.board = board;
 
@@ -49,19 +48,24 @@ public class firstTurn {
 			if (hand[i].getColor() == Tile.Color.BLUE && !blueshape.contains(hand[i].getShape())) {
 				blueshape.add(hand[i].getShape());
 				blue.add(hand[i]);
-			} else if (hand[i].getColor() == Tile.Color.ORANGE && !cyanshape.contains(hand[i].getShape())) {
+			} else if (hand[i].getColor() == Tile.Color.ORANGE && 
+					  !cyanshape.contains(hand[i].getShape())) {
 				cyanshape.add(hand[i].getShape());
 				cyan.add(hand[i]);
-			} else if (hand[i].getColor() == Tile.Color.GREEN && !greenshape.contains(hand[i].getShape())) {
+			} else if (hand[i].getColor() == Tile.Color.GREEN && 
+					  !greenshape.contains(hand[i].getShape())) {
 				greenshape.add(hand[i].getShape());
 				green.add(hand[i]);
-			} else if (hand[i].getColor() == Tile.Color.PURPLE && !magnetashape.contains(hand[i].getShape())) {
+			} else if (hand[i].getColor() == Tile.Color.PURPLE && 
+					  !magnetashape.contains(hand[i].getShape())) {
 				magnetashape.add(hand[i].getShape());
 				magneta.add(hand[i]);
-			} else if (hand[i].getColor() == Tile.Color.RED && !redshape.contains(hand[i].getShape())) {
+			} else if (hand[i].getColor() == Tile.Color.RED && 
+					  !redshape.contains(hand[i].getShape())) {
 				redshape.add(hand[i].getShape());
 				red.add(hand[i]);
-			} else if (hand[i].getColor() == Tile.Color.YELLOW && !yellowshape.contains(hand[i].getShape())) {
+			} else if (hand[i].getColor() == Tile.Color.YELLOW && 
+					  !yellowshape.contains(hand[i].getShape())) {
 				yellowshape.add(hand[i].getShape());
 				yellow.add(hand[i]);
 			}
@@ -83,22 +87,28 @@ public class firstTurn {
 
 		int j = 0;
 		while (j < 6) {
-			if (hand[j].getShape() == Tile.Shape.CIRCLE && !circlecolor.contains(hand[j].getColor())) {
+			if (hand[j].getShape() == Tile.Shape.CIRCLE && 
+					  !circlecolor.contains(hand[j].getColor())) {
 				circlecolor.add(hand[j].getColor());
 				circle.add(hand[j]);
-			} else if (hand[j].getShape() == Tile.Shape.PLUS && !clubcolor.contains(hand[j].getColor())) {
+			} else if (hand[j].getShape() == Tile.Shape.PLUS && 
+					  !clubcolor.contains(hand[j].getColor())) {
 				clubcolor.add(hand[j].getColor());
 				club.add(hand[j]);
-			} else if (hand[j].getShape() == Tile.Shape.CROSS && !crosscolor.contains(hand[j].getColor())) {
+			} else if (hand[j].getShape() == Tile.Shape.CROSS && 
+					  !crosscolor.contains(hand[j].getColor())) {
 				crosscolor.add(hand[j].getColor());
 				cross.add(hand[j]);
-			} else if (hand[j].getShape() == Tile.Shape.DIAMOND && !diamondcolor.contains(hand[j].getColor())) {
+			} else if (hand[j].getShape() == Tile.Shape.DIAMOND && 
+					  !diamondcolor.contains(hand[j].getColor())) {
 				diamondcolor.add(hand[j].getColor());
 				diamond.add(hand[j]);
-			} else if (hand[j].getShape() == Tile.Shape.SQUARE && !squarecolor.contains(hand[j].getColor())) {
+			} else if (hand[j].getShape() == Tile.Shape.SQUARE && 
+					  !squarecolor.contains(hand[j].getColor())) {
 				squarecolor.add(hand[j].getColor());
 				square.add(hand[j]);
-			} else if (hand[j].getShape() == Tile.Shape.STAR && !starburstcolor.contains(hand[j].getColor())) {
+			} else if (hand[j].getShape() == Tile.Shape.STAR && 
+					  !starburstcolor.contains(hand[j].getColor())) {
 				starburstcolor.add(hand[j].getColor());
 				starburst.add(hand[j]);
 			}
@@ -108,7 +118,6 @@ public class firstTurn {
 		// Bepaal langste zet, door middel van langste ArrayList.
 		ArrayList<ArrayList<Tile>> sizes = new ArrayList<ArrayList<Tile>>(NUMBEROFSHAPESCOLORS);
 		sizes.add(blue);
-		;
 		sizes.add(cyan);
 		sizes.add(green);
 		sizes.add(magneta);
@@ -147,7 +156,8 @@ public class firstTurn {
 		String msg = Protocol.Client.MAKEMOVE;
 		while (move[nrMoves][0] != -1) {
 			msg += "_" + player.getHand()[move[nrMoves][2]].getColor().getCharColor()
-					+ player.getHand()[move[nrMoves][2]].getShape().getCharShape() + "*" + move[nrMoves][0] + "*"
+					+ player.getHand()[move[nrMoves][2]].getShape().getCharShape() 
+					+ "*" + move[nrMoves][0] + "*"
 					+ move[nrMoves][1];
 			nrMoves++;
 		}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import protocol.Protocol;
-
+ 
 public class Deck {
 	// Aantal Tiles
 	public static final int SIZE = 108;
@@ -25,18 +25,18 @@ public class Deck {
 	}
 
 	// Aantal Tiles over in deck
-	public int TilesRemaining() {
+	public int tilesRemaining() {
 		return tiles.size();
 	}
 
 	// Schud Deck
-	private void Shuffle() {
+	private void shuffle() {
 		Collections.shuffle(tiles);
 	}
 
 	// Krijg Hand
 	public Tile[] drawHand() {
-		Shuffle();
+		shuffle();
 		Tile[] hand = new Tile[6];
 		for (int i = 0; i < 6; i++) {
 			hand[i] = drawTile();
@@ -46,22 +46,22 @@ public class Deck {
 
 	// Krijg de bovenste Tile en verwijder deze
 	public Tile drawTile() {
-		if (TilesRemaining() == 0) {
+		if (tilesRemaining() == 0) {
 			return null;
 		}
-		Shuffle();
+		shuffle();
 		return tiles.remove(0);
 	}
 
 	// Wissel Tile
 	public Tile swapTile(Tile tile) {
-		Shuffle();
+		shuffle();
 		tiles.add(tiles.size(), tile);
 		return tiles.remove(0);
 	}
 
 	public String getStonesInBag() {
-		return Protocol.Server.STONESINBAG + "_" + TilesRemaining();
+		return Protocol.Server.STONESINBAG + "_" + tilesRemaining();
 	}
 
 }

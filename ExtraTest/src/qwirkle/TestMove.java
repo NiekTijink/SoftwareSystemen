@@ -1,24 +1,22 @@
 package qwirkle;
 
 import java.util.ArrayList;
-
+ 
 public class TestMove {
 	private Tile[][] fields;
-	private Tile[] hand;
 	private int[][] move;
 	private int score;
 	private char typeRow;
 	private int nrOfMoves;
-	private boolean isConnected = false; //checks whether the move is connnected to tiles already on the board
+	private boolean isConnected = false;
 	private boolean isFirstMove = false;
 	
 	public TestMove(Board board, int[][] move, Tile[] hand) {
 		Board b = board;
 		fields = board.getBoard();
 		this.move = move;
-		this.hand = hand; // nu nog niet nodig, later wel lijkt me
+		isFirstMove = fields[50][50] == null;
 		int i = 0;
-		isFirstMove = (fields[50][50] == null);
 		while (move[i][0] != -1 && i < 6) {
 			nrOfMoves++;
 			b.setField(move[i][0], move[i][1], hand[move[i][2]]);
@@ -40,21 +38,21 @@ public class TestMove {
 				i++;
 			}
 			typeRow = 'x';
-			if (testVertical(move[0][0],move[0][1],
-					fields[move[0][0]][move[0][1]].getColor(),fields[move[0][0]][move[0][1]].getShape())) {
+			if (testVertical(move[0][0], move[0][1], fields[move[0][0]][move[0][1]].getColor(),  
+					  fields[move[0][0]][move[0][1]].getShape())) {
 				legalMove = true;
 			}
 		} else if (move[0][1] == move[1][1]) { // moves met zelfde y-waarde
 			int i = 2;
 			while (move[i][0] != -1) {
 				if (move[i][1] != move[0][1]) {
-					legalMove = false;; // niet allemaal zelfde y-waarde
+					legalMove = false; // niet allemaal zelfde y-waarde
 				}
 				i++;
 			}
 			typeRow = 'y';
-			if (testHorizontal(move[0][0],move[0][1],
-					fields[move[0][0]][move[0][1]].getColor(),fields[move[0][0]][move[0][1]].getShape())) {
+			if (testHorizontal(move[0][0], move[0][1], fields[move[0][0]][move[0][1]].getColor(), 
+					  fields[move[0][0]][move[0][1]].getShape())) {
 				legalMove = true;
 			}
 		} else if (move[1][0] == -1) { // maar 1 zet
@@ -64,27 +62,31 @@ public class TestMove {
 		if (typeRow == 'x') {
 			int i = 0;
 			while (move[i][0] != -1) {
-				if (!testHorizontal(move[i][0],move[i][1],
-						fields[move[i][0]][move[i][1]].getColor(),fields[move[i][0]][move[i][1]].getShape()) && !legalMove) {
+				if (!testHorizontal(move[i][0], move[i][1], 
+						  fields[move[i][0]][move[i][1]].getColor(), 
+						  fields[move[i][0]][move[i][1]].getShape()) && !legalMove) {
 					legalMove = false;
-						}
-						i++;
-					}
-				} else if (typeRow == 'y') {
-					int i = 0;
-					while (move[i][0] != -1) {
-						if (!testVertical(move[i][0],move[i][1],
-								fields[move[i][0]][move[i][1]].getColor(),fields[move[i][0]][move[i][1]].getShape())&& !legalMove) {
-							legalMove = false;
-						}
-						i++;
-					}
-				} else if (typeRow == 'z') {
-					if(isFirstMove) {score = 1;}
-					Tile.Color color = fields[move[0][0]][move[0][1]].getColor();
-					Tile.Shape shape = fields[move[0][0]][move[0][1]].getShape();
-					legalMove = (testHorizontal(move[0][0],move[0][1],color,shape)&& testVertical(move[0][0],move[0][1],color,shape) && isConnected);
 				}
+				i++;
+			}
+		} else if (typeRow == 'y') {
+			int i = 0;
+			while (move[i][0] != -1) {
+				if (!testVertical(move[i][0], move[i][1], fields[move[i][0]][move[i][1]].getColor(),
+						  fields[move[i][0]][move[i][1]].getShape()) && !legalMove) {
+					legalMove = false;
+				}
+				i++;
+			}
+		} else if (typeRow == 'z') {
+			if (isFirstMove) { 
+				score = 1; 
+			}
+			Tile.Color color = fields[move[0][0]][move[0][1]].getColor();
+			Tile.Shape shape = fields[move[0][0]][move[0][1]].getShape();
+			legalMove = testHorizontal(move[0][0], move[0][1], color, shape) && 
+						  testVertical(move[0][0], move[0][1], color, shape) && isConnected;
+		}
 		return legalMove;
 
 	}
@@ -105,17 +107,17 @@ public class TestMove {
 		int c = 0; //counter
 		while (doorgaan) { // omhoog kijken
 			c++;
-			if (!(fields[xValue+c][yValue] == null)) { // kijken of vakje leeg is
-				if (fields[xValue+c][yValue].getColor().equals(color) // kijken of kleur gelijk is
-						&& !(shapes.contains(fields[xValue+c][yValue].getShape())) // als kleur gelijk is, vorm mag niet gelijk
-						&& typeOfRow != 'S') { 
+			if (!(fields[xValue + c][yValue] == null)) { // kijken of vakje leeg is
+				if (fields[xValue + c][yValue].getColor().equals(color) // kijken of kleur gelijk is
+						  && !(shapes.contains(fields[xValue + c][yValue].getShape())) 
+						  && typeOfRow != 'S') { 
 					typeOfRow = 'C'; // rij van het type Color
-					shapes.add(fields[xValue+c][yValue].getShape());
-				} else if (fields[xValue+c][yValue].getShape().equals(shape) 
-						&& !(colors.contains(fields[xValue+c][yValue].getColor()))
-						&& typeOfRow != 'C') {
+					shapes.add(fields[xValue + c][yValue].getShape());
+				} else if (fields[xValue + c][yValue].getShape().equals(shape) 
+						  && !(colors.contains(fields[xValue + c][yValue].getColor()))
+						  && typeOfRow != 'C') {
 					typeOfRow = 'S';
-					colors.add(fields[xValue+c][yValue].getColor());
+					colors.add(fields[xValue + c][yValue].getColor());
 				} else {
 					return false;
 				}
@@ -128,37 +130,37 @@ public class TestMove {
 		doorgaan = true;
 		while (doorgaan) { //omlaag
 			c++;
-			if (!(fields[xValue-c][yValue] == null)) {
-				if (fields[xValue-c][yValue].getColor().equals(color) // kijken of kleur gelijk is
-						&& !(shapes.contains(fields[xValue-c][yValue].getShape())) // als kleur gelijk is, vorm mag niet gelijk
-						&& typeOfRow != 'S') {
+			if (!(fields[xValue - c][yValue] == null)) {
+				if (fields[xValue - c][yValue].getColor().equals(color) // kijken of kleur gelijk is
+						  && !(shapes.contains(fields[xValue - c][yValue].getShape())) 
+						  && typeOfRow != 'S') {
 					typeOfRow = 'C';
-					shapes.add(fields[xValue-c][yValue].getShape());
-				} else if (fields[xValue-c][yValue].getShape().equals(shape) 
-						&& !(colors.contains(fields[xValue-c][yValue].getColor()))
-						&& typeOfRow != 'C') {
+					shapes.add(fields[xValue - c][yValue].getShape());
+				} else if (fields[xValue - c][yValue].getShape().equals(shape) 
+						  && !(colors.contains(fields[xValue - c][yValue].getColor()))
+						  && typeOfRow != 'C') {
 					typeOfRow = 'S';
-					colors.add(fields[xValue-c][yValue].getColor());
+					colors.add(fields[xValue - c][yValue].getColor());
 				} else {
 					return false;
 				}
 			} else {
-			doorgaan = false;
+				doorgaan = false;
 			}
 		}
-		if (c + easternTiles < 6 && c+easternTiles > 1) {
+		if (c + easternTiles < 6 && c + easternTiles > 1) {
 			score += c + easternTiles;
-		} else if (c+easternTiles == 6) {
+		} else if (c + easternTiles == 6) {
 			score += 12;
 		}
 		
-		if (typeRow == 'x' && c+easternTiles > 1) {
+		if (typeRow == 'x' && c + easternTiles > 1) {
 			isConnected = true;
-		} else if (typeRow == 'y' && c+easternTiles > nrOfMoves) {
+		} else if (typeRow == 'y' && c + easternTiles > nrOfMoves) {
 			isConnected = true;
-		} else if (typeRow == 'z' && c+easternTiles > 1) {
+		} else if (typeRow == 'z' && c + easternTiles > 1) {
 			isConnected = true;
-		} else if (isFirstMove && fields[50][50]!= null) {
+		} else if (isFirstMove && fields[50][50] != null) {
 			isConnected = true;
 		}
 		return true;
@@ -178,13 +180,13 @@ public class TestMove {
 			c++;
 			if (!(fields[xValue][yValue + c] == null)) { // kijken of vakje leeg is
 				if (fields[xValue][yValue + c].getColor().equals(color) // kijken of kleur gelijk is
-						&& !(shapes.contains(fields[xValue][yValue + c].getShape())) // als kleur gelijk is, vorm mag niet gelijk
-						&& typeOfRow != 'S') {
+						  && !(shapes.contains(fields[xValue][yValue + c].getShape())) 
+						  && typeOfRow != 'S') {
 					typeOfRow = 'C';
 					shapes.add(fields[xValue][yValue + c].getShape());
 				} else if (fields[xValue][yValue + c].getShape().equals(shape) 
-						&& !(colors.contains(fields[xValue][yValue + c].getColor()))
-						&& typeOfRow != 'C') {
+						  && !(colors.contains(fields[xValue][yValue + c].getColor()))
+						  && typeOfRow != 'C') {
 					typeOfRow = 'S';
 					colors.add(fields[xValue][yValue + c].getColor());
 				} else {
@@ -201,37 +203,37 @@ public class TestMove {
 			c++;
 			if (!(fields[xValue][yValue - c] == null)) {
 				if (fields[xValue][yValue - c].getColor().equals(color) // kijken of kleur gelijk is
-						&& !(shapes.contains(fields[xValue][yValue - c].getShape())) // als kleur gelijk is, vorm mag niet gelijk
-						&& typeOfRow != 'S') {
+						  && !(shapes.contains(fields[xValue][yValue - c].getShape())) 
+					      && typeOfRow != 'S') {
 					typeOfRow = 'C';
 					shapes.add(fields[xValue][yValue - c].getShape());
 				} else if (fields[xValue][yValue - c].getShape().equals(shape) 
-						&& !(colors.contains(fields[xValue][yValue - c].getColor()))
-						&& typeOfRow != 'C') {
+						  && !(colors.contains(fields[xValue][yValue - c].getColor()))
+						  && typeOfRow != 'C') {
 					typeOfRow = 'S';
 					colors.add(fields[xValue][yValue - c].getColor());
 				} else {
 					return false;
 				}
 			} else {
-			doorgaan = false;
+				doorgaan = false;
 			}
 		}
 
 		if (typeRow == 'y' && c + northernTiles > 1) {
 			isConnected = true;
-		} else if (typeRow == 'x' && c+northernTiles > nrOfMoves) {
+		} else if (typeRow == 'x' && c + northernTiles > nrOfMoves) {
 			isConnected = true;
-		} else if (typeRow == 'z' && c+northernTiles > 1) {
+		} else if (typeRow == 'z' && c + northernTiles > 1) {
 			isConnected = true;
-		} else if (isFirstMove && fields[50][50]!= null) {
+		} else if (isFirstMove && fields[50][50] != null) {
 			isConnected = true;
 		}
 		
-		if (c+northernTiles < 6 && c+northernTiles > 1) {
-				score += c+northernTiles;
-		} else if (c+northernTiles == 6) {
-				score += 12;
+		if (c + northernTiles < 6 && c + northernTiles > 1) {
+			score += c + northernTiles;
+		} else if (c + northernTiles == 6) {
+			score += 12;
 		}
 		return true;
 	}
