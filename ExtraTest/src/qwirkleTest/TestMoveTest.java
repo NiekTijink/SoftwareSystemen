@@ -22,8 +22,6 @@ public class TestMoveTest {
 	@Before
     public void setUp() {
 		b = new Board();
-
-        
     }
 	
 	@Test
@@ -36,19 +34,6 @@ public class TestMoveTest {
 		assertEquals(1, t.getScore());
 		t.isLegalMove();
 	}
-	
-	@Test
-	public void testVertical() {
-		t.testVertical(50, 50, hand[1].getColor(), hand[1].getShape());
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testHorizontal() {
-		fail("Not yet implemented");
-	}
-	
-	
 	
 	@Test
 	public void ComplicatedMoveTest() {
