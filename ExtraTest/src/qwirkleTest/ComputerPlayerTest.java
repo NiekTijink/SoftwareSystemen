@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import exception.OutOfSyncException;
 import qwirkle.*;
 
 public class ComputerPlayerTest {
@@ -15,7 +16,7 @@ public class ComputerPlayerTest {
 	private Tile[] hand;
 	
 	@Before
-    public void setUp() {
+    public void setUp() throws OutOfSyncException {
 		b = new Board();
 		p = new ComputerPlayer("Computer");
 		p.addToHand("AE_DA_DB_CC_CA_DF");
@@ -47,5 +48,5 @@ public class ComputerPlayerTest {
 		b.setField(50, 53, new Tile('A', 'C'));
 		b.setField(50, 49, new Tile('A', 'F'));
 		b.setField(50, 47, new Tile('C', 'F'));
-	}
+	} 
 }

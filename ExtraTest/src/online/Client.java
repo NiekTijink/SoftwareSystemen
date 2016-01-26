@@ -16,7 +16,7 @@ import protocol.Protocol;
 public class Client extends Thread {
 
 	private static final String USAGE = "usage: java week7.cmdchat.Client <name> <address> <port>";
-
+ 
 	public static void main(String[] args) {
 		if (args.length != 3) {
 			System.out.println(USAGE);

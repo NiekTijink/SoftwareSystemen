@@ -42,13 +42,13 @@ public class Board {
 	public boolean isEmptyField(int xValue, int yValue) {
 		return isField(xValue, yValue) && fields[xValue][yValue] == null;
 	}
-	
+	 
 	public void setMove(String msg) {
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		for (int i = 0; i < splitMsg.length; i++) {
 			String[] move = splitMsg[i].split("\\" + Protocol.Settings.DELIMITER2);
 			Tile temp = new Tile(move[0].charAt(0), move[0].charAt(1));
-			setField(Integer.parseInt(move[1]), Integer.parseInt(move[2]), temp);
+			setField(protocol.Protocol.Settings.ORGINX + (Integer.parseInt(move[1])), protocol.Protocol.Settings.ORGINY - (Integer.parseInt(move[2])), temp);
 		}
 	}
 	

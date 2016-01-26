@@ -11,7 +11,7 @@ import qwirkle.*;
 public class Server {
 	private static final String USAGE = "usage: " + Server.class.getName() + " <name><port>";
 	protected static String name;
-
+ 
 	public static void main(String[] args) {
 		if (args.length != 2) {
 			System.out.println(USAGE);

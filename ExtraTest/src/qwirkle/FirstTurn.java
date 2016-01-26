@@ -11,6 +11,8 @@ public class FirstTurn {
 	private static final int NROFTILESINHAND = 6;
 	private static final int INDEXMOVE = 3;
 	private static final int NUMBEROFSHAPESCOLORS = 12;
+	private static final int ORGINX = 50;
+	private static final int ORGINY = 50;
 
 	public FirstTurn(Player player, Board board) {
 		this.player = player;
@@ -140,8 +142,8 @@ public class FirstTurn {
 		}
 		int i1 = 0;
 		while (i1 < sizes.get(maxIndex).size()) {
-			move[i1][0] = 50;
-			move[i1][1] = i1 + 50;
+			move[i1][0] = ORGINX;
+			move[i1][1] = i1 + ORGINY;
 			move[i1][2] = player.getPlaceInHand(sizes.get(maxIndex).get(i1));
 			i1++;
 		}
@@ -155,10 +157,11 @@ public class FirstTurn {
 		int nrMoves = 0;
 		String msg = Protocol.Client.MAKEMOVE;
 		while (move[nrMoves][0] != -1) {
+			int x = move[nrMoves][0] - protocol.Protocol.Settings.ORGINX;
+			int y = protocol.Protocol.Settings.ORGINY - move[nrMoves][1];
 			msg += "_" + player.getHand()[move[nrMoves][2]].getColor().getCharColor()
 					+ player.getHand()[move[nrMoves][2]].getShape().getCharShape() 
-					+ "*" + move[nrMoves][0] + "*"
-					+ move[nrMoves][1];
+					+ "*" + x + "*" + y;
 			nrMoves++;
 		}
 		System.out.println(msg);

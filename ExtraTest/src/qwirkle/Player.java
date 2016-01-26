@@ -12,14 +12,17 @@ public abstract class Player {
 	private Tile[] hand;
 	public int[][] move;
 	public final static int HANDSIZE = 6;
+	public final static int MOVEINDEX = 3;
+	private static final int ORGINX = 50;
+	private static final int ORGINY = 50;
 	private int score;
 
 	public Player(String name) {
 		this.name = name;
 		this.hand = new Tile[HANDSIZE];
-		move = new int[HANDSIZE][3];
+		move = new int[HANDSIZE][MOVEINDEX];
 	}
-
+ 
 	public int getScore() {
 		return score;
 	}
@@ -70,8 +73,8 @@ public abstract class Player {
 	}
 
 	public void initialiseMove() {
-		for (int i = 0; i < 6; i++) { // initialise
-			for (int j = 0; j < 3; j++) {
+		for (int i = 0; i < HANDSIZE; i++) { // initialise
+			for (int j = 0; j < MOVEINDEX; j++) {
 				move[i][j] = -1;
 			}
 		}
@@ -81,10 +84,10 @@ public abstract class Player {
 	// setfield of swap)
 	// later zal makemove deze beslissingen door moeten geven aan de server dmv
 	// protocol
-
+ 
 	public String makeMove(Board board, String msg) {
 		if (!(msg.equals(ClientHandler.NOREPLY))) {
-			move = new int[HANDSIZE][3];
+			move = new int[HANDSIZE][MOVEINDEX];
 			initialiseMove();
 			String[] split = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 			for (int i = 1; i < split.length; i++) {
@@ -92,8 +95,8 @@ public abstract class Player {
 			  + Character.toString(Protocol.Settings.DELIMITER2));
 				Tile tile = new Tile(splitInput[0].charAt(0), splitInput[0].charAt(1));
 				move[i - 1][2] = getPlaceInHand(tile);
-				move[i - 1][0] = Integer.parseInt(splitInput[1]);
-				move[i - 1][1] = Integer.parseInt(splitInput[2]);
+				move[i - 1][0] = ORGINX + (Integer.parseInt(splitInput[1]));
+				move[i - 1][1] = ORGINY - (Integer.parseInt(splitInput[2]));
 			}
 			int tempscore = board.testMove(move, getHand());
 			if (tempscore <= 0) {

@@ -9,7 +9,7 @@ public class HumanPlayer extends Player {
 
 	public HumanPlayer(String name) {
 		super(name);
-	}
+	} 
 
 	public String determineMove(Board board) {
 		boolean valid = false;

@@ -15,7 +15,7 @@ public class ComputerPlayer extends Player {
 	public ComputerPlayer(String name) {
 		super(name);
 	}
-
+ 
 	public String makeMove(Board board, String msg) {
 		return "";
 	}
@@ -45,8 +45,10 @@ public class ComputerPlayer extends Player {
 						if (test.isLegalMove()) {
 							if (test.getScore() > bestScore) {
 								bestScore = test.getScore();
+								int x = protocol.Protocol.Settings.ORGINX + c.getX();
+								int y = protocol.Protocol.Settings.ORGINY - c.getY();
 								bestMove = Protocol.Client.MAKEMOVE + "_" + t.getColor().getCharColor()
-										+ t.getShape().getCharShape() + "*" + c.getX() + "*" + c.getY();
+										+ t.getShape().getCharShape() + "*" + x + "*" + y ;
 							}
 						} else {
 							dc.getBoard()[c.getX()][c.getY()] = null;

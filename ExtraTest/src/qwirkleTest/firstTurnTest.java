@@ -5,10 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import exception.OutOfSyncException;
 import qwirkle.*;
 
 public class firstTurnTest {
-	
+	 
 	private static final int NROFTILESINHAND = 6;
 	private static final int INDEXMOVE = 3;
 	private Board b;
@@ -16,7 +17,7 @@ public class firstTurnTest {
 	private Tile[] hand;
 	
 	@Before
-    public void setUp() {
+    public void setUp() throws OutOfSyncException {
 		b = new Board();
 		p = new ComputerPlayer("Computer");
 		p.addToHand("AE_DA_DB_CC_CA_DF");
@@ -24,7 +25,7 @@ public class firstTurnTest {
 
 	@Test
 	public void test() {
-		firstTurn ft = new firstTurn(p,b);
+		FirstTurn ft = new FirstTurn(p,b);
 		ft.makefirstTurn();
 		int[][] move1 = initmove1();
 		int[][] move2 = ft.getFirstMove();

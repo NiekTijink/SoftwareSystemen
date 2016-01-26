@@ -514,6 +514,9 @@ public class Protocol {
 		 */
 
 		public static final String COMMAND_END = "\n\n";
+		
+		public static final int ORGINX = 50;
+		public static final int ORGINY = 50;
 	}
 
 }

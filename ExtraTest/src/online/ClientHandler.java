@@ -68,7 +68,6 @@ public class ClientHandler extends Thread {
 			if (currentGame == null || currentPlayer == null) {
 				return Protocol.Server.ERROR + "_invalidmove";
 			} else if (currentGame.getMoveNr() == 0) {
-				System.out.println(currentPlayer.getName());
 				return firstMove(currentGame, currentPlayer, msg);
 			} else {
 				if (currentGame.getPlayers()[currentGame.playersTurn] == currentPlayer) {
