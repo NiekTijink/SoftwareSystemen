@@ -93,7 +93,7 @@ public class Game extends Thread {
 	//@ requires player != null;
 	//@ requires !msg.equals("");
 	//@ ensures \result.startsWith("ERROR") || \result.equals("true") || \result.equals("false");
-	public String addToFirstMove(Player player, String msg) {
+	public synchronized String addToFirstMove(Player player, String msg) {
 		initialiseMove(); 
 		String[] splitInput = msg.split(Character.toString(Protocol.Settings.DELIMITER));
 		for (int i = 1; i < (splitInput.length); i++) {
@@ -106,11 +106,11 @@ public class Game extends Thread {
 		}
 		for (int i = 0; i < players.length; i++) {
 			if (players[i].getName() == player.getName()) {
-				firstMove[i] = msg;
 				int score = board.testMove(move, player.getHand());
-				if (score < 0) { 
+				if (score <= 0) { 
 					return Protocol.Server.ERROR + "_invalidmove";
 				}
+				firstMove[i] = msg;
 				firstMoveScores[i] = score; // als deze score gelijk is aan -1
 											// mag dit niet
 				boolean full = true;
@@ -227,6 +227,7 @@ public class Game extends Thread {
 		int bestScore = -1;
 		int bestPlayer = -1;
 		for (int i = 0; i < firstMoveScores.length; i++) {
+			System.out.println(firstMoveScores[i]);
 			if (firstMoveScores[i] > bestScore) {
 				bestScore = firstMoveScores[i];
 				bestPlayer = i;
