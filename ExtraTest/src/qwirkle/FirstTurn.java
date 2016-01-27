@@ -161,7 +161,6 @@ public class FirstTurn {
 					+ "*" + x + "*" + y;
 			nrMoves++;
 		}
-		System.out.println(msg);
 		return msg;
 	}
 }
