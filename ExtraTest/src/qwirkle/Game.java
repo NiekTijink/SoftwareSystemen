@@ -117,7 +117,6 @@ public class Game extends Thread {
 		boolean doorgaan = true;
 		while (doorgaan) {
 			play();
-			doorgaan = readBoolean("\n> Play another time? (y/n)?", "y", "n");
 		}
 	}
 
