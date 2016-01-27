@@ -2,15 +2,29 @@ package qwirkle;
 
 import java.util.ArrayList;
  
+/*** A class used to test a move and get the score of this move
+ * @author Niek Tijink & Thomas Kolner
+ * @version 1.3
+ */ 
 public class TestMove {
 	private Tile[][] fields;
 	private int[][] move;
 	private int score; 
 	private char typeRow;
-	private int nrOfMoves;
+	public int nrOfMoves;
 	private boolean isConnected = false;
 	private boolean isFirstMove = false;
 	
+	/** creates a new instance of TestMove
+	 * The move is set on the board. This is necessary because it wouldn't be possible to test the move otherwise
+	 * Whether a tile is legally placed or not depends on the the other tiles you place
+	 * @param board The current state of the board
+	 * @param move The move the player decided to make
+	 * @param hand The hand of the player
+	 */
+	//@ requires board != null;
+	//@ requires move[0][0] != -1;
+	//@ ensures nrOfMoves >= 0 && nrOfMoves <= 6;
 	public TestMove(Board board, int[][] move, Tile[] hand) {
 		Board b = board;
 		fields = board.getBoard();
@@ -24,6 +38,19 @@ public class TestMove {
 		}
 	}
 	
+	/** The method that tests whether a move is legal
+	 * It does so by first determining what kind of move it is (All the same x-value or y-value, or just a single tile (z))
+	 * All stones need to be placed in one row or column
+	 * After this is checked, the placed near the new tiles are checked, vertically and horizontally
+	 * When all tiles share the same x-value (typeOfRow = 'x'),vertically will be checked once and horizontally for every tile.
+	 * When all tile share the same y-value (typeOfRow = 'y'), horizontally will be checked once and vertically for every tile.
+	 * When there is only one tile placed (typeOfRow = 'z'), both horizontally and vertically are done once.
+	 * There is also another part in checking whether a move is legal: The tiles you place should be connected to tiles already on the board
+	 * This is checked using the boolean "ISCONNECTED".
+	 * However, when it is the first move, the tiles don't have to connect to other tiles (there are no other tiles)
+	 * But one of the tiles needs to be placed at the origin (75,75)
+	 * @return True when a move is legal, False when a move is illegal
+	 */
 	public boolean isLegalMove() { // mag maar in rij/kolom & moet andere stenen raken
 		boolean legalMove = false;
 		if (move[0][0] == -1) {
@@ -93,11 +120,25 @@ public class TestMove {
 		return legalMove;
 
 	}
-		
+	/** gives the score from the move
+	 * @return the score (-1 if illegal)
+	 */
 	public int getScore() {
 		return score;
 	}
-		
+	
+	/** tests the tile horizontal
+	 * Done once if typeOfRow = 'y' or 'z', done multiple times if typeOfRow = 'x'
+	 * The method will first look right and then left. It checks whether all tiles share the same color or shape
+	 * If all tiles share the same color, the method saves all the shapes of that color in the row
+	 * If a certain shape already is in the row, the move is illegal
+	 * After checking the length of the row, it is decided of the tiles are connected to tiles already on the board
+	 * @param xValue the xvalue where tile is placed
+	 * @param yValue the yvalue where tile is placed
+	 * @param color the color of the tile
+	 * @param shape the shape of the tile
+	 * @return true if tile is legal, false is illegal
+	 */
 	public boolean testHorizontal(int xValue, int yValue, Tile.Color color, Tile.Shape shape) {
 		int easternTiles = 0;
 		char typeOfRow = ' ';
@@ -172,7 +213,18 @@ public class TestMove {
 		}
 		return true;
 	}
-	
+	/** tests the tile vertical
+	 * Done once if typeOfRow = 'x' or 'z', done multiple times if typeOfRow = 'y'
+	 * The method will first look up and then down. It checks whether all tiles share the same color or shape
+	 * If all tiles share the same color, the method saves all the shapes of that color in the row
+	 * If a certain shape already is in the row, the move is illegal
+	 * After checking the length of the row, it is decided of the tiles are connected to tiles already on the board
+	 * @param xValue the xvalue where tile is placed
+	 * @param yValue the yvalue where tile is placed
+	 * @param color the color of the tile
+	 * @param shape the shape of the tile
+	 * @return true if tile is legal, false is illegal
+	 */
 	public boolean testVertical(int xValue, int yValue, Tile.Color color, Tile.Shape shape) {
 		int northernTiles = 0;
 		char typeOfRow = ' ';
