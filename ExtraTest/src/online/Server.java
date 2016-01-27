@@ -47,7 +47,6 @@ public class Server {
 			serversock = new ServerSocket(port);
 			System.out.println("Server listens at port " + port);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for (int i = 0; i <= 2; i++) { // 3 wachtruimtes aanmaken (2 pers, 3
@@ -80,7 +79,6 @@ public class Server {
 		for (int i = 0; i < handlers.size(); i++) {
 			handlers.get(i).sendMessage(msg);
 		}
-		// TODO insert body
 	}
 
 	public void addHandler(ClientHandler c) {
@@ -254,6 +252,12 @@ public class Server {
 				}
 			}
 		}
+	}
+
+	public void shutDownGame(Game currentGame) {
+		//Gamesluiten
+		//message naar elke speler
+		
 	}
 
 }

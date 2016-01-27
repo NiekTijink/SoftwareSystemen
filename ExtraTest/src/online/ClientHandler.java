@@ -40,7 +40,9 @@ public class ClientHandler extends Thread {
 			}
 			shutDown();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			if (currentGame != null) {
+				server.shutDownGame(currentGame);
+			}
 			shutDown();
 		}
 	}

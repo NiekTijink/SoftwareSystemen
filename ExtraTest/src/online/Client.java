@@ -43,13 +43,7 @@ public class Client extends Thread {
 		Client client = new Client(args[0], host, port);
 		client.sendMessage("HALLO_" + args[0]);
 		client.start();
-
-		/*
-		 * do{ String input = readString(""); client.sendMessage(input);
-		 * }while(true);
-		 */
-
-	}
+		}
 
 	private static String clientName;
 	private Socket sock;
@@ -61,7 +55,6 @@ public class Client extends Thread {
 
 	public Client(String name, InetAddress host, int port) {
 		clientName = name;
-		//boolean connected = socket.isConnected() && !socket.isClosed();
 		try {
 			sock = new Socket(host, port);
 			System.out.println("Client: " + name + " aangemaakt op poort: " + port);
@@ -87,10 +80,14 @@ public class Client extends Thread {
 				// hier krijgt client bericht van server. Moet hij automatisch
 				// afhandelen
 			} catch (IOException | InvalidInputFromServerException e) {
-				// TODO Auto-generated catch block
+				if ( e instanceof IOException) {
+					shutDown();
+				} else {
 				e.printStackTrace();
+				}
 			}
 		}
+		
 	}
 
 	public void sendMessage(String msg) {
@@ -99,8 +96,7 @@ public class Client extends Thread {
 			out.newLine();
 			out.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			shutDown();
 		}
 		// TODO insert body
 	}

@@ -15,9 +15,9 @@ public class TestMove {
 		Board b = board;
 		fields = board.getBoard();
 		this.move = move;
-		isFirstMove = fields[50][50] == null;
+		isFirstMove = fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] == null;
 		int i = 0;
-		while (move[i][0] != -1 && i < 6) {
+		while (move[i][0] != -1 && i < protocol.Protocol.Settings.NROFTILESINHAND) {
 			nrOfMoves++;
 			b.setField(move[i][0], move[i][1], hand[move[i][2]]);
 			i++;
@@ -86,6 +86,9 @@ public class TestMove {
 			Tile.Shape shape = fields[move[0][0]][move[0][1]].getShape();
 			legalMove = testHorizontal(move[0][0], move[0][1], color, shape) && 
 						  testVertical(move[0][0], move[0][1], color, shape) && isConnected;
+		}
+		if (!isConnected) {
+			legalMove = false;
 		}
 		return legalMove;
 
@@ -160,6 +163,10 @@ public class TestMove {
 			isConnected = true;
 		} else if (typeRow == 'z' && c + easternTiles > 1) {
 			isConnected = true;
+		} else if (isFirstMove && fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] != null && typeRow == 'y' && c + easternTiles > 1) {
+			isConnected = true;
+		} else if (isFirstMove && fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] != null && typeRow == 'z') {
+			isConnected = true;
 		} else if (isFirstMove && fields[50][50] != null) {
 			isConnected = true;
 		}
@@ -226,7 +233,9 @@ public class TestMove {
 			isConnected = true;
 		} else if (typeRow == 'z' && c + northernTiles > 1) {
 			isConnected = true;
-		} else if (isFirstMove && fields[50][50] != null) {
+		} else if (isFirstMove && fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] != null && typeRow == 'x' && c + northernTiles > 1) {
+			isConnected = true;
+		} else if (isFirstMove && fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] != null && typeRow == 'z') {
 			isConnected = true;
 		}
 		
