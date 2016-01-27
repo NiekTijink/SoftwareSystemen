@@ -42,7 +42,7 @@ public class TestMoveTest {
 		move[1][0] = 75; move[1][1] = 79; move[1][2] = 1;
 		t = new TestMove(b, move, hand);
 		assertFalse(t.isLegalMove());
-		assertThat(1, not(t.getScore()));
+		assertThat(2, not(t.getScore()));
 	}
 	
 	@Test
@@ -95,16 +95,6 @@ public class TestMoveTest {
 		hand[2] = new Tile('D','F');
 		hand[3] = new Tile('C','E');
 	}
-	
-	private void initHand2() {
-		hand[0] = new Tile('A','A');
-		hand[1] = new Tile('A','B');
-		hand[2] = new Tile('A','C');
-		hand[3] = new Tile('A','D');
-		hand[4] = new Tile('A','E');
-		hand[5] = new Tile('A','F');		
-	}
-	
 	
 	private void initBoard1() {
 		b.setField(75, 74, new Tile('D', 'A'));

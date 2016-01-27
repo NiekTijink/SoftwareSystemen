@@ -9,7 +9,7 @@ public class FirstTurn {
 	private int[][] move = new int[6][3];
 	private Player player;
 	private static final int NUMBEROFSHAPESCOLORS = 12;
-
+ 
 
 	public FirstTurn(Player player, Board board) {
 		this.player = player;

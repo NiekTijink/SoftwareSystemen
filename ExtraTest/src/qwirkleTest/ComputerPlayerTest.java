@@ -24,8 +24,9 @@ public class ComputerPlayerTest {
 	@Test
 	public void qwirkleTest() {
 		initBoard2();
-		String s1 = ("MAKEMOVE_AE*50*54");
+		String s1 = ("MAKEMOVE_AE*0*-1");
 		String s2 = p.determineMove(b);
+		System.out.println(s2);
 		assertEquals(s1,s2);
 	}
 	
@@ -38,15 +39,15 @@ public class ComputerPlayerTest {
 	}
 	
 	private void initBoard() {
-		b.setField(50, 50, new Tile('E', 'D'));
+		b.setField(75, 75, new Tile('E', 'D'));
 	}
 	
 	private void initBoard2() {
-		b.setField(50, 50, new Tile('A', 'A'));
-		b.setField(50, 51, new Tile('A', 'B'));
-		b.setField(50, 52, new Tile('A', 'D'));
-		b.setField(50, 53, new Tile('A', 'C'));
-		b.setField(50, 49, new Tile('A', 'F'));
-		b.setField(50, 47, new Tile('C', 'F'));
+		b.setField(75, 75, new Tile('A', 'A'));
+		b.setField(75, 75, new Tile('A', 'B'));
+		b.setField(75, 77, new Tile('A', 'D'));
+		b.setField(75, 78, new Tile('A', 'C'));
+		b.setField(75, 74, new Tile('A', 'F'));
+		b.setField(75, 72, new Tile('C', 'F'));
 	} 
 }

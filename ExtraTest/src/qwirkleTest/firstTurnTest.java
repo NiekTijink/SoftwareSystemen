@@ -30,7 +30,7 @@ public class firstTurnTest {
 		int[][] move1 = initmove1();
 		int[][] move2 = ft.getFirstMove();
 		assertEquals(move1, move2);
-		String s1 = ("MAKEMOVE_DA*50*50_DB*50*51_DF*50*52");
+		String s1 = ("MAKEMOVE_DA*0*0_DB*0*-1_DF*0*-2");
 		String s2 = ft.getFirstMoveString();
 		assertEquals(s1 ,s2);
 	
@@ -43,11 +43,11 @@ public class firstTurnTest {
 				result[i][j] = -1;
 			}
 		}
-		result[0][0] = 50; result[0][1] = 50; result[0][2] = 1;
-		result[1][0] = 50; result[1][1] = 51; result[1][2] = 2;
-		result[2][0] = 50; result[2][1] = 52; result[2][2] = 5;
-		return result;
-	}
+		result[0][0] = 75; result[0][1] = 75; result[0][2] = 1;
+		result[1][0] = 75; result[1][1] = 76; result[1][2] = 2;
+		result[2][0] = 75; result[2][1] = 77; result[2][2] = 5;
+		return result;	
+		}
 	
 	
 
