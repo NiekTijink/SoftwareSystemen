@@ -3,28 +3,38 @@ package qwirkle;
 import java.util.ArrayList;
 
 import protocol.Protocol;
- 
+ /** This class is used when it is a firstTurn
+  * This automatically calculates the best move
+  * @author Niek Tijink & Thomas Kolner 
+  */
 public class FirstTurn {
 	private int[][] move = new int[6][3];
 	private Player player;
 	private static final int NUMBEROFSHAPESCOLORS = 12;
  
-
+	/** Creates a new firstTurn using the hand of a player
+	 * @param player the player that has to make a firstturn
+	 */
 	public FirstTurn(Player player) {
 		this.player = player;
-		
 		for (int i = 0; i < protocol.Protocol.Settings.NROFTILESINHAND; i++) { 
 			for (int j = 0; j < protocol.Protocol.Settings.INDEXMOVE; j++) {
 				move[i][j] = -1;
 			}
 		}
 	}
-
+	
+	/** Calls determineMove
+	 */
 	public void makefirstTurn() {
 		determinefirstmove(player.getHand());
 	}
 
-	// Bepaal eerste move
+	/**This method checks for every shape and color how many unique tiles there are in the hand
+	 * For example: For Red there are CIRCLE, CIRCLE and CROSS, So there are 2 unique tiles
+	 * After this, it gets the list with the biggest size and places it on the board
+	 * @param hand
+	 */
 	private void determinefirstmove(Tile[] hand) {
 		// Kleur combinatie
 		ArrayList<Tile.Shape> blueshape = new ArrayList<Tile.Shape>();
@@ -143,10 +153,16 @@ public class FirstTurn {
 		}
 	}
 
+	/** get the move
+	 * @return the move
+	 */
 	public int[][] getFirstMove() {
 		return move;
 	}
 
+	/** returns the move as a string
+	 * @return the move
+	 */
 	public String getFirstMoveString() {
 		int nrMoves = 0;
 		String msg = Protocol.Client.MAKEMOVE;

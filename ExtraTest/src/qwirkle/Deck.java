@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import protocol.Protocol;
- 
+ /** A deck where all tiles are stored
+  * @author Niek Tijink
+  *
+  */
 public class Deck {
-	// Aantal Tiles
 	public static final int SIZE = 108;
-
-	// Lijst van Tiles
 	private ArrayList<Tile> tiles;
 
-	// Create deck, elke tile 3 keer
+	/** Creates a deck with 108 Tiles
+	 * Every Tile 3 times
+	 */
 	public Deck() {
 		tiles = new ArrayList<Tile>(SIZE);
 		for (Tile.Shape s : Tile.Shape.values()) {
@@ -24,17 +26,22 @@ public class Deck {
 		}
 	}
 
-	// Aantal Tiles over in deck
+	/** Get the number of tiles left in the deck
+	 * @return the number of tiles
+	 */
 	public int tilesRemaining() {
 		return tiles.size();
 	}
 
-	// Schud Deck
+	/** shuffles the deck
+	 */
 	private void shuffle() {
 		Collections.shuffle(tiles);
 	}
 
-	// Krijg Hand
+	/** Draw an entire hand from the deck
+	 * @return the new hand
+	 */
 	public Tile[] drawHand() {
 		shuffle();
 		Tile[] hand = new Tile[6];
@@ -44,7 +51,9 @@ public class Deck {
 		return hand;
 	}
 
-	// Krijg de bovenste Tile en verwijder deze
+	/** Gets one tile from the deck
+	 * @return the Tile
+	 */
 	public Tile drawTile() {
 		if (tilesRemaining() == 0) {
 			return null;
@@ -53,13 +62,19 @@ public class Deck {
 		return tiles.remove(0);
 	}
 
-	// Wissel Tile
+	/** Swaps one tile from the deck
+	 * @param tile The Tile you want to swap
+	 * @return The new Tile
+	 */
 	public Tile swapTile(Tile tile) {
 		shuffle();
 		tiles.add(tiles.size(), tile);
 		return tiles.remove(0);
 	}
 
+	/** Gives the number of stones in the deck (as String)
+	 * @return the number of stones in deck
+	 */
 	public String getStonesInBag() {
 		return Protocol.Server.STONESINBAG + "_" + tilesRemaining();
 	}

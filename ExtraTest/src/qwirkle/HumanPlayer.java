@@ -4,13 +4,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import protocol.Protocol;
- 
+ /** a HumanPlayer, instance of player
+  * @author Niek Tijink
+  *
+  */
 public class HumanPlayer extends Player {
-
+	
+	/** creating a new HumanPlayer with a name
+	 * @param name the name of the humanplayer
+	 */
 	public HumanPlayer(String name) {
 		super(name);
 	} 
 
+	/** asks the humanPlayer for input to get a new Move
+	 * @param board the current Board
+	 * @return The move (as String)
+	 */
 	public String determineMove(Board board) {
 		boolean valid = false;
 		String antw = null;
