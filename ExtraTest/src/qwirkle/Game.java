@@ -55,6 +55,7 @@ public class Game extends Thread {
 			players = new Player[2];
 			players[0] = new HumanPlayer(names[0]);
 			players[1] = new ComputerPlayer("Computer");
+			players[0].updateHand(deck);
 			players[1].updateHand(deck);
 		} else {
 			players = new Player[names.length];
@@ -227,7 +228,6 @@ public class Game extends Thread {
 		int bestScore = -1;
 		int bestPlayer = -1;
 		for (int i = 0; i < firstMoveScores.length; i++) {
-			System.out.println(firstMoveScores[i]);
 			if (firstMoveScores[i] > bestScore) {
 				bestScore = firstMoveScores[i];
 				bestPlayer = i;

@@ -105,7 +105,7 @@ public class Server {
 
 	public String requestGame(String clientName, int choice) {
 		String[] names;
-		if (choice == 1) { // NOG NIET GOED
+		if (choice == 1) { 
 			names = new String[1];
 			names[0] = clientName;
 			Game game = new Game(names, this);
@@ -114,6 +114,15 @@ public class Server {
 			g.start();
 			removeNames(names);
 			broadcast(Protocol.Server.STARTGAME + "_" + clientName, game);
+			for (ClientHandler c : getHandler(game)) {
+				for (Player player : game.getPlayers()) {
+					c.setCurrentGame(game);
+					if (player.getName().equals(c.getClientName())) {
+						c.setCurrentPlayer(player);
+						c.sendMessage(initiateHand(player));
+					}
+				}
+			}
 		} else if (choice == 2 || choice == 3 || choice == 4) {
 			if (waitingRooms.get(choice - 2).contains(clientName)) {
 				return Protocol.Server.ERROR + "_generalerror: Already in waitingroom for: "
@@ -213,14 +222,16 @@ public class Server {
 	public ArrayList<ClientHandler> getHandler(Game game) {
 		ArrayList<ClientHandler> handlers = new ArrayList<ClientHandler>();
 		for (Player player : game.getPlayers()) {
-			boolean go = true;
-			int i = 0;
-			while (go) {
-				if (threads.get(i).getClientName().equals(player.getName())) {
-					handlers.add(threads.get(i));
-					go = false;
+			if (player instanceof HumanPlayer) {
+				boolean go = true;
+				int i = 0;
+				while (go) {
+					if (threads.get(i).getClientName().equals(player.getName())) {
+						handlers.add(threads.get(i));
+						go = false;
+					}
+					i++;
 				}
-				i++;
 			}
 		}
 		return handlers;
