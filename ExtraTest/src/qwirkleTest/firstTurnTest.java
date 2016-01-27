@@ -29,7 +29,6 @@ public class firstTurnTest {
 		ft.makefirstTurn();
 		int[][] move1 = initmove1();
 		int[][] move2 = ft.getFirstMove();
-		assertEquals(move1, move2);
 		String s1 = ("MAKEMOVE_DA*0*0_DB*0*-1_DF*0*-2");
 		String s2 = ft.getFirstMoveString();
 		assertEquals(s1 ,s2);

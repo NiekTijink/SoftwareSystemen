@@ -26,7 +26,6 @@ public class ComputerPlayerTest {
 		initBoard2();
 		String s1 = ("MAKEMOVE_AE*0*-1");
 		String s2 = p.determineMove(b);
-		System.out.println(s2);
 		assertEquals(s1,s2);
 	}
 	
