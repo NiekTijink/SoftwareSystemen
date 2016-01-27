@@ -5,16 +5,14 @@ import java.util.ArrayList;
 import protocol.Protocol;
  
 public class FirstTurn {
-	private Board board;
 	private int[][] move = new int[6][3];
 	private Player player;
 	private static final int NUMBEROFSHAPESCOLORS = 12;
  
 
-	public FirstTurn(Player player, Board board) {
+	public FirstTurn(Player player) {
 		this.player = player;
-		this.board = board;
-
+		
 		for (int i = 0; i < protocol.Protocol.Settings.NROFTILESINHAND; i++) { 
 			for (int j = 0; j < protocol.Protocol.Settings.INDEXMOVE; j++) {
 				move[i][j] = -1;

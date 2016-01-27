@@ -18,7 +18,7 @@ public class ComputerPlayer extends Player {
 	} 
 
 	public String makeFirstMove(Board board) {
-		FirstTurn ft = new FirstTurn(this, board);
+		FirstTurn ft = new FirstTurn(this);
 		ft.makefirstTurn();
 		return ft.getFirstMoveString();
 	}
