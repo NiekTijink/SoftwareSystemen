@@ -1,6 +1,7 @@
 package qwirkle;
 
 import java.util.ArrayList;
+import protocol.*;
  
 public class TestMove {
 	private Tile[][] fields;
@@ -15,9 +16,9 @@ public class TestMove {
 		Board b = board;
 		fields = board.getBoard();
 		this.move = move;
-		isFirstMove = fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] == null;
+		isFirstMove = fields[Protocol.Settings.ORGINX][Protocol.Settings.ORGINY] == null;
 		int i = 0;
-		while (move[i][0] != -1 && i < protocol.Protocol.Settings.NROFTILESINHAND) {
+		while (move[i][0] != -1 && i < Protocol.Settings.NROFTILESINHAND) {
 			nrOfMoves++;
 			b.setField(move[i][0], move[i][1], hand[move[i][2]]);
 			i++;
@@ -163,9 +164,9 @@ public class TestMove {
 			isConnected = true;
 		} else if (typeRow == 'z' && c + easternTiles > 1) {
 			isConnected = true;
-		} else if (isFirstMove && fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] != null && typeRow == 'y' && c + easternTiles > 1) {
+		} else if (isFirstMove && fields[Protocol.Settings.ORGINX][Protocol.Settings.ORGINY] != null && typeRow == 'y' && c + easternTiles > 1) {
 			isConnected = true;
-		} else if (isFirstMove && fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] != null && typeRow == 'z') {
+		} else if (isFirstMove && fields[Protocol.Settings.ORGINX][Protocol.Settings.ORGINY] != null && typeRow == 'z') {
 			isConnected = true;
 		} else if (isFirstMove && fields[50][50] != null) {
 			isConnected = true;
@@ -233,9 +234,9 @@ public class TestMove {
 			isConnected = true;
 		} else if (typeRow == 'z' && c + northernTiles > 1) {
 			isConnected = true;
-		} else if (isFirstMove && fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] != null && typeRow == 'x' && c + northernTiles > 1) {
+		} else if (isFirstMove && fields[Protocol.Settings.ORGINX][Protocol.Settings.ORGINY] != null && typeRow == 'x' && c + northernTiles > 1) {
 			isConnected = true;
-		} else if (isFirstMove && fields[protocol.Protocol.Settings.ORGINX][protocol.Protocol.Settings.ORGINY] != null && typeRow == 'z') {
+		} else if (isFirstMove && fields[Protocol.Settings.ORGINX][Protocol.Settings.ORGINY] != null && typeRow == 'z') {
 			isConnected = true;
 		}
 		

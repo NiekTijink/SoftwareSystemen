@@ -5,19 +5,31 @@ import java.util.Scanner;
 import online.Server;
 import protocol.Protocol;
   
+/**
+* Game created from Server or Client
+* @author Niek Tijink & Thomas Kolner
+* @version 1.2
+*/
+
 public class Game extends Thread {
 	private Board board;
 	private Deck deck;
 	private Player[] players;
 	private Server server;
 	public int moveNr;
-	private String[] firstMove;
-	private int[] firstMoveScores;
+	public String[] firstMove;
+	public int[] firstMoveScores;
 	public int startingPlayer;
 	public int playersTurn;
 	int[][] move = new int[protocol.Protocol.Settings.NROFTILESINHAND][protocol.Protocol.Settings.INDEXMOVE];
 
-	public Game(String name, Boolean typeOfPlayer) { // voor de client
+	/** Creates a new <code>Game</code> for the Client
+	 * @param name name of the Client
+	 * @param typeOfPlayer if (typeOfPlayer) there will be played as computerplayer
+	 */
+	//@ requires !(name.equals(""));
+	//@ ensures getPlayers().length == 2;
+	public Game(String name, Boolean typeOfPlayer) { 
 		board = new Board();
 		moveNr = 0;
 		players = new Player[1];
@@ -27,8 +39,14 @@ public class Game extends Thread {
 			players[0] = new HumanPlayer(name);
 		}
 	} 
-
-	public Game(String[] names, Server server) { // voor de server
+	/** Creates a new <code>Game</code> for the Server
+	 * @param names Array with all the names from the clients
+	 * @param server The <code>Server</code> the <code>Game</code> is played on
+	 */
+	//@ requires names.length >= 1;
+	//@ requires server != null;
+	//@ ensures getPlayers().length >= 2;
+	public Game(String[] names, Server server) { 
 		this.server = server;
 		board = new Board();
 		deck = new Deck();
@@ -48,7 +66,17 @@ public class Game extends Thread {
 		firstMove = new String[players.length];
 		firstMoveScores = new int[players.length];
 	}
-
+	
+	/** Gets a move from the <code>ClientHandler</code> and tests it. 
+	 * If the move is valid, the move is saved on the board.
+	 * New Tiles are returned to 
+	 * @param player the player that made the move
+	 * @param msg the move itself
+	 * @return new Tiles (in a String) if the method is valid or an Error
+	 */
+	//@ requires player != null;
+	//@ requires !msg.equals("");
+	//@ ensures \result.startsWith("ADDTOHAND") || \result.startsWith("ERROR");
 	public String makeMove(Player player, String msg) {
 		if (player.makeMove(board, msg).equals("true")) {
 			return player.updateHand(deck);
@@ -56,6 +84,15 @@ public class Game extends Thread {
 		return Protocol.Server.ERROR + "_invalidmove";
 	}
 
+	/** When a <code>ClientHandler</code> receives a firstmove from the client it is send here
+	 * The move is tested and saved if it is valid 
+	 * @param player The player that made the firstmove
+	 * @param msg The firstmove
+	 * @return Error if invalid move, true if everyone made their first move, false if not everyone made their first move.
+	 */
+	//@ requires player != null;
+	//@ requires !msg.equals("");
+	//@ ensures \result.startsWith("ERROR") || \result.equals("true") || \result.equals("false");
 	public String addToFirstMove(Player player, String msg) {
 		initialiseMove(); 
 		String[] splitInput = msg.split(Character.toString(Protocol.Settings.DELIMITER));
@@ -71,7 +108,7 @@ public class Game extends Thread {
 			if (players[i].getName() == player.getName()) {
 				firstMove[i] = msg;
 				int score = board.testMove(move, player.getHand());
-				if (score < 0) { // TODO for firstMove
+				if (score < 0) { 
 					return Protocol.Server.ERROR + "_invalidmove";
 				}
 				firstMoveScores[i] = score; // als deze score gelijk is aan -1
@@ -88,6 +125,10 @@ public class Game extends Thread {
 		return Protocol.Server.ERROR + "_invalidmove";
 	}
 
+	/** initializes a move 
+	 * After initialising it can be filled and tested
+	 */
+	//@ ensures \forall int i, j; 0 <= i && i <= 6 & 0<= j && j <= 3; move[i][j] == -1;
 	private void initialiseMove() {
 		for (int i = 0; i < 6; i++) { 
 			for (int j = 0; j < 3; j++) {
@@ -96,23 +137,40 @@ public class Game extends Thread {
 		}
 	}
 
+	/** get the playerobjects of all players in this game
+	 * @return Player[] of all players
+	 */
+	//@ pure;
 	public Player[] getPlayers() {
 		return players;
 	}
 
+	/** get the <code>board</code> of the game
+	 * @return the board
+	 */
+	//@ pure;
 	public Board getBoard() {
 		return board;
 	}
 
+	/** get the <code>deck</code> of the game
+	 * @return the deck
+	 */
+	//@ pure;
 	public Deck getDeck() {
 		return deck;
 	}
 
+	/** get the moveNr of the game
+	 * @return the moveNr
+	 */
+	//@ pure;
 	public int getMoveNr() {
 		return moveNr;
 	}
 
-	// geen idee of dit goed is
+	/** when a game is started, this method is called
+	 */
 	public void run() {
 		boolean doorgaan = true;
 		while (doorgaan) {
@@ -120,7 +178,10 @@ public class Game extends Thread {
 		}
 	}
 
-	// geen idee of dit goed is
+	/** after the game is started, this method is called
+	 * It initializes the firstMove-objects
+	 */
+	//@ ensures firstMove.length == players.length;
 	private void play() {
 		for (int i = 0; i < players.length; i++) {
 			Player p = players[i];
@@ -131,19 +192,13 @@ public class Game extends Thread {
 		if (firstMove[0] != null && firstMoveScores[0] > 0) {
 			calcBestFirstMove();
 		}
-
-		// while (!(board.gameOver())) {
-		/*
-		 * NIET LANGER NODIG GELOOF IK, DIT KAN DE SERVER (ICM EEN TIMER) DOEN
-		 * 
-		 * players[(moveNr + startingPlayer) % players.length].makeMove(board);
-		 * server.updateHand(players[(moveNr + startingPlayer) %
-		 * players.length], players[(moveNr + startingPlayer) %
-		 * players.length].updateHand()); moveNr++;
-		 */
-		// }
 	}
-
+	
+	/** after every move it is tested if the game is over
+	 * THIS METHOD IS NOT CORRECTLY IMPLEMENTED YET
+	 * @return True if the game is over, false if the game is not over
+	 */
+	//@ ensures \result == true || \result == false;
 	public boolean gameOver() {
 		if (getDeck().tilesRemaining() == 0) {
 			return true;
@@ -163,6 +218,11 @@ public class Game extends Thread {
 		return false;
 	}
 
+	/** After every player send their first move the best move is calculated
+	 */
+	//@ requires (\forall int i; 0 <= i && i < getPlayers().length; !(firstMove[i].equals("")));
+	//@ ensures moveNr == \old(moveNr);
+	//@ ensures \forall int j; 0 <= j && j < getPlayers().length; 0 < firstMoveScores[j];
 	public void calcBestFirstMove() {
 		int bestScore = -1;
 		int bestPlayer = -1;
@@ -180,21 +240,4 @@ public class Game extends Thread {
 		server.updateHand(players[bestPlayer], newStones);
 	}
 
-	private boolean readBoolean(String prompt, String yes, String no) {
-		String answer;
-		Scanner in = new Scanner(System.in);
-		do {
-			System.out.print(prompt);
-			try /* (Scanner in = new Scanner(System.in)) */ {
-				answer = in.hasNextLine() ? in.nextLine() : null;
-			} finally {
-				in.close();
-			}
-		} while (answer == null || (!answer.equals(yes) && !answer.equals(no)));
-		return answer.equals(yes);
-	}
-
-	public static void main(String[] args) {
-
-	}
 }
