@@ -3,16 +3,18 @@ package qwirkle;
 import java.util.ArrayList;
 
 import protocol.Protocol;
-
+/** a board saved as a grid
+ * @author Niek Tijink & Thomas Kolner
+ *
+ */
 
 public class Board {
 	private static final int GAMESIZE = 5;
 	private Tile[][] fields = new Tile[protocol.Protocol.Settings.ARRAYSIZE][protocol.Protocol.Settings.ARRAYSIZE];
 	private int[] boundaries = new int[4];
 	
-	// maakt een bord aan
-	// misschien kunnen we dit variabel maken, denk dat dat wel kan
-	// eerst maar eens zo werkend krijgen
+	/** instantiates a new board with 150 * 150 fields
+	 */
 	public Board() {
 		for (int i = 0; i < protocol.Protocol.Settings.ARRAYSIZE; i++) {
 			for (int j = 0; j < protocol.Protocol.Settings.ARRAYSIZE; j++) {
@@ -21,15 +23,27 @@ public class Board {
 		}
 	} 
 	
+	/** get the current fields of the board
+	 * @return the int[][] of all tiles
+	 */
 	public Tile[][] getBoard() {
 		return fields;
 	}
 	
-	// checkt of een bepaald veld wel een veld is
+	/** checks whether a field is within the arraysize
+	 * @param xValue xvalue of the field
+	 * @param yValue yvalue of the field
+	 * @return true if it is a field, false otherwise
+	 */
 	public boolean isField(int xValue, int yValue) {
 		return xValue >= 0 || xValue < protocol.Protocol.Settings.ARRAYSIZE || yValue >= 0 || yValue < protocol.Protocol.Settings.ARRAYSIZE;
 	}
 	
+	/** gets a field
+	 * @param xValue xvalue of the field
+	 * @param yValue yvalue of the field
+	 * @return the Tile at that field (or null if it empty)
+	 */
 	public Tile getField(int xValue, int yValue) {
 		if (isField(xValue, yValue)) {
 			return fields[xValue][yValue];
@@ -38,6 +52,11 @@ public class Board {
 		}
 	}
 	
+	/** checks whether a field is empty
+	 * @param xValue xvalue of the field
+	 * @param yValue yvalue of the field
+	 * @return true if it is a empty, false otherwise
+	 */
 	public boolean isEmptyField(int xValue, int yValue) {
 		return isField(xValue, yValue) && fields[xValue][yValue] == null;
 	}
@@ -51,6 +70,11 @@ public class Board {
 		}
 	}
 	
+	/** fills a field with a tile if the field is empty
+	 * @param xValue xvalue of the field
+	 * @param yValue yvalue of the field
+	 * @param tile the tile to be placed
+	 */
 	public void setField(int xValue, int yValue, Tile tile) {
 		if (isField(xValue, yValue) && isEmptyField(xValue, yValue)) {
 			fields[xValue][yValue] = tile;
@@ -58,6 +82,11 @@ public class Board {
 		
 	}
 	
+	/** constructs a new TestMove, tests the move and returns the score
+	 * @param move the move of the player
+	 * @param hand the hand of the player
+	 * @return the score of the move (or -1 if it is illegal)
+	 */
 	public int testMove(int[][] move, Tile[] hand) {
 		Board dc = deepcopy();
 		TestMove test = new TestMove(dc, move, hand);
@@ -67,7 +96,9 @@ public class Board {
 		return -1;
 	}
 	
-	
+	/** copy's the current board
+	 * @return the copy of the board
+	 */
 	public Board deepcopy() {
 		Board deepcopy = new Board();
 		for (int i = 0; i < 100; i++) {
@@ -78,7 +109,11 @@ public class Board {
 		return deepcopy;
 	}
 	
-	public int[] getBoundaries(ArrayList<Coordinate> c) {
+	/** gets the boundaries of the current board
+	 * @param c the list with coordinates where a move is possible (see ComputerPlayer)
+	 * @return the boundaries (0 = north, 1 = east, 2 = south, 3 = west)
+	 */
+	public int[] getBoundaries(ArrayList<Coordinate> c) { // not used in the current implementation
 		boundaries[2] = protocol.Protocol.Settings.ARRAYSIZE;
     	boundaries[3] = protocol.Protocol.Settings.ARRAYSIZE;
 		for (Coordinate temp : c) {
@@ -90,6 +125,9 @@ public class Board {
         return boundaries;
     }
 
+	/** gives a string of the current situation of the board
+	 * @return the string
+	 */
 	public String toString() {
 		int[] bound = new int[4];
 		bound[0] = 85;
@@ -100,14 +138,17 @@ public class Board {
         for (int y = bound[2] - GAMESIZE; y <= bound[0] + GAMESIZE; y++) {
             for (int x = bound[3] - GAMESIZE; x <= bound[1] + GAMESIZE; x++) {
                 Tile tile = getField(x, y);
-                //result += tile == null ? String.format("%1$"+15+ "s", "|" + x + "," + y + "|") : String.format("%1$"+14+ "s", tile.toString() + " ");
                 result += tile == null ? padString("|" + x + y + "|") : padString(tile.toString());
             }
             result += "\n";
         }
         return result;
     }
-	
+	/** Method used in the toString method
+	 * It is used so that the every string in the toString is 14 characters long
+	 * @param str the current String
+	 * @return the adapted string
+	 */
 	private String padString(String str) {
         for (int i = str.length(); i <= 14; i++)
             str += " ";

@@ -7,11 +7,17 @@ import java.util.List;
 
 import protocol.Protocol;
 import qwirkle.*;
-
+/** a server is used to play games on
+ * @author Niek Tijink & thomas Kolner
+ *
+ */
 public class Server {
 	private static final String USAGE = "usage: " + Server.class.getName() + " <name><port>";
 	protected static String name;
  
+	/** tries to open a serversocket
+	 * @param args 0: name, 1: port
+	 */
 	public static void main(String[] args) {
 		if (args.length != 2) {
 			System.out.println(USAGE);
@@ -39,6 +45,9 @@ public class Server {
 	private ArrayList<Game> currentGames;
 	private ServerSocket serversock;
 
+	/** makes a new server 
+	 * @param port port of the server
+	 */
 	public Server(int port) {
 		threads = new ArrayList<ClientHandler>();
 		clientNames = new ArrayList<String>();
@@ -55,6 +64,8 @@ public class Server {
 		}
 	}
 
+	/** While the server is running, it is waiting for clients to connect
+	 */
 	public void run() {
 		while (!serversock.isClosed()) {
 			try {
@@ -68,12 +79,19 @@ public class Server {
 		}
 	}
 
+	/** used to broadcast a message to all clienthandlers connected to the serer
+	 * @param msg the message
+	 */
 	public void broadcast(String msg) {
 		for (int i = 0; i < threads.size(); i++) {
 			threads.get(i).sendMessage(msg);
 		}
 	}
 
+	/** used to broadcast a message to all players in a game
+	 * @param msg the message
+	 * @param game the game
+	 */
 	public void broadcast(String msg, Game game) {
 		ArrayList<ClientHandler> handlers = getHandler(game);
 		for (int i = 0; i < handlers.size(); i++) {
@@ -81,14 +99,24 @@ public class Server {
 		}
 	}
 
+	/** adds a handler to the list of handlers
+	 * @param c the clientHandler to be added
+	 */
 	public void addHandler(ClientHandler c) {
 		threads.add(c);
 	}
-
+	
+	/** removes a handler of the list of handlers
+	 * @param c the clientHandler to be removed
+	 */
 	public void removeHandler(ClientHandler c) {
 		threads.remove(c);
 	}
 
+	/** adds a name to the list of clientNames when a new clienthandler connects
+	 * A clientName must be unique
+	 * @param c the new clientHandler
+	 */
 	public String addClientName(String msg, ClientHandler c) {
 		if (msg.equals(ClientHandler.NOREPLY)) {
 			return Protocol.Server.ERROR + "_nametooshort";
@@ -103,6 +131,13 @@ public class Server {
 		return Protocol.Server.HALLO + "_ServerP03";
 	}
 
+	/** used when a clienthandler requests a game
+	 * When a waitingroom is full, a new game is started
+	 * otherwise the clienthandler is placed in the waitingroom
+	 * @param clientName the name of the client
+	 * @param choice the number of players the client wants to play with
+	 * @return
+	 */
 	public String requestGame(String clientName, int choice) {
 		String[] names;
 		if (choice == 1) { 
@@ -199,6 +234,12 @@ public class Server {
 		return ClientHandler.NOREPLY;
 	}
 
+	/** sends (via broadcast) a message to all players
+	 * @param game the game where the message needs to be send to
+	 * @param player the player that made the move
+	 * @param nextPlayer the player that now has to make a move
+	 * @param completeMsg the move 
+	 */
 	public void makeMove(Game game, Player player, Player nextPlayer, String completeMsg) { 
 		if (completeMsg.length() > 0) {
 			broadcast(Protocol.Server.MOVE + "_" + player.getName() + "_" + 
@@ -209,6 +250,10 @@ public class Server {
 		}
 	}
 	
+	/** updates a hand after the player made a move
+	 * @param player the player that made a move
+	 * @param msg the message send to the player 
+	 */
 	public void updateHand(Player player, String msg) {
 		for (ClientHandler c : threads) {
 			if (c.getClientName().equals(player.getName())) {
@@ -218,7 +263,10 @@ public class Server {
 		}
 	}
 		
-	
+	/** gets all clienthandler playing in a game
+	 * @param game the game
+	 * @return a list with all clienthandlers in this game
+	 */
 	public ArrayList<ClientHandler> getHandler(Game game) {
 		ArrayList<ClientHandler> handlers = new ArrayList<ClientHandler>();
 		for (Player player : game.getPlayers()) {
@@ -237,6 +285,11 @@ public class Server {
 		return handlers;
 	}
 	
+	/** initiates a hand
+	 * The player already has a hand (in the game of the server), but now the server sends the tiles in the hand to the client
+	 * @param player the player
+	 * @return the message with the tiles
+	 */
 	public String initiateHand(Player player) {
 		String hand = Protocol.Server.ADDTOHAND;
 		for (Tile tile : player.getHand()) {
@@ -246,6 +299,9 @@ public class Server {
 		return hand;
 	}
 	
+	/** removes some names from all waitingRooms and the lobby when a game is started
+	 * @param names the names to be removed (thus starting a game with those names)
+	 */
 	public void removeNames(String[] names) { // de namen die beginnen uit alle
 												// wachtruimtes en evt lobby
 												// verwijderen
@@ -265,7 +321,11 @@ public class Server {
 		}
 	}
 
-	public void shutDownGame(Game currentGame) {
+	/** shuts down a game
+	 * Not implemented yet
+	 * @param game The game
+	 */
+	public void shutDownGame(Game game) {
 		//Gamesluiten
 		//message naar elke speler
 		

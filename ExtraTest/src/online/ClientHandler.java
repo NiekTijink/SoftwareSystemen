@@ -9,7 +9,10 @@ import java.net.Socket;
 
 import protocol.Protocol;
 import qwirkle.*;
-
+/** A clienthandler is used to facilitate communication between the client and the server
+ * @author Niek Tijink & Thomas Kolner
+ *
+ */
 public class ClientHandler extends Thread {
 
 	private Server server;
@@ -20,12 +23,19 @@ public class ClientHandler extends Thread {
 	private Game currentGame;
 	private Player currentPlayer;
 
+	/** creates a new clienthandler 
+	 * @param server the server 
+	 * @param sockArg the socket with the client
+	 * @throws IOException
+	 */
 	public ClientHandler(Server server, Socket sockArg) throws IOException {
 		this.server = server;
 		in = new BufferedReader(new InputStreamReader(sockArg.getInputStream()));
 		out = new BufferedWriter(new OutputStreamWriter(sockArg.getOutputStream()));
 	}
 
+	/** while the client and server are running, the clienthandler reads messages from the client
+	 */
 	public void run() {
 		try {
 			String msg = " ";
@@ -47,10 +57,17 @@ public class ClientHandler extends Thread {
 		}
 	}
 
+	/** returns the name of the client
+	 * @return name of the client
+	 */
 	public String getClientName() {
 		return clientName;
 	}
  
+	/** handles the messages from the client
+	 * @param msg the message from the client
+	 * @return the msg back to the client ("" if no message back)
+	 */
 	public String handleMessageFromClient(String msg) {
 		System.out.println(msg);
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
@@ -119,6 +136,12 @@ public class ClientHandler extends Thread {
 		return Protocol.Server.ERROR + "_generalerror";
 	}
 	
+	/** during the first move this method is called, because the move needs to be saved instead of placed
+	 * @param game the currentgame
+	 * @param player the currentplayer
+	 * @param msg the move
+	 * @return Error if invalid move, else Nothing
+	 */
 	public String firstMove(Game game, Player player, String msg) {
 		String msgback = currentGame.addToFirstMove(player, msg);
 		if (msgback.equals("true")) {
@@ -130,6 +153,9 @@ public class ClientHandler extends Thread {
 	}
 	
 
+	/** sends a message to the client
+	 * @param msg the message
+	 */
 	public void sendMessage(String msg) {
 		try {
 			out.write(msg);
@@ -141,22 +167,36 @@ public class ClientHandler extends Thread {
 		}
 	}
 
+	/** when a new game is constructed, the server will call this method and set the currentGame of this clienthandler
+	 * @param g the new Game
+	 */
 	public void setCurrentGame(Game g) {
 		currentGame = g;
 	}
 
+	/** get the currentGame
+	 * @return the currentGame
+	 */
 	public Game getCurrentGame() {
 		return currentGame;
 	}
 
+	/**
+	 * @return the currentplayer
+	 */
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
 
+	/** when a new game is constructed, the server will call this method and set the currentPlayer of this clienthandler
+	 * @param g the new Player
+	 */
 	public void setCurrentPlayer(Player p) {
 		currentPlayer = p;
 	}
 
+	/** shuts the connection down
+	 */
 	public void shutDown() {
 		server.removeHandler(this);
 		server.broadcast("[" + clientName + " has left]");

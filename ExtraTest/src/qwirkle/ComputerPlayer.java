@@ -6,23 +6,38 @@ import java.util.ArrayList;
 import online.ClientHandler;
 import protocol.Protocol;
 
- 
+ /** ComputerPlayer that extends Player
+  * Used by the server when a client wants to play against the computer
+  * Used by the client when a client wants to play as computer
+  * @author Niek Tijink & Thomas Kolner
+  *
+  */
 public class ComputerPlayer extends Player {
 	
+	/** creates a new ComputerPlayer
+	 * @param name the Name of the ComputerPlayer
+	 */
 	public ComputerPlayer(String name) {
 		super(name);
 	}
  
-	public String makeMove(Board board, String msg) {
-		return "";
-	} 
-
+	/** Makes a first move for the computerplayer
+	 * @param board the (empty) board of the game
+	 * @return the move (as String)
+	 */
 	public String makeFirstMove(Board board) {
 		FirstTurn ft = new FirstTurn(this);
 		ft.makefirstTurn();
 		return ft.getFirstMoveString();
 	}
 
+	/** the method that determines what a computerplayer will do in a move (except for the first move)
+	 * It will first collect all possible places where a tile can be placed
+	 * After that, the AI will try to place one Tile on every possible place, test the move and save the score
+	 * After all places and all tiles have been tried, the method returns the move with the best score
+	 * THIS AI ONLY PLACES ONE TILE AT A TIME
+	 * @return the move (as String)
+	 */
 	public String determineMove(Board board) {
 		long startTime = System.currentTimeMillis();
 		initialiseMove();
@@ -73,6 +88,16 @@ public class ComputerPlayer extends Player {
 		return swap;
 	}
 
+	/** gets all possible coordinates where a tile might be placed
+	 * this method works in squares from the origin. Square 0 is only one coordinate (75,75)
+	 * square 2 contains 8 coordinates (76,76) ( 76,75) (76,74) (75,74) (75,76) (74,76) (74,75) (74,74)
+	 * square X contains 8 * X squares
+	 * When a coordinate is emty (no tile yet) and at least one of the surrounding tiles has a tile, it is selected
+	 * When a complete square is empty, the search for new coordinate is stopped and the possible coordinates are returned
+	 * When a complete square is empty, the count of possiblemoves is 8 * NROFSQUARE (i)
+	 * @param board the current state of the board
+	 * @return an arraylist with all the possible coordinates
+	 */
 	private ArrayList<Coordinate> getCoordinates(Board board) {
 		int i = 0;
 		ArrayList<Coordinate> possiblecoor = new ArrayList<Coordinate>();
@@ -118,6 +143,12 @@ public class ComputerPlayer extends Player {
 		return possiblecoor;
 	}
 
+	/** checks whether one of the surrounding fields is filled with a tile
+	 * @param fields current state of the board
+	 * @param i x-value of the coordinate
+	 * @param j y-value of the coordinate
+	 * @return true if one (or more) of the coordinates is filled, false if they are all empty
+	 */
 	private boolean movePossible(Tile[][] fields, int i, int j) {
 		return fields[i][j + 1] != null || fields[i][j - 1] != null || fields[i - 1][j] != null
 				|| fields[i + 1][j] != null;

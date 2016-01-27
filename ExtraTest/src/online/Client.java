@@ -12,11 +12,17 @@ import java.util.Scanner;
 import qwirkle.*;
 import exception.*;
 import protocol.Protocol;
-
+/** a client used to make connection to a server
+ * @author Niek Tijink & Thomas Kolner
+ *
+ */
 public class Client extends Thread {
 
 	private static final String USAGE = "usage: java week7.cmdchat.Client <name> <address> <port>";
  
+	/** Tries to connect to a server
+	 * @param args 0: Name, 1: iNetAdress, 2: Port
+	 */
 	public static void main(String[] args) {
 		if (args.length != 3) {
 			System.out.println(USAGE);
@@ -53,6 +59,11 @@ public class Client extends Thread {
 	private Player currentPlayer;
 	private boolean typeOfPlayer; // computer(true), human(false)
 
+	/** creates a new Client
+	 * @param name the name of the client
+	 * @param host the iNetAdress of the server
+	 * @param port the port
+	 */
 	public Client(String name, InetAddress host, int port) {
 		clientName = name;
 		try {
@@ -66,19 +77,17 @@ public class Client extends Thread {
 		}
 	}
 
+	/** While the client is running, it reads messages from the server and handles them
+	 */
 	public void run() {
 		String msg = "> ";
 		while (msg != null) {
 			try {
-				//Gaat kapot als server down is
 				msg = in.readLine();
-				// print(msg);
 				String msgback = handleMsgFromServer(msg);
 				if (msgback != ClientHandler.NOREPLY) {
 					sendMessage(msgback);
 				}
-				// hier krijgt client bericht van server. Moet hij automatisch
-				// afhandelen
 			} catch (IOException | InvalidInputFromServerException e) {
 				if ( e instanceof IOException) {
 					shutDown();
@@ -90,6 +99,9 @@ public class Client extends Thread {
 		
 	}
 
+	/** Used to send a message to the server
+	 * @param msg the message to be send
+	 */
 	public void sendMessage(String msg) {
 		try {
 			out.write(msg);
@@ -98,9 +110,14 @@ public class Client extends Thread {
 		} catch (IOException e) {
 			shutDown();
 		}
-		// TODO insert body
 	}
 
+	/** handles the message from the server
+	 * For all sorts of messages the client will take action
+	 * @param msg the message from the server
+	 * @return the message that needs to be send back to the server ("" if nothing needs to be send back)
+	 * @throws InvalidInputFromServerException if the input from the server is not known
+	 */
 	public String handleMsgFromServer(String msg) throws InvalidInputFromServerException {
 		System.out.println(msg);
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
@@ -162,7 +179,7 @@ public class Client extends Thread {
 		} else if (msg.equals(Protocol.Server.ERROR + "_invalidmove")) {
 			print(msg);
 			String msg2 = currentPlayer.determineMove(currentGame.getBoard());
-			if (msg2.startsWith(Protocol.Client.MAKEMOVE)) { // jouw beurt
+			if (msg2.startsWith(Protocol.Client.MAKEMOVE)) { 
 				return msg2;
 			}
 		} 
@@ -170,6 +187,11 @@ public class Client extends Thread {
 		
 	}
 
+	/** reads an integer from the console
+	 * used to get the nr of players that the client wants to play with
+	 * @param tekst text to be printed on the console
+	 * @return the integer
+	 */
 	public static int readInt(String tekst) {
 		System.out.print(tekst);
 		int antw = -1;
@@ -182,10 +204,15 @@ public class Client extends Thread {
 		return antw;
 	}
 
+	/** prints a message on the console
+	 * @param msg the message
+	 */
 	public static void print(String msg) {
 		System.out.println(msg);
 	}
 
+	/** shuts down the socket and terminates the client
+	 */
 	public void shutDown() {
 		try {
 			System.out.println("Closing socket connection...");
@@ -197,6 +224,10 @@ public class Client extends Thread {
 		}
 	}
 
+	/** reads a string from the console
+	 * @param tekst the text to be printed on the console
+	 * @return the choice
+	 */
 	public static String readString(String tekst) {
 		System.out.print(tekst); 
 		String antw = null;
@@ -209,6 +240,13 @@ public class Client extends Thread {
 		return (antw == null) ? "" : antw;
 	}
 
+	/** reads a message and translates it to a boolean
+	 * used to get the type of player for the client (human/computer)
+	 * @param prompt text to be printed on the console
+	 * @param computer value if boolean is true
+	 * @param human value if boolean is false
+	 * @return true or false (computer / human)
+	 */
 	private boolean readBoolean(String prompt, String computer, String human) {
 		String answer;
 		Scanner read = new Scanner(System.in);
