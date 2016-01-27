@@ -100,11 +100,18 @@ public class Board {
         for (int y = bound[2] - GAMESIZE; y <= bound[0] + GAMESIZE; y++) {
             for (int x = bound[3] - GAMESIZE; x <= bound[1] + GAMESIZE; x++) {
                 Tile tile = getField(x, y);
-                result += tile == null ? String.format("%1$"+15+ "s", "|" + x + "," + y + "|") : String.format("%1$"+14+ "s", tile.toString() + " ");
+                //result += tile == null ? String.format("%1$"+15+ "s", "|" + x + "," + y + "|") : String.format("%1$"+14+ "s", tile.toString() + " ");
+                result += tile == null ? padString("|" + x + y + "|") : padString(tile.toString());
             }
             result += "\n";
         }
         return result;
+    }
+	
+	private String padString(String str) {
+        for (int i = str.length(); i <= 14; i++)
+            str += " ";
+        return str;
     }
 	
 	

@@ -18,23 +18,22 @@ public class firstTurnTest {
 	
 	@Before
     public void setUp() throws OutOfSyncException {
-		b = new Board();
 		p = new ComputerPlayer("Computer");
 		p.addToHand("AE_DA_DB_CC_CA_DF");
 	}
 
 	@Test
 	public void test() {
-		FirstTurn ft = new FirstTurn(p,b);
+		FirstTurn ft = new FirstTurn(p);
 		ft.makefirstTurn();
-		int[][] move1 = initmove1();
-		int[][] move2 = ft.getFirstMove();
+		//int[][] move1 = initmove1();
+		//int[][] move2 = ft.getFirstMove();
 		String s1 = ("MAKEMOVE_DA*0*0_DB*0*-1_DF*0*-2");
 		String s2 = ft.getFirstMoveString();
 		assertEquals(s1 ,s2);
 	
 	}
-
+	/*
 	private int[][] initmove1() {
 		int[][] result = new int[NROFTILESINHAND][INDEXMOVE];
 		for (int i = 0; i < NROFTILESINHAND; i++) { 
@@ -46,7 +45,7 @@ public class firstTurnTest {
 		result[1][0] = 75; result[1][1] = 76; result[1][2] = 2;
 		result[2][0] = 75; result[2][1] = 77; result[2][2] = 5;
 		return result;	
-		}
+		}*/
 	
 	
 

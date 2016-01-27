@@ -121,7 +121,7 @@ public class Game extends Thread {
 				}
 				return full + "";
 			}
-		}
+		} 
 		return Protocol.Server.ERROR + "_invalidmove";
 	}
 

@@ -22,7 +22,7 @@ public class TestMove {
 	 * @param move The move the player decided to make
 	 * @param hand The hand of the player
 	 */
-	//@ requires board != null;
+	//@ requires board != null; 
 	//@ requires move[0][0] != -1;
 	//@ ensures nrOfMoves >= 0 && nrOfMoves <= 6;
 	public TestMove(Board board, int[][] move, Tile[] hand) {

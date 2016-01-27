@@ -50,7 +50,7 @@ public class ClientHandler extends Thread {
 	public String getClientName() {
 		return clientName;
 	}
-
+ 
 	public String handleMessageFromClient(String msg) {
 		System.out.println(msg);
 		String[] splitMsg = msg.split(Character.toString(Protocol.Settings.DELIMITER));
@@ -62,7 +62,7 @@ public class ClientHandler extends Thread {
 			return msgback;
 		} else if (msg.equals(Protocol.Client.QUIT)) {
 			sendMessage("Quiting...");
-			shutDown();
+			shutDown(); 
 			return NOREPLY;
 		} else if (msg.startsWith(Protocol.Client.REQUESTGAME)) {
 			return server.requestGame(clientName, Integer.parseInt(splitMsg[1]));
