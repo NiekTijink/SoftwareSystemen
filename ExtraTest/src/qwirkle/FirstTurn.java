@@ -23,12 +23,11 @@ public class FirstTurn {
 	}
 
 	public void makefirstTurn() {
-		Board deepcopy = board.deepcopy();
-		determinefirstmove(deepcopy, player.getHand());
+		determinefirstmove(player.getHand());
 	}
 
 	// Bepaal eerste move
-	private void determinefirstmove(Board deepcopy, Tile[] hand) {
+	private void determinefirstmove(Tile[] hand) {
 		// Kleur combinatie
 		ArrayList<Tile.Shape> blueshape = new ArrayList<Tile.Shape>();
 		ArrayList<Tile> blue = new ArrayList<Tile>();
