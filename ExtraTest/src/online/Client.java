@@ -131,7 +131,7 @@ public class Client extends Thread {
 			}
 			if (currentGame.getMoveNr() == 0) {
 				print(currentPlayer.getHandString());
-				FirstTurn ft = new FirstTurn(currentPlayer, currentGame.getBoard());
+				FirstTurn ft = new FirstTurn(currentPlayer);
 				ft.makefirstTurn();
 				return ft.getFirstMoveString();
 			}
